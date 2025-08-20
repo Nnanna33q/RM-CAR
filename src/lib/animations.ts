@@ -1,9 +1,4 @@
-import { animate } from "motion/react";
-
-const transition = {
-        duration: 0.3,
-        bounce: 0
-    }
+import { animate, stagger } from "motion/react";
 
 export function animateBars() {
     animate('.bar-1', {
@@ -27,6 +22,13 @@ export function resetBars() {
         width: '15px',
         rotateZ: 0,
         y: 0,
-        backgroundColor: '#f5060a'
+        backgroundColor: '#920101'
     })
+}
+
+export function animateChooseUsText() {
+    animate('.choose-us-animate', {
+        translate: '0px 0px',
+        opacity: 1
+    }, { duration: 0.5, delay: stagger(0.2) });
 }

@@ -1,8 +1,9 @@
 import { CurveDivider } from "./divider";
 import { Card, CardDescription } from './card';
 import { TrustedIcon, CompetitiveIcon, CertifiedIcon, SupportIcon } from "@/assets/icons";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from "swiper/modules";
+import { useRef, useEffect } from "react";
+import { useInView } from "motion/react";
+import { animateChooseUsText } from "@/lib/animations";
 
 const cardItems = [
     {
@@ -32,12 +33,24 @@ const cardItems = [
 ]
 
 export default function ChooseUs() {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
+
+    useEffect(() => {
+        if(isInView) {
+            animateChooseUsText();
+        } 
+    }, [isInView]);
+
     return (
-        <div className="relative px-4 py-30 md:px-6 md:py-45 lg:px-10 lg:py-30">
+        <div className="relative px-4 py-30 md:px-6 md:py-45 lg:px-10 lg:py-45">
             <CurveDivider height={75} />
-            <h1 className="text-center text-secondary text-xl/15 md:text-4xl/15 lg:text-4xl/15 font-bold">Why Choose Us</h1>
+            <div ref={ref} className="text-start pb-8 sm:pb-12 overflow-hidden">
+                <h1 className="choose-us-animate text-secondary text-2xl/15 sm:text-2xl md:text-4xl/15 lg:text-4xl/15 font-bold translate-y-16 opacity-0">Why Choose Us</h1>
+                <p className="choose-us-animate text-medium-gray text-sm md:text-md lg:text-lg lg:pt-4 translate-y-16 opacity-0">Built on decades of experience, we deliver cars you can count on and service you can trust</p>
+            </div>
             <div
-                className="flex flex-col gap-y-8">
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 sm:gap-x-8 lg:gap-x-4">
                 {cardItems.map(i => {
                     return (
                         <Card key={i.key} className="border px-6 border-very-dark-gray bg-linear-to-br from-primary from-10% via-black to-primary shadow ">
