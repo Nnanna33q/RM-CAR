@@ -32,3 +32,15 @@ export function animateChooseUsText() {
         opacity: 1
     }, { duration: 0.5, delay: stagger(0.2) });
 }
+
+export function animateChooseUsCard(card: Element) {
+    animate(card, {
+        background: 'linear-gradient(to bottom right, #282828 0%, black 100%, #282828 0%)'
+    })
+}
+
+export function reverseChooseUsCardAnimation(card: Element) {
+    animate(card, {
+        background: 'linear-gradient(to bottom right, #282828 1%, black, #282828)'
+    });
+}

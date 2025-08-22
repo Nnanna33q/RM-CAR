@@ -1,9 +1,10 @@
 import { CurveDivider } from "./divider";
 import { Card, CardDescription } from './card';
 import { TrustedIcon, CompetitiveIcon, CertifiedIcon, SupportIcon } from "@/assets/icons";
-import { useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useInView } from "motion/react";
-import { animateChooseUsText } from "@/lib/animations";
+import { animateChooseUsText, animateChooseUsCard, reverseChooseUsCardAnimation } from "@/lib/animations";
+import type { IsCardInView } from "@/lib/types";
 
 const cardItems = [
     {
@@ -33,19 +34,40 @@ const cardItems = [
 ]
 
 export default function ChooseUs() {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true });
+    const textRef = useRef(null);
+    const isTextInView = useInView(textRef, { once: true });
+    const [cardMap, setCardMap] = useState<Map<string, IsCardInView>>(new Map());
 
     useEffect(() => {
-        if(isInView) {
+        if (isTextInView) {
             animateChooseUsText();
-        } 
-    }, [isInView]);
+        }
+    }, [isTextInView]);
+
+    useEffect(() => {
+        const cards = document.querySelectorAll('.choose-us-card');
+        Array.from(cards).forEach(card => {
+            const observer = new IntersectionObserver((entries) => {
+                cardMap.set(card.id, { isInView: entries[0].isIntersecting, id: card.id });
+                setCardMap(new Map(cardMap));
+            }, { threshold: 1 })
+            observer.observe(card);
+        })
+    }, [])
+
+    useEffect(() => {
+        Array.from(cardMap.entries()).forEach(c => {
+            const card = document.getElementById(c[1].id);
+            if(card) {
+                c[1].isInView ? animateChooseUsCard(card) : reverseChooseUsCardAnimation(card);
+            }
+        })
+    }, [cardMap])
 
     return (
         <div className="relative px-4 py-30 md:px-6 md:py-45 lg:px-10 lg:py-45">
             <CurveDivider height={75} />
-            <div ref={ref} className="text-start pb-8 sm:pb-12 overflow-hidden">
+            <div ref={textRef} className="text-start pb-8 sm:pb-12 overflow-hidden">
                 <h1 className="choose-us-animate text-secondary text-2xl/15 sm:text-2xl md:text-4xl/15 lg:text-4xl/15 font-bold translate-y-16 opacity-0">Why Choose Us</h1>
                 <p className="choose-us-animate text-medium-gray text-sm md:text-md lg:text-lg lg:pt-4 translate-y-16 opacity-0">Built on decades of experience, we deliver cars you can count on and service you can trust</p>
             </div>
@@ -53,7 +75,10 @@ export default function ChooseUs() {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 sm:gap-x-8 lg:gap-x-4">
                 {cardItems.map(i => {
                     return (
-                        <Card key={i.key} className="border px-6 border-very-dark-gray bg-linear-to-br from-primary from-10% via-black to-primary shadow ">
+                        <Card key={i.key} id={`choose-us-card-${i.key}`} className="choose-us-card border px-6 border-very-dark-gray"
+                            style={{
+                                background: 'linear-gradient(to bottom right, #282828 1%, black, #282828)'
+                            }}>
                             <i.Icon />
                             <p className="text-secondary font-semibold text-xl">{i.headline}</p>
                             <CardDescription className="text-medium-gray px-0">{i.subtext}</CardDescription>
