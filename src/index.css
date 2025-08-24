@@ -204,3 +204,10 @@
 .custom-shape-divider-bottom-1755259837 .shape-fill {
     fill: #282828;
 }
+
+
+/* Conversation Icon's second path style */
+#choose-us-card-4 > div.relative.w-fit.h-20 > svg > path:nth-child(2) {
+    transform: translateX(200px);
+    transition-duration: 300ms;
+}

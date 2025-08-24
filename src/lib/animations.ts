@@ -51,11 +51,12 @@ export function reverseChooseUsCardAnimation(card: Element) {
 }
 
 export function animateTrustedIcon() {
-    animate('.carfront-fill', {
+    const animationControls = animate('.carfront-fill', {
         top: -20,
         width: '10px',
         height: '10px'
     }, { duration: 0.8 })
+    return animationControls;
 }
 
 export function reverseTrustedIcon() {
@@ -64,4 +65,23 @@ export function reverseTrustedIcon() {
         width: '40px',
         height: '40px'
     }, { duration: 0 })
+}
+
+export function animateCompetitiveIcon() {
+    animate('.dollar-icon', {
+        opacity: 1,
+        top: 0
+    }, { type: 'spring', bounce: 0.5, duration: 0.5 })
+}
+
+export function animateCertifiedIcon() {
+    animate('.wrench-icon', {
+        rotateZ: -90
+    }, { duration: 0.5, type: 'spring', bounce: 0.3 })
+}
+export function animateExceptionalIcon() {
+    const elem = document.querySelector('.conversation-icon')?.children[1];
+    if(elem) { 
+        animate(elem, { x: 0 } ) 
+    }
 }

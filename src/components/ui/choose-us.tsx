@@ -3,8 +3,9 @@ import { Card, CardDescription } from './card';
 import { TrustedIcon, CompetitiveIcon, CertifiedIcon, SupportIcon } from "@/assets/icons";
 import { useState, useRef, useEffect } from "react";
 import { useInView } from "motion/react";
-import { animateChooseUsText, animateChooseUsCard, reverseChooseUsCardAnimation, animateTrustedIcon, reverseTrustedIcon } from "@/lib/animations";
+import { animateChooseUsText, animateChooseUsCard, reverseChooseUsCardAnimation, animateTrustedIcon, reverseTrustedIcon, animateCompetitiveIcon, animateCertifiedIcon, animateExceptionalIcon } from "@/lib/animations";
 import type { IsCardInView } from "@/lib/types";
+import type { AnimationPlaybackControlsWithThen } from "motion/react";
 
 const cardItems = [
     {
@@ -37,6 +38,7 @@ export default function ChooseUs() {
     const textRef = useRef(null);
     const isTextInView = useInView(textRef, { once: true });
     const [cardMap, setCardMap] = useState<Map<string, IsCardInView>>(new Map());
+    const animationPlayControls = useRef<AnimationPlaybackControlsWithThen>(null);
 
     useEffect(() => {
         if (isTextInView) {
@@ -66,9 +68,29 @@ export default function ChooseUs() {
 
 
     useEffect(() => {
+        // Animates ChooseUs Icons when inView
+        const randomNumber = Math.floor(Math.random() * 6);
+
         if(cardMap.get('choose-us-card-1')?.isInView) {
-            animateTrustedIcon();
-        } else reverseTrustedIcon();
+            setTimeout(() => {
+                animationPlayControls.current =  animateTrustedIcon();
+            }, randomNumber * 1000)
+        } else {
+            animationPlayControls.current?.finished.then(reverseTrustedIcon);
+        };
+
+        if(cardMap.get('choose-us-card-2')?.isInView) {
+            animateCompetitiveIcon();
+        }
+
+        if(cardMap.get('choose-us-card-3')?.isInView) {
+            animateCertifiedIcon();
+        }
+
+        if(cardMap.get('choose-us-card-4')?.isInView) {
+            animateExceptionalIcon();
+        }
+
     }, [cardMap])
 
     function getCurveDividerHeight() {
