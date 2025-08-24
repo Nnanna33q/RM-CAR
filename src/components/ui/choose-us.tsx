@@ -3,7 +3,7 @@ import { Card, CardDescription } from './card';
 import { TrustedIcon, CompetitiveIcon, CertifiedIcon, SupportIcon } from "@/assets/icons";
 import { useState, useRef, useEffect } from "react";
 import { useInView } from "motion/react";
-import { animateChooseUsText, animateChooseUsCard, reverseChooseUsCardAnimation } from "@/lib/animations";
+import { animateChooseUsText, animateChooseUsCard, reverseChooseUsCardAnimation, animateTrustedIcon, reverseTrustedIcon } from "@/lib/animations";
 import type { IsCardInView } from "@/lib/types";
 
 const cardItems = [
@@ -58,30 +58,50 @@ export default function ChooseUs() {
     useEffect(() => {
         Array.from(cardMap.entries()).forEach(c => {
             const card = document.getElementById(c[1].id);
-            if(card) {
+            if (card) {
                 c[1].isInView ? animateChooseUsCard(card) : reverseChooseUsCardAnimation(card);
             }
         })
     }, [cardMap])
 
+
+    useEffect(() => {
+        if(cardMap.get('choose-us-card-1')?.isInView) {
+            animateTrustedIcon();
+        } else reverseTrustedIcon();
+    }, [cardMap])
+
+    function getCurveDividerHeight() {
+        if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+            return 100;
+        } else if (window.innerWidth >= 1024) {
+            return 150;
+        } else {
+            return 75;
+        }
+    }
+
     return (
         <div className="relative px-4 py-30 md:px-6 md:py-45 lg:px-10 lg:py-45">
-            <CurveDivider height={75} />
-            <div ref={textRef} className="text-start pb-8 sm:pb-12 overflow-hidden">
+            <CurveDivider height={getCurveDividerHeight()} />
+            <div ref={textRef} className="text-start pb-8 sm:pb-12 overflow-hidden flex flex-col gap-y-1 sm:gap-y-6">
+                <div className="choose-us-animate text-accent-color flex items-center border border-primary rounded-full px-4 py-1 w-[fit-content] bg-accent-dark translate-y-16 opacity-0">
+                    <div className="relative size-2 md:size-3 rounded-full bg-accent-color">
+                        <div className="absolute animate-ping size-2 md:size-3 rounded-full bg-accent-color"></div>
+                    </div>
+                    <div className="text-sm pl-2">Why Choose Us</div>
+                </div>
                 <h1 className="choose-us-animate text-secondary text-2xl/15 sm:text-2xl md:text-4xl/15 lg:text-4xl/15 font-bold translate-y-16 opacity-0">Why Choose Us</h1>
-                <p className="choose-us-animate text-medium-gray text-sm md:text-md lg:text-lg lg:pt-4 translate-y-16 opacity-0">Built on decades of experience, we deliver cars you can count on and service you can trust</p>
+                <p className="choose-us-animate text-medium-gray text-md md:text-md lg:text-lg translate-y-16 opacity-0">Built on decades of experience, we deliver cars you can count on and service you can trust</p>
             </div>
             <div
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 sm:gap-x-8 lg:gap-x-4">
                 {cardItems.map(i => {
                     return (
-                        <Card key={i.key} id={`choose-us-card-${i.key}`} className="choose-us-card border px-6 border-very-dark-gray"
-                            style={{
-                                background: 'linear-gradient(to bottom right, #282828 1%, black, #282828)'
-                            }}>
+                        <Card key={i.key} id={`choose-us-card-${i.key}`} className="choose-us-card border px-6 border-very-dark-gray">
                             <i.Icon />
                             <p className="text-secondary font-semibold text-xl">{i.headline}</p>
-                            <CardDescription className="text-medium-gray px-0">{i.subtext}</CardDescription>
+                            <CardDescription className="text-medium-gray px-0 text-lg">{i.subtext}</CardDescription>
                         </Card>
                     )
                 })}

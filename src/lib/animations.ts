@@ -35,12 +35,33 @@ export function animateChooseUsText() {
 
 export function animateChooseUsCard(card: Element) {
     animate(card, {
-        background: 'linear-gradient(to bottom right, #282828 0%, black 100%, #282828 0%)'
-    })
+        backgroundColor: 'rgb(0,0,0)',
+        // borderColor: '#696969',
+        borderColor: 'none',
+        boxShadow: '0px 11px 5px -1px rgba(0,0,0,0.59)'
+    }, { duration: 0.3 })
 }
 
 export function reverseChooseUsCardAnimation(card: Element) {
     animate(card, {
-        background: 'linear-gradient(to bottom right, #282828 1%, black, #282828)'
-    });
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        borderColor: '#2F2F2F',
+        boxShadow: 'none'
+    }, { duration: 0.3 });
+}
+
+export function animateTrustedIcon() {
+    animate('.carfront-fill', {
+        top: -20,
+        width: '10px',
+        height: '10px'
+    }, { duration: 0.8 })
+}
+
+export function reverseTrustedIcon() {
+    animate('.carfront-fill', {
+        top: 80,
+        width: '40px',
+        height: '40px'
+    }, { duration: 0 })
 }

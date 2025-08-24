@@ -1,18 +1,18 @@
 import { GiRoad } from "react-icons/gi";
 import { IconContext } from "react-icons";
-import { BsCarFront } from "react-icons/bs";
+import { BsCarFrontFill } from "react-icons/bs";
 import { CiDollar } from "react-icons/ci";
 import { PiCar } from "react-icons/pi";
 import { BiConversation } from "react-icons/bi";
 
 export function TrustedIcon() {
     return (
-        <div className="trusted-icon-container relative w-fit h-20 flex items-center justify-center">
-            <IconContext.Provider value={{ className: 'size-15 text-accent-color' }}>
+        <div className="trusted-icon-container relative w-fit h-fit flex items-center justify-center overflow-hidden">
+            <IconContext.Provider value={{ className: 'size-15 text-accent-color z-100' }}>
                 <GiRoad />
             </IconContext.Provider>
-            <IconContext.Provider value={{ className: `absolute size-5 text-accent-color top-0 z-100` }}>
-                <BsCarFront />
+            <IconContext.Provider value={{ className: `carfront-fill absolute size-10 text-accent-color top-20 z-150` }}>
+                <BsCarFrontFill />
             </IconContext.Provider>
         </div>
     )

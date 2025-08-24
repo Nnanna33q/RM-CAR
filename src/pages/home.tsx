@@ -2,12 +2,14 @@ import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
 import Hero from "@/components/ui/hero";
 import ChooseUs from "@/components/ui/choose-us";
+import Testimonials from "@/components/ui/testimonials";
 
 export default function Home() {
     return (
         <div>
             <Hero />
             <ChooseUs />
+            <Testimonials />
         </div>
     )
 }
