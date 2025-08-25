@@ -85,3 +85,21 @@ export function animateExceptionalIcon() {
         animate(elem, { x: 0 } ) 
     }
 }
+
+export function animateTestimonialsText() {
+    animate('.what-they-say-animate', {
+        translate: '0px 0px',
+        opacity: 1
+    }, { duration: 0.5, delay: stagger(0.2) });
+}
+
+export function animateStars(card: Element, starCount: number) {
+    const starsToAnimate = card.querySelectorAll('.testimonial-star');
+    Array.from(starsToAnimate).slice(0, starCount).forEach((star, index) => {
+        setTimeout(() => {
+            animate(star, { color: '#920101' });
+            star.classList.add('animate-pulse')
+        }, index * 100)
+    })
+    console.log('animated!!')
+}

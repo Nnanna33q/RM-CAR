@@ -48,12 +48,17 @@ export default function ChooseUs() {
 
     useEffect(() => {
         const cards = document.querySelectorAll('.choose-us-card');
-        Array.from(cards).forEach(card => {
+        const observers = Array.from(cards).map(card => {
             const observer = new IntersectionObserver((entries) => {
                 cardMap.set(card.id, { isInView: entries[0].isIntersecting, id: card.id });
                 setCardMap(new Map(cardMap));
             }, { threshold: 1 })
             observer.observe(card);
+            return observer;
+        })
+
+        return () => observers.forEach(observer => {
+            observer.disconnect();
         })
     }, [])
 
@@ -123,7 +128,7 @@ export default function ChooseUs() {
                         <Card key={i.key} id={`choose-us-card-${i.key}`} className="choose-us-card border px-6 border-very-dark-gray">
                             <i.Icon />
                             <p className="text-secondary font-semibold text-xl">{i.headline}</p>
-                            <CardDescription className="text-medium-gray px-0 text-lg">{i.subtext}</CardDescription>
+                            <CardDescription className="text-medium-gray px-0 text-md">{i.subtext}</CardDescription>
                         </Card>
                     )
                 })}

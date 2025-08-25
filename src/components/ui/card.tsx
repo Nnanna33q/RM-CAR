@@ -2,7 +2,10 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+type CardProp = React.ComponentProps<'div'> & {
+}
+
+function Card({ className, ...props }: CardProp) {
   return (
     <div
       data-slot="card"
