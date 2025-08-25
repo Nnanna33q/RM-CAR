@@ -6,8 +6,6 @@ import { IconContext } from "react-icons";
 import { CiSearch } from "react-icons/ci";
 import type { BarsProp } from "@/lib/types";
 import { motion } from "motion/react";
-import { IoMailSharp } from "react-icons/io5";
-import { FaPhoneAlt } from "react-icons/fa";
 
 const variants = {
     initial: {
