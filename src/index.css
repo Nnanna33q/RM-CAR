@@ -205,6 +205,34 @@
     fill: #282828;
 }
 
+/* Curve Divider FAQ styles */
+.custom-shape-divider-top-1756200814 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1756200814 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 169px;
+}
+
+.custom-shape-divider-top-1756200814 .shape-fill {
+    fill: #000000;
+}
+
+/** For mobile devices (Curve Divider FAQ) **/ 
+@media (max-width: 767px) {
+    .custom-shape-divider-top-1756200814 svg {
+        width: calc(300% + 1.3px);
+        height: 68px;
+    }
+}
 
 /* Conversation Icon's second path style */
 #choose-us-card-4 > div.relative.w-fit.h-20 > svg > path:nth-child(2) {

@@ -3,6 +3,7 @@ import { StrictMode } from "react";
 import Hero from "@/components/ui/hero";
 import ChooseUs from "@/components/ui/choose-us";
 import Testimonials from "@/components/ui/testimonials";
+import Faqs from "@/components/ui/faq";
 
 export default function Home() {
     return (
@@ -10,6 +11,7 @@ export default function Home() {
             <Hero />
             <ChooseUs />
             <Testimonials />
+            <Faqs />
         </div>
     )
 }

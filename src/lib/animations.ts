@@ -101,5 +101,4 @@ export function animateStars(card: Element, starCount: number) {
             star.classList.add('animate-pulse')
         }, index * 100)
     })
-    console.log('animated!!')
 }
