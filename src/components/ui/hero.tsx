@@ -14,7 +14,7 @@ import { useState, useLayoutEffect } from "react";
 import Backdrop from "./backdrop";
 import type { BarsProp } from "@/lib/types";
 import { AnimatePresence } from "motion/react";
-import { CarsCarousel } from "./carousel";
+import { CarLogosCarousel } from "./carousel";
 
 export function Hero1({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsProp) {
     return (
@@ -54,8 +54,8 @@ export function Hero1({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsP
                                 </IconContext.Provider>
                                 <span>Browse Cars</span>
                             </Button>
-                            <Button className="hero1-btn-contact bg-transparent text-medium-gray border border-medium-gray font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm">
-                                <IconContext.Provider value={{ className: 'hero1-icon-phone text-medium-gray size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
+                            <Button className="hero1-btn-contact bg-secondary text-accent-color border border-medium-gray font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm">
+                                <IconContext.Provider value={{ className: 'hero1-icon-phone text-accent-color size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
                                     <MdOutlineLocalPhone />
                                 </IconContext.Provider>
                                 <span>Contact Us</span>
@@ -63,7 +63,7 @@ export function Hero1({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsP
                         </div>
                     </div>
                 </div>
-                <CarsCarousel />
+                <CarLogosCarousel />
             </div>
         </div>
     )
@@ -152,8 +152,8 @@ export function Hero2({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsP
                                 </IconContext.Provider>
                                 <span>Browse Cars</span>
                             </Button>
-                            <Button onMouseEnter={handleContactBtnEnter} onMouseLeave={handleContactBtnLeave} className="hero2-btn-contact bg-transparent text-medium-gray border border-medium-gray font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm">
-                                <IconContext.Provider value={{ className: 'text-medium-gray size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
+                            <Button onMouseEnter={handleContactBtnEnter} onMouseLeave={handleContactBtnLeave} className="hero2-btn-contact bg-secondary text-accent-color border border-medium-gray font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm">
+                                <IconContext.Provider value={{ className: 'text-accent-color size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
                                     <MdOutlineLocalPhone />
                                 </IconContext.Provider>
                                 <span>Contact Us</span>
@@ -161,7 +161,7 @@ export function Hero2({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsP
                         </div>
                     </div>
                 </div>
-                <CarsCarousel />
+                <CarLogosCarousel />
             </div>
         </div>
     )

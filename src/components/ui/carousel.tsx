@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
+import { Autoplay, EffectFade } from 'swiper/modules';
 import { Card, CardContent } from './card';
-import { cars } from '@/data/cars';
+import { carLogos, cars } from '@/data/cars';
 
 function getSlidesPerView() {
     if(window.innerWidth >= 1024) {
@@ -13,7 +13,7 @@ function getSlidesPerView() {
     }
 }
 
-export function CarsCarousel() {
+export function CarLogosCarousel() {
     return (
         <div className='px-4 md:px-6'>
             <Swiper
@@ -26,7 +26,7 @@ export function CarsCarousel() {
                     { delay: 0 }
                 }
             >
-                {cars.map(c => {
+                {carLogos.map(c => {
                     return <SwiperSlide key={c.key}>
                         <Card className='rounded-none border-none shadow-none'>
                             <CardContent className='flex items-center justify-center'>
@@ -34,6 +34,31 @@ export function CarsCarousel() {
                             </CardContent>
                         </Card>
                     </SwiperSlide>
+                })}
+            </Swiper>
+        </div>
+    )
+}
+
+export function CarsCarousel() {
+    return (
+        <div className=''>
+            <Swiper
+                className=''
+                slidesPerView={1}
+                loop={true}
+                speed={1000}
+                modules={[Autoplay, EffectFade]}
+                autoplay={
+                    { delay: 5000 }
+                }
+                effect='fade'
+                fadeEffect={{
+                    crossFade: true
+                }}
+            >
+                {cars.map(c => {
+                    return <SwiperSlide className='flex! justify-center! lg:justify-start!'><img key={c.key} className="" src={c.img} /></SwiperSlide>
                 })}
             </Swiper>
         </div>

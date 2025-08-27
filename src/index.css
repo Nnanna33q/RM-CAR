@@ -234,6 +234,14 @@
     }
 }
 
+/* For large screens (Curve Divider FAQ) */
+@media (min-width: 1023px) {
+    .custom-shape-divider-top-1756200814 svg {
+        width: calc(400% + 1.3px);
+        height: 160px
+    }
+}
+
 /* Conversation Icon's second path style */
 #choose-us-card-4 > div.relative.w-fit.h-20 > svg > path:nth-child(2) {
     transform: translateX(200px);

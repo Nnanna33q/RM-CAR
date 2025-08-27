@@ -129,7 +129,7 @@ export default function Testimonials() {
                 <p className="what-they-say-animate text-medium-gray text-md md:text-md lg:text-lg translate-y-16 opacity-0">From first-time buyers to lifelong drivers, we’re proud to earn trust through quality cars and exceptional support</p>
             </div>
             <div
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 sm:gap-x-8 lg:gap-x-4">
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 sm:gap-x-8 lg:gap-x-4">
                 {cardItems.map(i => {
                     return (
                         <Card key={i.key} id={i.id} className="testimonial-card border px-6 border-very-dark-gray">
