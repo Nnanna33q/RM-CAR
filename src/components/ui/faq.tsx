@@ -39,12 +39,12 @@ export default function Faqs() {
             <div className="lg:flex lg:gap-x-16">
                 <div className="lg:w-[50%]">
                     <div className="text-start pb-8 sm:pb-12 overflow-hidden flex flex-col gap-y-1 sm:gap-y-6">
-                        <div className="what-they-say-animate text-accent-color flex items-center border border-black rounded-full px-4 py-1 w-[fit-content] bg-accent-dark">
+                        <div className="text-accent-color flex items-center border border-black rounded-full px-4 py-1 w-[fit-content] bg-accent-dark">
                             <div className='animate-pulse'><AiOutlineQuestion /></div>
                             <div className="text-sm pl-2">Questions & Answers</div>
                         </div>
-                        <h1 className="what-they-say-animate text-secondary text-2xl/15 sm:text-2xl md:text-4xl/15 lg:text-4xl/15 font-bold">Frequently Asked Questions</h1>
-                        <p className="what-they-say-animate text-medium-gray text-md md:text-md lg:text-lg">We’ve gathered the most frequent questions to make your car buying easier</p>
+                        <h1 className="text-secondary text-2xl/15 sm:text-2xl md:text-4xl/15 lg:text-4xl/15 font-bold">Frequently Asked Questions</h1>
+                        <p className="text-medium-gray text-md md:text-md lg:text-lg">We’ve gathered the most frequent questions to make your car buying easier</p>
                     </div>
                     <CarsCarousel />
                 </div>

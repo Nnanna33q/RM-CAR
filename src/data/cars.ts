@@ -11,7 +11,7 @@ import toyotaImg from '../assets/toyota-svgrepo-com.svg';
 
 import car1 from '../assets/car-1.png';
 import car2 from '../assets/car-2-removebg-preview.png';
-import car3 from '../assets/car-3-removebg-preview.png';
+import car3 from '../assets/car-3.png';
 import car4 from '../assets/car-4-removebg-preview.png';
 import car5 from '../assets/car-5-removebg-preview.png';
 import car6 from '../assets/car-6-removebg-preview.png';
