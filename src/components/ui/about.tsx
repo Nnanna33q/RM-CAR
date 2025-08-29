@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { HiUsers } from "react-icons/hi";
 import { CurveDivider } from "./divider";
 import { getCurveDividerHeight } from '@/lib/utils';
