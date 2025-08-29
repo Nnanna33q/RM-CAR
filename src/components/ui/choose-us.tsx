@@ -6,6 +6,7 @@ import { useInView } from "motion/react";
 import { animateChooseUsText, animateChooseUsCard, reverseChooseUsCardAnimation, animateTrustedIcon, reverseTrustedIcon, animateCompetitiveIcon, animateCertifiedIcon, animateExceptionalIcon } from "@/lib/animations";
 import type { IsCardInView } from "@/lib/types";
 import type { AnimationPlaybackControlsWithThen } from "motion/react";
+import { getCurveDividerHeight } from "@/lib/utils";
 
 const cardItems = [
     {
@@ -97,16 +98,6 @@ export default function ChooseUs() {
         }
 
     }, [cardMap])
-
-    function getCurveDividerHeight() {
-        if (window.innerWidth >= 768 && window.innerWidth < 1024) {
-            return 100;
-        } else if (window.innerWidth >= 1024) {
-            return 150;
-        } else {
-            return 75;
-        }
-    }
 
     return (
         <div className="relative px-4 py-30 md:px-6 md:py-45 lg:px-10 lg:py-45">

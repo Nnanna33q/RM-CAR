@@ -226,6 +226,11 @@
     fill: #000000;
 }
 
+/* Curve Divider for About section */
+.custom-shape-divider-top-1756200815 .shape-fill-about {
+    fill: #282828;
+}
+
 /** For mobile devices (Curve Divider FAQ) **/ 
 @media (max-width: 767px) {
     .custom-shape-divider-top-1756200814 svg {

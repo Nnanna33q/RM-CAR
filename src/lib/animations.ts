@@ -36,7 +36,6 @@ export function animateChooseUsText() {
 export function animateChooseUsCard(card: Element) {
     animate(card, {
         backgroundColor: 'rgb(0,0,0)',
-        // borderColor: '#696969',
         borderColor: 'none',
         boxShadow: '0px 11px 5px -1px rgba(0,0,0,0.59)'
     }, { duration: 0.3 })
@@ -81,8 +80,8 @@ export function animateCertifiedIcon() {
 }
 export function animateExceptionalIcon() {
     const elem = document.querySelector('.conversation-icon')?.children[1];
-    if(elem) { 
-        animate(elem, { x: 0 } ) 
+    if (elem) {
+        animate(elem, { x: 0 })
     }
 }
 
@@ -101,4 +100,19 @@ export function animateStars(card: Element, starCount: number) {
             star.classList.add('animate-pulse')
         }, index * 100)
     })
+}
+
+export function animateFaqText() {
+    animate('.faq-text-animate', {
+        translate: '0px 0px',
+        opacity: 1
+    }, { duration: 0.5, delay: stagger(0.2) });
+}
+
+export function animateLocationText() {
+    animate('.location-text-animate', {
+        translate: '0px 0px',
+        opacity: 1
+    }, { duration: 0.5, delay: stagger(0.2) });
+    console.log('Animated!!!!')
 }

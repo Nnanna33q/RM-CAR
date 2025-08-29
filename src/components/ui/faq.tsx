@@ -7,6 +7,9 @@ import { MdLocalPhone } from "react-icons/md";
 import { RiInstagramFill } from "react-icons/ri";
 import { IoLogoFacebook } from "react-icons/io";
 import { IconContext } from "react-icons";
+import { animateFaqText } from "@/lib/animations";
+import { useInView } from "motion/react";
+import { useRef, useEffect } from 'react';
 
 const faqs = [
     {
@@ -32,19 +35,25 @@ const faqs = [
 ]
 
 export default function Faqs() {
+    const textRef = useRef(null);
+    const isFaqTextInView = useInView(textRef);
+
+    useEffect(() => {
+        isFaqTextInView && animateFaqText();
+    }, [isFaqTextInView]);
 
     return (
         <div className="relative px-4 py-30 md:px-6 md:py-45 lg:px-10 lg:py-45 bg-primary">
             <CurveDividerFaq />
             <div className="lg:flex lg:gap-x-16">
                 <div className="lg:w-[50%]">
-                    <div className="text-start pb-8 sm:pb-12 overflow-hidden flex flex-col gap-y-1 sm:gap-y-6">
-                        <div className="text-accent-color flex items-center border border-black rounded-full px-4 py-1 w-[fit-content] bg-accent-dark">
+                    <div ref={textRef} className="text-start pb-8 sm:pb-12 overflow-hidden flex flex-col gap-y-1 sm:gap-y-6">
+                        <div className="faq-text-animate text-accent-color flex items-center border border-black rounded-full px-4 py-1 w-[fit-content] bg-accent-dark translate-y-16 opacity-0">
                             <div className='animate-pulse'><AiOutlineQuestion /></div>
                             <div className="text-sm pl-2">Questions & Answers</div>
                         </div>
-                        <h1 className="text-secondary text-2xl/15 sm:text-2xl md:text-4xl/15 lg:text-4xl/15 font-bold">Frequently Asked Questions</h1>
-                        <p className="text-medium-gray text-md md:text-md lg:text-lg">We’ve gathered the most frequent questions to make your car buying easier</p>
+                        <h1 className="faq-text-animate text-secondary text-2xl/15 sm:text-2xl md:text-4xl/15 lg:text-4xl/15 font-bold translate-y-16 opacity-0">Frequently Asked Questions</h1>
+                        <p className="faq-text-animate text-medium-gray text-md md:text-md lg:text-lg translate-y-16 opacity-0">We’ve gathered the most frequent questions to make your car buying easier</p>
                     </div>
                     <CarsCarousel />
                 </div>

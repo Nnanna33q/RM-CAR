@@ -5,6 +5,7 @@ import ChooseUs from "@/components/ui/choose-us";
 import Testimonials from "@/components/ui/testimonials";
 import Faqs from "@/components/ui/faq";
 import Location from "@/components/ui/location";
+import About from "@/components/ui/about";
 
 export default function Home() {
     return (
@@ -14,6 +15,7 @@ export default function Home() {
             <Testimonials />
             <Faqs />
             <Location />
+            <About />
         </div>
     )
 }
