@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { HiUsers } from "react-icons/hi";
+import { GiCarWheel } from "react-icons/gi";
 import { CurveDivider } from "./divider";
 import { getCurveDividerHeight } from '@/lib/utils';
 import { CarCard } from './card';
@@ -13,9 +13,7 @@ export default function Featured() {
             <CurveDivider height={getCurveDividerHeight()} />
             <div ref={textRef} className="text-start pb-8 sm:pb-12 overflow-hidden flex flex-col gap-y-1 sm:gap-y-6">
                 <div className="text-accent-color flex items-center border border-primary rounded-full px-4 py-1 w-[fit-content] bg-accent-dark">
-                    <div className="relative size-2 md:size-3 rounded-full bg-accent-color">
-                        <div className="absolute animate-ping size-2 md:size-3 rounded-full bg-accent-color"></div>
-                    </div>
+                                        <div className='animate-pulse'><GiCarWheel/></div>
                     <div className="text-sm pl-2">Featured Cars</div>
                 </div>
                 <h1 className="text-secondary text-2xl/15 sm:text-2xl md:text-4xl/15 lg:text-4xl/15 font-bold">Discover Our Featured Cars</h1>
