@@ -28,7 +28,6 @@ export default function Location() {
             <div className="map">
                 <iframe style={{ border: 0, width: '100%', height: '350px' }} src="https://www.openstreetmap.org/export/embed.html?bbox=-2.87069320678711%2C53.355431062484634%2C-2.863075733184815%2C53.357857918776666&amp;layer=mapnik&amp;marker=53.35664450790476%2C-2.866884469985962"></iframe><br /><small><a href="https://www.openstreetmap.org/?mlat=53.356645&amp;mlon=-2.866884#map=18/53.356645/-2.866884">View Larger Map</a></small>
             </div>
-
             <div className="flex flex-col gap-y-8">
                 <div className="address-container">
                     <div className="text-secondary font-bold">Address</div>

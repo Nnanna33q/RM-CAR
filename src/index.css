@@ -252,3 +252,8 @@
     transform: translateX(200px);
     transition-duration: 300ms;
 }
+
+/* Swiper Pagination Bullets Modification */
+.swiper-pagination-bullet-active {
+    background-color: #920101 !important;
+}

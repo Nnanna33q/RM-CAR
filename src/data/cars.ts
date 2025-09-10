@@ -16,6 +16,8 @@ import car4 from '../assets/car-4-removebg-preview.png';
 import car5 from '../assets/car-5-removebg-preview.png';
 import car6 from '../assets/car-6-removebg-preview.png';
 
+import { featuredCarImages1, featuredCarImages2, featuredCarImages3, featuredCarImages4 } from './featuredCarsImport';
+
 export const carLogos = [
     {
         img: accuraImg,
@@ -93,5 +95,60 @@ export const cars = [
     {
         "key": "6",
         img: car6
+    }
+]
+
+export const featuredCars = [
+    {
+        key: '1',
+        images: featuredCarImages1,
+        carManufacturer: 'Renault',
+        carModel: 'Clio',
+        carVariant: 'Dynamique',
+        carCategory: 'Hatchback',
+        carYear: 2013,
+        mileage: '73k',
+        fuelType: 'Petrol',
+        transmissionType: 'Manual',
+        price: '4,295'
+    },
+    {
+        key: '2',
+        images: featuredCarImages2,
+        carManufacturer: 'Renault',
+        carModel: 'Clio',
+        carVariant: 'Dynamique',
+        carCategory: 'Hatchback',
+        carYear: 2013,
+        mileage: '62k',
+        fuelType: 'Diesel',
+        transmissionType: 'Manual',
+        price: '4,995'
+    },
+    {
+        key: '3',
+        images: featuredCarImages3,
+        carManufacturer: 'Ford',
+        carModel: 'EcoSport',
+        carVariant: '',
+        carCategory: 'SUV',
+        carYear: 2015,
+        mileage: '73k',
+        fuelType: 'Diesel',
+        transmissionType: 'Manual',
+        price: '4,695'
+    },
+    {
+        key: '4',
+        images: featuredCarImages4,
+        carManufacturer: 'Citroen',
+        carModel: 'C1',
+        carVariant: '',
+        carCategory: 'Hatchback',
+        carYear: 2013,
+        mileage: '77k',
+        fuelType: 'Petrol',
+        transmissionType: 'Manual',
+        price: '4,695'
     }
 ]
