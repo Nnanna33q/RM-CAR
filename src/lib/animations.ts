@@ -26,6 +26,13 @@ export function resetBars() {
     })
 }
 
+export function animateHero() {
+    animate('.hero-animate', {
+        translate: '0px 0px',
+        opacity: 1
+    }, { duration: 0.5, delay: stagger(0.2) });
+}
+
 export function animateChooseUsText() {
     animate('.choose-us-animate', {
         translate: '0px 0px',
@@ -109,10 +116,22 @@ export function animateFaqText() {
     }, { duration: 0.5, delay: stagger(0.2) });
 }
 
+export function animateFeaturedText() {
+    animate('.featured-text-animate', {
+        translate: '0px 0px',
+        opacity: 1
+    }, { duration: 0.5, delay: stagger(0.2) });
+}
+
+export function animateCarsCarousel() {
+    animate('.cars-carousel-container', {
+        translate: '0',
+    }, { duration: 0.75 });
+}
+
 export function animateLocationText() {
     animate('.location-text-animate', {
         translate: '0px 0px',
         opacity: 1
     }, { duration: 0.5, delay: stagger(0.2) });
-    console.log('Animated!!!!')
 }

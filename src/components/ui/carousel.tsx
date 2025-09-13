@@ -2,6 +2,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade } from 'swiper/modules';
 import { Card, CardContent } from './card';
 import { carLogos, cars } from '@/data/cars';
+import { useRef, useEffect } from 'react';
+import { useInView } from 'motion/react';
+import { animateCarsCarousel } from '@/lib/animations';
 
 function getSlidesPerView() {
     if(window.innerWidth >= 1024) {
@@ -41,10 +44,16 @@ export function CarLogosCarousel() {
 }
 
 export function CarsCarousel() {
+    const carsCarouselRef = useRef(null);
+    const isCarsInView = useInView(carsCarouselRef);
+
+    useEffect(() => {
+        isCarsInView && animateCarsCarousel();
+    }, [isCarsInView])
     return (
-        <div className=''>
+        <div ref={carsCarouselRef}>
             <Swiper
-                className=''
+                className='cars-carousel-container translate-x-[-100vw]'
                 slidesPerView={1}
                 loop={true}
                 speed={1000}

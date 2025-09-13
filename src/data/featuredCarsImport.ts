@@ -76,7 +76,6 @@ import featuredCar4_17 from '../assets/featured-car-4-17.jpg';
 import featuredCar4_18 from '../assets/featured-car-4-18.jpg';
 import featuredCar4_19 from '../assets/featured-car-4-19.jpg';
 import featuredCar4_20 from '../assets/featured-car-4-20.jpg';
-import featuredCar4_21 from '../assets/featured-car-4-21.jpg';
 
 export const featuredCarImages1 = [
     featuredCar1_1,
@@ -162,6 +161,5 @@ export const featuredCarImages4 = [
     featuredCar4_17,
     featuredCar4_18,
     featuredCar4_19,
-    featuredCar4_20,
-    featuredCar4_21
+    featuredCar4_20
 ]
