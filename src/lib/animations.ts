@@ -26,6 +26,9 @@ export function resetBars() {
     })
 }
 
+
+// Too redundant, refactor later!
+
 export function animateHero() {
     animate('.hero-animate', {
         translate: '0px 0px',
@@ -131,6 +134,20 @@ export function animateCarsCarousel() {
 
 export function animateLocationText() {
     animate('.location-text-animate', {
+        translate: '0px 0px',
+        opacity: 1
+    }, { duration: 0.5, delay: stagger(0.2) });
+}
+
+export function animateAboutUsText() {
+    animate('.about-us-text-animate', {
+        translate: '0px 0px',
+        opacity: 1
+    }, { duration: 0.5, delay: stagger(0.2) });
+}
+
+export function animateSwingByText() {
+    animate('.swing-by-text-animate', {
         translate: '0px 0px',
         opacity: 1
     }, { duration: 0.5, delay: stagger(0.2) });

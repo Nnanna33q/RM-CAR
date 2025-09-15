@@ -71,7 +71,7 @@ const cardItems = [
     },
 ]
 
-export default function Testimonials() {
+export default function Testimonials({ backgroundColor, cardBackgroundColor }: { backgroundColor: string, cardBackgroundColor?: string }) {
     const textRef = useRef(null);
     const isTextInView = useInView(textRef, { once: true });
     const [cardMap, setCardMap] = useState<Map<string, IsTestimonialCardInView>>(new Map());
@@ -119,7 +119,7 @@ export default function Testimonials() {
     }
 
     return (
-        <div className="relative px-4 py-30 md:px-6 md:py-45 lg:px-10 lg:py-45 bg-black">
+        <div className={`relative px-4 py-30 md:px-6 md:py-45 lg:px-10 lg:py-45`} style={{ backgroundColor: backgroundColor }}>
             <div ref={textRef} className="text-start pb-8 sm:pb-12 overflow-hidden flex flex-col gap-y-1 sm:gap-y-6">
                 <div className="what-they-say-animate text-accent-color flex items-center border border-black rounded-full px-4 py-1 w-[fit-content] bg-accent-dark translate-y-16 opacity-0">
                     <div className='animate-pulse'><FaStar /></div>
@@ -132,7 +132,7 @@ export default function Testimonials() {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 sm:gap-x-8 lg:gap-x-4">
                 {cardItems.map(i => {
                     return (
-                        <Card key={i.key} id={i.id} className="testimonial-card border px-6 border-very-dark-gray">
+                        <Card key={i.key} id={i.id} className="testimonial-card border px-6 border-very-dark-gray" style={{ backgroundColor: cardBackgroundColor }}>
                             <div className='flex flex-col gap-y-4'>
                                 <div className='flex gap-x-4'>
                                     <div className='rounded-full border border-very-dark-gray p-2.5'>
