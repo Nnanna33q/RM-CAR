@@ -7,6 +7,7 @@ import { CiSearch } from "react-icons/ci";
 import type { BarsProp } from "@/lib/types";
 import { motion } from "motion/react";
 import { useState, useLayoutEffect } from 'react';
+import { Link } from "react-router";
 
 const variants = {
     initial: {
@@ -34,18 +35,20 @@ export default function NavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled
                 <NavigationMenuList className="flex justify-between items-center w-full">
                     <div className="w-[75%]">
                         <NavigationMenuItem className="max-w-15 md:max-w-18 lg:max-w-20">
-                            <img src={logo} />
+                            <Link to={'/'}>
+                                <img src={logo} />
+                            </Link>
                         </NavigationMenuItem>
                     </div>
                     <div className="hidden md:inline-flex md:w-[50%] lg:w-[25%] flex justify-between font-bold text-md">
                         <NavigationMenuItem>
-                            Listings
+                            <Link to={'/listings'}>Listings</Link>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
-                            About Us
+                            <Link to={'/about'}>About Us</Link>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
-                            Contact
+                            <Link to={'/contact'}>Contact</Link>
                         </NavigationMenuItem>
                     </div>
                     <div className="md:hidden">
@@ -71,18 +74,20 @@ export function StickyNavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }
                 <NavigationMenuList className="flex justify-between items-center w-full">
                     <div className="w-[75%]">
                         <NavigationMenuItem className="max-w-15 md:max-w-18 lg:max-w-20">
-                            <img src={logo} />
+                            <Link to={'/'}>
+                                <img src={logo} />
+                            </Link>
                         </NavigationMenuItem>
                     </div>
                     <div className="hidden md:inline-flex md:w-[50%] lg:w-[25%] flex justify-between font-bold text-md">
                         <NavigationMenuItem>
-                            Listings
+                            <Link to={'/listings'}>Listings</Link>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
-                            About Us
+                            <Link to={'/about'}>About Us</Link>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
-                            Contact
+                            <Link to={'/contact'}>Contact</Link>
                         </NavigationMenuItem>
                     </div>
                     <div className="md:hidden">
@@ -113,17 +118,19 @@ export function MobileNavBar() {
                     </div>
                 </div>
                 <div className="flex flex-col gap-y-15 px-4 sm:px-8 py-12 font-bold">
-                    <div className="text-accent-color">Home</div>
-                    <div>Listings</div>
-                    <div>About Us</div>
-                    <div>Contact</div>
+                    <Link to={'/'} className="text-accent-color">Home</Link>
+                    <Link to={'/listings'}>Listings</Link>
+                    <Link to={'/about'}>About Us</Link>
+                    <Link to={'/contact'}>Contact</Link>
                 </div>
                 <div className="px-4 sm:px-6">
                     <Button className="bg-accent-color border border-accent-color text-white font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm w-full hover:bg-white hover:text-accent-color hover:border-white">
-                        <IconContext.Provider value={{ className: 'size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
-                            <CiSearch />
-                        </IconContext.Provider>
-                        <span>Browse Cars</span>
+                        <Link to={'/listings'} className="flex gap-x-1">
+                            <IconContext.Provider value={{ className: 'size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
+                                <CiSearch />
+                            </IconContext.Provider>
+                            <span>Browse Cars</span>
+                        </Link>
                     </Button>
                 </div>
             </div>

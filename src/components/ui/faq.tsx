@@ -43,7 +43,7 @@ export default function Faqs() {
     }, [isFaqTextInView]);
 
     return (
-        <div className="relative px-4 py-30 md:px-6 md:py-45 lg:px-10 lg:py-45 bg-primary">
+        <div id={'faqs'} className="relative px-4 py-30 md:px-6 md:py-45 lg:px-10 lg:py-45 bg-primary">
             <CurveDividerFaq />
             <div className="lg:flex lg:gap-x-16">
                 <div className="lg:w-[50%]">

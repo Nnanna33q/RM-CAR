@@ -190,7 +190,7 @@ export default function Hero() {
         typeof nav?.clientHeight === 'number' && setNavHeight(nav.clientHeight);
     }, [])
     return (
-        <div className="overflow-x-hidden">
+        <div id={'hero'} className="overflow-x-hidden">
             <StickyNavBar isMobileNavBarEnabled={isMobileNavBarEnabled} setIsMobileNavBarEnabled={setIsMobileNavBarEnabled} />
             <Swiper
                 slidesPerView={1}

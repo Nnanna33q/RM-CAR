@@ -159,3 +159,10 @@ export function animateContactUsText() {
         opacity: 1
     }, { duration: 0.5, delay: stagger(0.2) });
 }
+
+export function animatePrivacyText() {
+    animate('.privacy-text-animate', {
+        translate: '0px 0px',
+        opacity: 1
+    }, { duration: 0.5, delay: stagger(0.2) });
+}

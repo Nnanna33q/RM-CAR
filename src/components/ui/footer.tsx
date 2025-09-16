@@ -5,6 +5,7 @@ import { IoMdMail, IoLogoFacebook } from "react-icons/io";
 import { MdLocalPhone } from "react-icons/md";
 import { RiInstagramFill } from "react-icons/ri";
 import { AiOutlineTikTok } from "react-icons/ai";
+import { Link } from "react-router";
 
 export default function Footer() {
     const textRef = useRef(null);
@@ -20,9 +21,9 @@ export default function Footer() {
                         <AccordionTrigger className="text-secondary font-semibold">Explore</AccordionTrigger>
                         <AccordionContent className="text-medium-gray">
                             <ul className="flex flex-col gap-y-4">
-                                <li>Home</li>
-                                <li>Listings</li>
-                                <li>FAQ</li>
+                                <li><a href={'/'}>Home</a></li>
+                                <li><Link to={'/listings'}>Listings</Link></li>
+                                <li><a href={'#faqs'}>FAQ</a></li>
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
@@ -32,9 +33,9 @@ export default function Footer() {
                         <AccordionTrigger className="text-secondary font-semibold">Company</AccordionTrigger>
                         <AccordionContent className="text-medium-gray">
                             <ul className="flex flex-col gap-y-4">
-                                <li>About Us</li>
-                                <li>Contact Us</li>
-                                <li>Privacy Policy</li>
+                                <li><a href={'/about'}>About Us</a></li>
+                                <li><a href={'/contact'}>Contact Us</a></li>
+                                <li><a href={'/privacy'}>Privacy Policy</a></li>
                             </ul>
                         </AccordionContent>
                     </AccordionItem>
