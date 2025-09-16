@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router";
 import Home from "./pages/home";
 import About from "./pages/about";
+import Contact from "./pages/contact";
 
 const domNode = document.querySelector('#root');
 const router = createBrowserRouter([
@@ -14,6 +15,9 @@ const router = createBrowserRouter([
     {
         path: '/about',
         element: <About />
+    }, {
+        path: '/contact',
+        element: <Contact />
     }
 ])
 

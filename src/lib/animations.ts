@@ -152,3 +152,10 @@ export function animateSwingByText() {
         opacity: 1
     }, { duration: 0.5, delay: stagger(0.2) });
 }
+
+export function animateContactUsText() {
+    animate('.contact-us-text-animate', {
+        translate: '0px 0px',
+        opacity: 1
+    }, { duration: 0.5, delay: stagger(0.2) });
+}
