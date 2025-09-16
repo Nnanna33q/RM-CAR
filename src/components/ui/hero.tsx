@@ -204,6 +204,9 @@ export default function Hero() {
                 <SwiperSlide>
                     <Hero1 isMobileNavBarEnabled={isMobileNavBarEnabled} setIsMobileNavBarEnabled={setIsMobileNavBarEnabled} />
                 </SwiperSlide>
+                <SwiperSlide>
+                    <Hero2 isMobileNavBarEnabled={isMobileNavBarEnabled} setIsMobileNavBarEnabled={setIsMobileNavBarEnabled} />
+                </SwiperSlide>
             </Swiper>
             <AnimatePresence>
                 {isMobileNavBarEnabled && <MobileNavBar key={'1'} />}
