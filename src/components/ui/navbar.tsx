@@ -8,8 +8,10 @@ import type { BarsProp } from "@/lib/types";
 import { motion } from "motion/react";
 import { useState, useLayoutEffect } from 'react';
 import { Link } from "react-router";
+import { Select, SelectTrigger, SelectItem, SelectContent, SelectValue } from './select';
+import { MdOutlineClear } from "react-icons/md";
 
-const variants = {
+const mobileNavBarVariants = {
     initial: {
         x: '-100vw'
     },
@@ -18,6 +20,18 @@ const variants = {
     },
     exit: {
         x: '-100vw'
+    }
+}
+
+const filterVariants = {
+    initial: {
+        x: '100vw'
+    },
+    animate: {
+        x: 0
+    },
+    exit: {
+        x: '100vw'
     }
 }
 
@@ -102,7 +116,7 @@ export function StickyNavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }
 export function MobileNavBar() {
     return (
         <motion.div
-            variants={variants}
+            variants={mobileNavBarVariants}
             initial={'initial'}
             animate={'animate'}
             exit={'exit'}
@@ -132,6 +146,91 @@ export function MobileNavBar() {
                             <span>Browse Cars</span>
                         </Link>
                     </Button>
+                </div>
+            </div>
+        </motion.div>
+    )
+}
+
+export function Filter({ navHeight, disableFilter }: { navHeight: number , disableFilter: () => void }) {
+    
+    return (
+        <motion.div
+            variants={filterVariants}
+            initial={'initial'}
+            animate={'animate'}
+            exit={'exit'}
+            transition={{
+                duration: 0.3,
+                bounce: 0
+            }}
+            className={`filter-container w-[100%] sm:w-[75%] h-[100vh] bg-black z-200`} style={{ position: 'fixed', top: navHeight + 'px', right: 0 }}>
+            <div className='h-fit rounded-md lg:w-[30%] py-4 px-8'>
+                <div className='flex items-center justify-between py-4'>
+                    <div className='text-secondary text-lg'>Filters & Sort</div>
+                    <div onClick={() => disableFilter()}>
+                        <IconContext.Provider value={{ className: 'text-medium-gray size-6' }}><MdOutlineClear /></IconContext.Provider>
+                    </div>
+                </div>
+                <button className='flex items-center text-secondary border border-accent-color bg-accent-color px-6 py-1 rounded-sm'>
+                    <span>Clear</span>
+                </button>
+                <div className='selects-containers py-8 flex flex-col gap-y-4'>
+                    <Select>
+                        <SelectTrigger className="w-full py-6! border-very-dark-gray text-medium-gray! focus-visible:border-none!">
+                            <SelectValue placeholder="Any Make" />
+                        </SelectTrigger>
+                        <SelectContent className='bg-black border-very-dark-gray text-medium-gray z-200'>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Make">Any Make</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Renault">Renault</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Ford">Ford</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Citroen">Citroen</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Select>
+                        <SelectTrigger className="w-full py-6! border-very-dark-gray text-medium-gray! focus-visible:border-none!">
+                            <SelectValue placeholder="Any Model" />
+                        </SelectTrigger>
+                        <SelectContent className='bg-black border-very-dark-gray text-medium-gray z-200'>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Make">Any Model</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Clio">Clio</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="EcoSport">EcoSport</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="C1">C1</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Select>
+                        <SelectTrigger className="w-full py-6! border-very-dark-gray text-medium-gray! focus-visible:border-none!">
+                            <SelectValue placeholder="Any Body" />
+                        </SelectTrigger>
+                        <SelectContent className='bg-black border-very-dark-gray text-medium-gray z-200'>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Body">Any Body</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Convertible">Convertible</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Coupe">Coupe</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Hatchback">Hatchback</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="SUV">SUV</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Sedan">Sedan</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Select>
+                        <SelectTrigger className="w-full py-6! border-very-dark-gray text-medium-gray! focus-visible:border-none!">
+                            <SelectValue placeholder="Any Fuel" />
+                        </SelectTrigger>
+                        <SelectContent className='bg-black border-very-dark-gray text-medium-gray z-200'>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Fuel">Any Fuel</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Diesel">Diesel</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Fuel">Fuel</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Select>
+                        <SelectTrigger className="w-full py-6! border-very-dark-gray text-medium-gray! focus-visible:border-none!">
+                            <SelectValue placeholder="Any Transmission" />
+                        </SelectTrigger>
+                        <SelectContent className='bg-black border-very-dark-gray text-medium-gray z-200'>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Transmission">Any Fuel</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Automatic">Automatic</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Manual">Manual</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>
         </motion.div>

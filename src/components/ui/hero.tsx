@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade } from "swiper/modules";
 import 'swiper/swiper-bundle.css';
 import { MobileNavBar, StickyNavBar } from "./navbar";
-import { useState, useLayoutEffect, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Backdrop from "./backdrop";
 import type { BarsProp } from "@/lib/types";
 import { AnimatePresence, useInView } from "motion/react";
@@ -183,12 +183,6 @@ export function Hero2({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsP
 
 export default function Hero() {
     const [isMobileNavBarEnabled, setIsMobileNavBarEnabled] = useState<boolean>(false);
-    const [navHeight, setNavHeight] = useState<number>(0);
-
-    useLayoutEffect(() => {
-        const nav = document.querySelector('.nav');
-        typeof nav?.clientHeight === 'number' && setNavHeight(nav.clientHeight);
-    }, [])
     return (
         <div id={'hero'} className="overflow-x-hidden">
             <StickyNavBar isMobileNavBarEnabled={isMobileNavBarEnabled} setIsMobileNavBarEnabled={setIsMobileNavBarEnabled} />
@@ -210,7 +204,7 @@ export default function Hero() {
             </Swiper>
             <AnimatePresence>
                 {isMobileNavBarEnabled && <MobileNavBar key={'1'} />}
-                {isMobileNavBarEnabled && <Backdrop navHeight={navHeight} key={'2'} />}
+                {isMobileNavBarEnabled && <Backdrop key={'2'} />}
             </AnimatePresence>
         </div>
     )

@@ -164,7 +164,7 @@ function CarCard({
         <Button className="bg-accent-color border border-accent-color text-white font-semibold text-md lg:text-lg py-6 group rounded-sm hover:bg-white hover:text-accent-color hover:border-white">
           <IconContext.Provider value={{ className: 'hero1-icon-search size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
           </IconContext.Provider>
-          <span>Contact Us</span>
+          <span>Buy Now</span>
         </Button>
       </div>
     </div>

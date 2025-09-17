@@ -1,5 +1,5 @@
 import { StickyNavBar, MobileNavBar } from "./navbar";
-import { useState, useLayoutEffect, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { AnimatePresence, useInView } from "motion/react";
 import Backdrop from "./backdrop";
 import { IoIosChatbubbles } from "react-icons/io";
@@ -11,14 +11,8 @@ import { animateContactUsText } from "@/lib/animations";
 
 export default function ContactUs() {
     const [isMobileNavBarEnabled, setIsMobileNavBarEnabled] = useState<boolean>(false);
-    const [navHeight, setNavHeight] = useState<number>(0);
     const textRef = useRef(null);
     const isContactUsInView = useInView(textRef);
-
-    useLayoutEffect(() => {
-        const nav = document.querySelector('.nav');
-        typeof nav?.clientHeight === 'number' && setNavHeight(nav.clientHeight);
-    }, []);
 
     useEffect(() => {
         isContactUsInView && animateContactUsText();
@@ -96,7 +90,7 @@ export default function ContactUs() {
             </div>
             <AnimatePresence>
                 {isMobileNavBarEnabled && <MobileNavBar key={'1'} />}
-                {isMobileNavBarEnabled && <Backdrop navHeight={navHeight} key={'2'} />}
+                {isMobileNavBarEnabled && <Backdrop key={'2'} />}
             </AnimatePresence>
         </div>
     )

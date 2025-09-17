@@ -1,6 +1,6 @@
 import { PiUsersThreeFill } from "react-icons/pi";
 import { StickyNavBar, MobileNavBar } from "./navbar";
-import { useState, useLayoutEffect, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Backdrop from "./backdrop";
 import { AnimatePresence, useInView } from "motion/react";
 import aboutUsCar from '../../assets/about-us-car-2.jpg';
@@ -8,7 +8,6 @@ import { animateAboutUsText } from "@/lib/animations";
 
 export default function AboutUs() {
     const [isMobileNavBarEnabled, setIsMobileNavBarEnabled] = useState<boolean>(false);
-    const [navHeight, setNavHeight] = useState<number>(0);
 
     const textRef = useRef(null);
     const isAboutUsInView = useInView(textRef);
@@ -16,11 +15,6 @@ export default function AboutUs() {
     useEffect(() => {
         isAboutUsInView && animateAboutUsText();
     }, [isAboutUsInView])
-
-    useLayoutEffect(() => {
-        const nav = document.querySelector('.nav');
-        typeof nav?.clientHeight === 'number' && setNavHeight(nav.clientHeight);
-    }, [])
 
     return (
         <div>
@@ -42,7 +36,7 @@ export default function AboutUs() {
             </div>
             <AnimatePresence>
                 {isMobileNavBarEnabled && <MobileNavBar key={'1'} />}
-                {isMobileNavBarEnabled && <Backdrop navHeight={navHeight} key={'2'} />}
+                {isMobileNavBarEnabled && <Backdrop key={'2'} />}
             </AnimatePresence>
         </div>
     )

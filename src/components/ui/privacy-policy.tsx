@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { MdPrivacyTip } from "react-icons/md";
 import { animatePrivacyText } from '@/lib/animations';
 import { AnimatePresence, useInView } from 'motion/react';
@@ -8,18 +8,12 @@ import Backdrop from './backdrop';
 export default function Privacy() {
     const textRef = useRef(null);
     const [isMobileNavBarEnabled, setIsMobileNavBarEnabled] = useState<boolean>(false);
-    const [navHeight, setNavHeight] = useState<number>(0);
 
     const isLocationInView = useInView(textRef);
 
     useEffect(() => {
         isLocationInView && animatePrivacyText();
     }, [isLocationInView]);
-
-    useLayoutEffect(() => {
-        const nav = document.querySelector('.nav');
-        typeof nav?.clientHeight === 'number' && setNavHeight(nav.clientHeight);
-    }, [])
 
     return (
         <div>
@@ -143,7 +137,7 @@ export default function Privacy() {
             </div>
             <AnimatePresence>
                 {isMobileNavBarEnabled && <MobileNavBar key={'1'} />}
-                {isMobileNavBarEnabled && <Backdrop navHeight={navHeight} key={'2'} />}
+                {isMobileNavBarEnabled && <Backdrop key={'2'} />}
             </AnimatePresence>
         </div>
     )

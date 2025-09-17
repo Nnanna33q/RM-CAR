@@ -6,6 +6,7 @@ import Home from "./pages/home";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 import PrivacyPolicy from "./pages/privacy";
+import Listings from "./pages/listings";
 
 const domNode = document.querySelector('#root');
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
     {
         path: '/privacy',
         element: <PrivacyPolicy />
+    },
+    {
+        path: '/listings',
+        element: <Listings />
     }
 ])
 
