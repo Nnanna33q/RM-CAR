@@ -8,6 +8,7 @@ import Contact from "./pages/contact";
 import PrivacyPolicy from "./pages/privacy";
 import Listings from "./pages/listings";
 import AdminLogin from "./pages/admin-login";
+import Inventory from "./pages/car-inventory";
 
 const domNode = document.querySelector('#root');
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     {
         path: '/admin-login',
         element: <AdminLogin />
+    },
+    {
+        path: '/admin/inventory',
+        element: <Inventory />
     }
 ])
 
