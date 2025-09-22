@@ -10,6 +10,14 @@ import { useState, useLayoutEffect } from 'react';
 import { Link } from "react-router";
 import { Select, SelectTrigger, SelectItem, SelectContent, SelectValue } from './select';
 import { MdOutlineClear } from "react-icons/md";
+import { LuHouse } from "react-icons/lu";
+import { LuCarFront } from "react-icons/lu";
+import { LuUsers } from "react-icons/lu";
+import { LuChartNoAxesColumn } from "react-icons/lu";
+import { LuSettings } from "react-icons/lu";
+import { LuX } from "react-icons/lu";
+import { LuLogOut } from "react-icons/lu";
+import type { Dispatch, SetStateAction } from "react";
 
 const mobileNavBarVariants = {
     initial: {
@@ -152,8 +160,7 @@ export function MobileNavBar() {
     )
 }
 
-export function Filter({ navHeight, disableFilter }: { navHeight: number , disableFilter: () => void }) {
-    
+export function Filter({ navHeight, disableFilter }: { navHeight: number, disableFilter: () => void }) {
     return (
         <motion.div
             variants={filterVariants}
@@ -233,6 +240,67 @@ export function Filter({ navHeight, disableFilter }: { navHeight: number , disab
                     </Select>
                 </div>
             </div>
+        </motion.div>
+    )
+}
+
+export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { currentPage: 'Dashboard' | 'Inventory' | 'Inquiries' | 'Stats' | 'Settings', setIsAdminNavbarEnabled: Dispatch<SetStateAction<boolean>> }) {
+    return (
+        <motion.div
+            variants={mobileNavBarVariants}
+            initial={'initial'}
+            animate={'animate'}
+            exit={'exit'}
+            transition={{
+                duration: 0.3,
+                bounce: 0
+            }}
+            className={`admin-sidebar-container w-[75%] sm:w-[50%] h-[100vh] bg-black fixed top-0 left-0 z-150 text-very-light-gray border-r-very-dark-gray`}>
+            <nav className="flex flex-col h-[100vh] bg-black text-medium-gray py-8 px-4 md:hidden">
+                <div className="flex flex-col gap-y-8 py-8">
+                    <div className="absolute top-4 right-4" onClick={() => setIsAdminNavbarEnabled(false)}>
+                        <IconContext.Provider value={{ className: `size-6` }}>
+                            <LuX />
+                        </IconContext.Provider>
+                    </div>
+                    <div className={`flex gap-x-4 items-center ${currentPage === 'Dashboard' && 'text-accent-color'}`}>
+                        <IconContext.Provider value={{ className: `size-6` }}>
+                            <LuHouse />
+                        </IconContext.Provider>
+                        <span className="font-semibold">Dashboard</span>
+                    </div>
+                    <div className={`flex gap-x-4 items-center ${currentPage === 'Inventory' && 'text-accent-color'}`}>
+                        <IconContext.Provider value={{ className: `size-6` }}>
+                            <LuCarFront />
+                        </IconContext.Provider>
+                        <span className="font-semibold">Inventory</span>
+                    </div>
+                    <div className={`flex gap-x-4 items-center ${currentPage === 'Inquiries' && 'text-accent-color'}`}>
+                        <IconContext.Provider value={{ className: `size-6` }}>
+                            <LuUsers />
+                        </IconContext.Provider>
+                        <span className="font-semibold">Inquiries</span>
+                    </div>
+                    <div className={`flex gap-x-4 items-center ${currentPage === 'Stats' && 'text-accent-color'}`}>
+                        <IconContext.Provider value={{ className: `size-6` }}>
+                            <LuChartNoAxesColumn />
+                        </IconContext.Provider>
+                        <span className="font-semibold">Stats</span>
+                    </div>
+                    <div className={`flex gap-x-4 items-center ${currentPage === 'Settings' && 'text-accent-color'}`}>
+                        <IconContext.Provider value={{ className: `size-6` }}>
+                            <LuSettings />
+                        </IconContext.Provider>
+                        <span className="font-semibold">Settings</span>
+                    </div>
+                    <div className={`flex gap-x-4 items-center`}>
+                        <IconContext.Provider value={{ className: `size-6` }}>
+                            <LuLogOut />
+                        </IconContext.Provider>
+                        <span className="font-semibold">Log out</span>
+                    </div>
+                </div>
+            </nav>
         </motion.div>
     )
 }
