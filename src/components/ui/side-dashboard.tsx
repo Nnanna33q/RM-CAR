@@ -5,7 +5,7 @@ import { LuChartNoAxesColumn } from "react-icons/lu";
 import { LuSettings } from "react-icons/lu";
 import { IconContext } from "react-icons";
 
-export default function SideBarDashboard({ currentPage }: { currentPage: 'Dashboard' | 'Inventory' | 'Inquiries' | 'Stats' | 'Settings' }) {
+export default function SideBarDashboard({ currentPage }: { currentPage: 'Dashboard' | 'Inventory' | 'Enquiries' | 'Stats' | 'Settings' }) {
     return (
         <nav className="flex flex-col justify-between h-[100vh] bg-black text-medium-gray py-8 px-4 hidden md:flex">
             <div className="flex flex-col gap-y-8">
@@ -15,7 +15,7 @@ export default function SideBarDashboard({ currentPage }: { currentPage: 'Dashbo
                 <IconContext.Provider value={{ className: `size-6 ${currentPage === 'Inventory' && 'text-accent-color'}` }}>
                     <LuCarFront />
                 </IconContext.Provider>
-                <IconContext.Provider value={{ className: `size-6 ${currentPage === 'Inquiries' && 'text-accent-color'}` }}>
+                <IconContext.Provider value={{ className: `size-6 ${currentPage === 'Enquiries' && 'text-accent-color'}` }}>
                     <LuUsers />
                 </IconContext.Provider>
                 <IconContext.Provider value={{ className: `size-6 ${currentPage === 'Stats' && 'text-accent-color'}` }}>
@@ -23,7 +23,7 @@ export default function SideBarDashboard({ currentPage }: { currentPage: 'Dashbo
                 </IconContext.Provider>
             </div>
             <div>
-            <IconContext.Provider value={{ className: `size-6 ${currentPage === 'Settings' && 'text-accent-color'}` }}>
+                <IconContext.Provider value={{ className: `size-6 ${currentPage === 'Settings' && 'text-accent-color'}` }}>
                     <LuSettings />
                 </IconContext.Provider>
             </div>

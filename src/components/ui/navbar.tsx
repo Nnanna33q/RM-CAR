@@ -244,7 +244,7 @@ export function Filter({ navHeight, disableFilter }: { navHeight: number, disabl
     )
 }
 
-export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { currentPage: 'Dashboard' | 'Inventory' | 'Inquiries' | 'Stats' | 'Settings', setIsAdminNavbarEnabled: Dispatch<SetStateAction<boolean>> }) {
+export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { currentPage: 'Dashboard' | 'Inventory' | 'Enquiries' | 'Stats' | 'Settings', setIsAdminNavbarEnabled: Dispatch<SetStateAction<boolean>> }) {
     return (
         <motion.div
             variants={mobileNavBarVariants}
@@ -275,11 +275,11 @@ export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { current
                         </IconContext.Provider>
                         <span className="font-semibold">Inventory</span>
                     </div>
-                    <div className={`flex gap-x-4 items-center ${currentPage === 'Inquiries' && 'text-accent-color'}`}>
+                    <div className={`flex gap-x-4 items-center ${currentPage === 'Enquiries' && 'text-accent-color'}`}>
                         <IconContext.Provider value={{ className: `size-6` }}>
                             <LuUsers />
                         </IconContext.Provider>
-                        <span className="font-semibold">Inquiries</span>
+                        <span className="font-semibold">Enquiries</span>
                     </div>
                     <div className={`flex gap-x-4 items-center ${currentPage === 'Stats' && 'text-accent-color'}`}>
                         <IconContext.Provider value={{ className: `size-6` }}>

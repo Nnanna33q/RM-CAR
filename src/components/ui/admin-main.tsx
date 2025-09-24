@@ -14,8 +14,43 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import AdminPagination from './admin-pagination';
+import { LuArrowUpRight } from "react-icons/lu";
+import { LuArrowUp } from "react-icons/lu";
+import { IconContext } from 'react-icons';
+import { XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend, Bar, BarChart } from 'recharts';
 
-export default function AdminMain() {
+const chartData = [
+    {
+        date: 'S',
+        amount: 41295
+    },
+    {
+        date: 'M',
+        amount: 59276
+    },
+    {
+        date: 'T',
+        amount: 35835
+    },
+    {
+        date: 'W',
+        amount: 40105
+    },
+    {
+        date: 'T',
+        amount: 60995
+    },
+    {
+        date: 'F',
+        amount: 28905
+    },
+    {
+        date: 'S',
+        amount: 61925
+    }
+]
+
+export function AdminInventoryMain() {
     return (
         <div className="border border-very-dark-gray rounded-md p-4 lg:p-8 bg-black flex flex-col gap-y-8">
             <div>
@@ -189,6 +224,91 @@ export default function AdminMain() {
                 </Table>
             </div>
             <AdminPagination />
+        </div>
+    )
+}
+
+export function AdminDashboardMain() {
+    function getBarSize() {
+        if(window.innerWidth >= 1024) {
+            return 75;
+        } else if(window.innerWidth < 1024 && window.innerWidth > 640 ) {
+            return 50;
+        } else {
+            return 25;
+        }
+    }
+
+    return (
+        <div className="lg:p-8 bg-primary flex flex-col gap-y-8">
+            <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-x-4 gap-y-4 [&>*]:bg-black'>
+                <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-medium-gray text-sm'>Total Cars</span>
+                        <IconContext.Provider value={{ className: '' }}>
+                            <LuArrowUpRight />
+                        </IconContext.Provider>
+                    </div>
+                    <div className='font-bold text-secondary text-2xl'>120</div>
+                    <div className='flex gap-x-2'>
+                        <div className='w-fit flex items-center text-success text-[0.7rem]'>
+                            <IconContext.Provider value={{ className: '' }}>
+                                <LuArrowUp />
+                            </IconContext.Provider>
+                            <span>5%</span>
+                        </div>
+                        <span className='text-[0.7rem] text-medium-gray'>From last month</span>
+                    </div>
+                </div>
+                <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-medium-gray text-sm'>Total Sales</span>
+                        <IconContext.Provider value={{ className: '' }}>
+                            <LuArrowUpRight />
+                        </IconContext.Provider>
+                    </div>
+                    <div className='font-bold text-secondary text-2xl'>£4,295</div>
+                    <div className='flex gap-x-2'>
+                        <div className='w-fit flex items-center text-success text-[0.7rem]'>
+                            <IconContext.Provider value={{ className: '' }}>
+                                <LuArrowUp />
+                            </IconContext.Provider>
+                            <span>12%</span>
+                        </div>
+                        <span className='text-[0.7rem] text-medium-gray'>From last month</span>
+                    </div>
+                </div>
+                <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-medium-gray text-sm'>Total Enquiries</span>
+                        <IconContext.Provider value={{ className: '' }}>
+                            <LuArrowUpRight />
+                        </IconContext.Provider>
+                    </div>
+                    <div className='font-bold text-secondary text-2xl'>30</div>
+                    <div className='flex gap-x-2'>
+                        <div className='w-fit flex items-center text-success text-[0.7rem]'>
+                            <IconContext.Provider value={{ className: '' }}>
+                                <LuArrowUp />
+                            </IconContext.Provider>
+                            <span>20%</span>
+                        </div>
+                        <span className='text-[0.7rem] text-medium-gray'>From last month</span>
+                    </div>
+                </div>
+            </div>
+            <div className="chart-container bg-black border border-very-dark-gray rounded-sm h-[200px] sm:h-[300px] lg:h-[500px] px-2 sm:p-4">
+                <ResponsiveContainer width={'100%'} height={'100%'}>
+                    <BarChart data={chartData}>
+                        <Bar name={'Total Sales'} type={'monotone'} stroke={'#920101'} strokeWidth={3} dataKey='amount' fill='#920101' fillOpacity={1} barSize={getBarSize()} />
+                        <XAxis tickMargin={16} dataKey={'date'} tick={{ fontSize: window.innerWidth >= 1024 ? '0.75rem' : '0.6rem', fill: 'white' }} />
+                        <YAxis  tickMargin={16} tick={{ fontSize: window.innerWidth >= 1024 ? '0.75rem' : '0.6rem', fill: 'white' }} />
+                        <Tooltip />
+                        <CartesianGrid strokeDasharray={''} stroke='gray' strokeWidth={'1'} vertical={false} strokeOpacity={0.2} />
+                        <Legend verticalAlign='top'/>
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
         </div>
     )
 }
