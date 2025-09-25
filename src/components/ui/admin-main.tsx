@@ -230,9 +230,9 @@ export function AdminInventoryMain() {
 
 export function AdminDashboardMain() {
     function getBarSize() {
-        if(window.innerWidth >= 1024) {
+        if (window.innerWidth >= 1024) {
             return 75;
-        } else if(window.innerWidth < 1024 && window.innerWidth > 640 ) {
+        } else if (window.innerWidth < 1024 && window.innerWidth > 640) {
             return 50;
         } else {
             return 25;
@@ -241,7 +241,7 @@ export function AdminDashboardMain() {
 
     return (
         <div className="lg:p-8 bg-primary flex flex-col gap-y-8">
-            <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-x-4 gap-y-4 [&>*]:bg-black'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-x-4 gap-y-2 [&>*]:bg-black'>
                 <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
                     <div className='flex justify-between items-center'>
                         <span className='text-medium-gray text-sm'>Total Cars</span>
@@ -302,12 +302,147 @@ export function AdminDashboardMain() {
                     <BarChart data={chartData}>
                         <Bar name={'Total Sales'} type={'monotone'} stroke={'#920101'} strokeWidth={3} dataKey='amount' fill='#920101' fillOpacity={1} barSize={getBarSize()} />
                         <XAxis tickMargin={16} dataKey={'date'} tick={{ fontSize: window.innerWidth >= 1024 ? '0.75rem' : '0.6rem', fill: 'white' }} />
-                        <YAxis  tickMargin={16} tick={{ fontSize: window.innerWidth >= 1024 ? '0.75rem' : '0.6rem', fill: 'white' }} />
+                        <YAxis tickMargin={16} tick={{ fontSize: window.innerWidth >= 1024 ? '0.75rem' : '0.6rem', fill: 'white' }} />
                         <Tooltip />
                         <CartesianGrid strokeDasharray={''} stroke='gray' strokeWidth={'1'} vertical={false} strokeOpacity={0.2} />
-                        <Legend verticalAlign='top'/>
+                        <Legend verticalAlign='top' />
                     </BarChart>
                 </ResponsiveContainer>
+            </div>
+            <div className='recent-container flex flex-col lg:flex-row lg:justify-between lg:gap-x-4 gap-y-4'>
+                <div className='recent-sales-container bg-black border border-very-dark-gray rounded-sm p-4 md:p-8 lg:w-[50%]'>
+                    <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Recent Sales</h1>
+                    <div className='py-4'>
+                        <Table className=''>
+                            <TableHeader className=''>
+                                <TableRow className='hover:bg-primary [&>*]:text-medium-gray [&>*]:font-semibold border-very-dark-gray w-full'>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Price</TableHead>
+                                    <TableHead>Sold at</TableHead>
+                                    <TableHead>Status</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody className='w-full'>
+                                <TableRow className='hover:bg-primary [&>*]:text-medium-gray [&>*]:px-4 [&>*]:py-4 border-very-dark-gray'>
+                                    <TableCell className='flex items-center gap-x-4 min-w-50'>
+                                        <img className='rounded-sm' width={64} height={64} src={renaultClio} />
+                                        <span className='font-bold text-secondary'>Renault Clio</span>
+                                    </TableCell>
+                                    <TableCell>
+                                        £4,295
+                                    </TableCell>
+                                    <TableCell>
+                                        6/10/2025
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className='font-bold text-success text-xs px-2 py-1'>
+                                            Sold
+                                        </span>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow className='hover:bg-primary [&>*]:text-medium-gray [&>*]:px-4 [&>*]:py-4 border-very-dark-gray'>
+                                    <TableCell className='flex items-center gap-x-4 min-w-50'>
+                                        <img className='rounded-sm' width={64} height={64} src={renaultClio} />
+                                        <span className='font-bold text-secondary'>Renault Clio</span>
+                                    </TableCell>
+                                    <TableCell>
+                                        £4,295
+                                    </TableCell>
+                                    <TableCell>
+                                        6/10/2025
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className='font-bold text-success text-xs px-2 py-1'>
+                                            Sold
+                                        </span>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow className='hover:bg-primary [&>*]:text-medium-gray [&>*]:px-4 [&>*]:py-4 border-very-dark-gray'>
+                                    <TableCell className='flex items-center gap-x-4 min-w-50'>
+                                        <img className='rounded-sm' width={64} height={64} src={renaultClio} />
+                                        <span className='font-bold text-secondary'>Renault Clio</span>
+                                    </TableCell>
+                                    <TableCell>
+                                        £4,295
+                                    </TableCell>
+                                    <TableCell>
+                                        6/10/2025
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className='font-bold text-success text-xs px-2 py-1'>
+                                            Sold
+                                        </span>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </div>
+                </div>
+                <div className='recent-enquiries-container bg-black border border-very-dark-gray rounded-sm p-4 md:p-8 lg:w-[50%]'>
+                    <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Recent Enquiries</h1>
+                    <div className='py-4'>
+                        <Table className=''>
+                            <TableHeader className=''>
+                                <TableRow className='hover:bg-primary [&>*]:text-medium-gray [&>*]:font-semibold border-very-dark-gray w-full'>
+                                    <TableHead>Customer Name</TableHead>
+                                    <TableHead>Preferred Car</TableHead>
+                                    <TableHead>Date</TableHead>
+                                    <TableHead>Contact Status</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody className='w-full'>
+                                <TableRow className='hover:bg-primary [&>*]:text-medium-gray [&>*]:px-4 [&>*]:py-4 border-very-dark-gray'>
+                                    <TableCell>
+                                        Sarah K.
+                                    </TableCell>
+                                    <TableCell>
+                                        Renault Clio
+                                    </TableCell>
+                                    <TableCell>
+                                        6/10/2025
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className='font-bold text-success text-xs px-2 py-1'>
+                                            Completed
+                                        </span>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow className='hover:bg-primary [&>*]:text-medium-gray [&>*]:px-4 [&>*]:py-4 border-very-dark-gray'>
+                                    <TableCell>
+                                        John Omello
+                                    </TableCell>
+                                    <TableCell>
+                                        Ford Focus
+                                    </TableCell>
+                                    <TableCell>
+                                        17/3/2025
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className='font-bold text-success text-xs px-2 py-1'>
+                                            Completed
+                                        </span>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow className='hover:bg-primary [&>*]:text-medium-gray [&>*]:px-4 [&>*]:py-4 border-very-dark-gray'>
+                                    <TableCell>
+                                        Camillus Codes
+                                    </TableCell>
+                                    <TableCell>
+                                        Ford EcoSports
+                                    </TableCell>
+                                    <TableCell>
+                                        08/09/2025
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className='font-bold text-success text-xs px-2 py-1'>
+                                            Completed
+                                        </span>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </div>
+                </div>
             </div>
         </div>
     )
