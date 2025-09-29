@@ -3,8 +3,13 @@ import { Autoplay, EffectFade } from 'swiper/modules';
 import { LuUser } from "react-icons/lu";
 import { LuLock } from "react-icons/lu";
 import { IconContext } from "react-icons";
+import { useEffect } from "react";
 
 export default function AdminLogin() {
+    useEffect(() => {
+        document.title = 'Login';
+    }, []);
+
     return (
         <div>
             <div>

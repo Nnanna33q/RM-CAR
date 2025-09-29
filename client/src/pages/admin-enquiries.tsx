@@ -6,9 +6,13 @@ import { AdminEnquiriesMain } from "@/components/ui/admin-main";
 import { useState } from 'react';
 import { AnimatePresence } from "motion/react";
 import Backdrop from "@/components/ui/backdrop";
+import { useEffect } from "react";
 
 export default function AdminEnquiries() {
     const [isAdminNavbarEnabled, setIsAdminNavbarEnabled] = useState<boolean>(false);
+    useEffect(() => {
+        document.title = 'Enquiries';
+    }, [])
 
     return (
         <>

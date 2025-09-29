@@ -5,9 +5,13 @@ import { useState } from 'react';
 import { AnimatePresence } from "motion/react";
 import Backdrop from "@/components/ui/backdrop";
 import { AdminDashboardMain } from "@/components/ui/admin-main";
+import { useEffect } from "react";
 
 export default function AdminDashboard() {
     const [isAdminNavbarEnabled, setIsAdminNavbarEnabled] = useState<boolean>(false);
+    useEffect(() => {
+        document.title = 'Dashboard';
+    }, [])
 
     return (
         <>

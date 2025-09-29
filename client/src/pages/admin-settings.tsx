@@ -1,14 +1,16 @@
 import SideBarDashboard from "@/components/ui/side-dashboard";
 import NavDashboard from "@/components/ui/nav-dashboard";
 import { AdminSettingsMain } from "@/components/ui/admin-main";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Backdrop from "@/components/ui/backdrop";
 import { AnimatePresence } from "motion/react";
 import { AdminSidebar } from "@/components/ui/navbar";
 
 export default function AdminSettings() {
-
     const [isAdminNavbarEnabled, setIsAdminNavbarEnabled] = useState<boolean>(false);
+    useEffect(() => {
+        document.title = 'Settings';
+    }, []);
 
     return (
         <>

@@ -3,12 +3,15 @@ import NavDashboard from "@/components/ui/nav-dashboard";
 import TabList from "@/components/ui/tablist-dashboard";
 import { AdminInventoryMain } from "@/components/ui/admin-main";
 import { AdminSidebar } from "@/components/ui/navbar";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence } from "motion/react";
 import Backdrop from "@/components/ui/backdrop";
 
 export default function Inventory() {
     const [isAdminNavbarEnabled, setIsAdminNavbarEnabled] = useState<boolean>(false);
+    useEffect(() => {
+        document.title = 'Inventory';
+    }, [])
 
     return (
         <>
