@@ -11,6 +11,7 @@ import AdminLogin from "./pages/admin-login";
 import Inventory from "./pages/car-inventory";
 import AdminDashboard from "./pages/admin-dashboard";
 import AdminEnquiries from "./pages/admin-enquiries";
+import AdminSettings from "./pages/admin-settings";
 
 const domNode = document.querySelector('#root');
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
     {
         path: '/admin/enquiries',
         element: <AdminEnquiries />
+    },
+    {
+        path: '/admin/settings',
+        element: <AdminSettings />
     }
 ])
 

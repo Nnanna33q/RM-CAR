@@ -12,10 +12,11 @@ export default function Inventory() {
 
     return (
         <>
+            <div className="md:hidden"><NavDashboard pageName={'Inventory'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} /></div>
             <div className="flex relative">
                 <SideBarDashboard currentPage={'Inventory'} />
                 <div className="w-full py-4 px-4 md:px-6 flex flex-col gap-y-4" style={{ height: '100vh', overflowY: 'auto', scrollbarWidth: 'none' }}>
-                    <NavDashboard pageName={'Inventory'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} />
+                    <div className="hidden md:block"><NavDashboard pageName={'Enquiries'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} /></div>
                     <TabList currentPage="Inventory" />
                     <AdminInventoryMain />
                 </div>

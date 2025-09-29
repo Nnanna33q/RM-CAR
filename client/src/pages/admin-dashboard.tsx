@@ -11,10 +11,11 @@ export default function AdminDashboard() {
 
     return (
         <>
+            <div className="md:hidden"><NavDashboard pageName={'Dashboard'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} /></div>
             <div className="flex relative">
                 <SideBarDashboard currentPage={'Dashboard'} />
                 <div className="w-full py-4 px-4 md:px-6 flex flex-col gap-y-4" style={{ height: '100vh', overflowY: 'auto', scrollbarWidth: 'none' }}>
-                    <NavDashboard pageName={'Dashboard'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} />
+                    <div className="hidden md:block"><NavDashboard pageName={'Enquiries'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} /></div>
                     <AdminDashboardMain />
                 </div>
             </div>

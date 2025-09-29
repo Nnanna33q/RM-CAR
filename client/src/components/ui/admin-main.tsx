@@ -27,7 +27,15 @@ import {
     DialogTrigger,
     DialogFooter,
     DialogClose
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
+import { MdLocalPhone } from 'react-icons/md';
+import { IoMdMail, IoLogoFacebook } from 'react-icons/io';
+import { RiInstagramFill } from 'react-icons/ri';
+import { AiOutlineTikTok } from "react-icons/ai";
+import businessLogo from "../../assets/logo-light.png";
+import { LuUpload } from "react-icons/lu";
+import { LuUser } from 'react-icons/lu';
+import { LuLock } from 'react-icons/lu';
 
 const chartData = [
     {
@@ -507,7 +515,7 @@ export function AdminEnquiriesMain() {
                                                 </DialogHeader>
                                                 <DialogFooter>
                                                     <DialogClose className='flex justify-end gap-x-4'>
-                                                    <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</button>
+                                                        <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</button>
                                                         <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Reply</button>
                                                     </DialogClose>
                                                 </DialogFooter>
@@ -549,7 +557,7 @@ export function AdminEnquiriesMain() {
                                                 </DialogHeader>
                                                 <DialogFooter>
                                                     <DialogClose className='flex justify-end gap-x-4'>
-                                                    <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</button>
+                                                        <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</button>
                                                         <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Reply</button>
                                                     </DialogClose>
                                                 </DialogFooter>
@@ -591,7 +599,7 @@ export function AdminEnquiriesMain() {
                                                 </DialogHeader>
                                                 <DialogFooter>
                                                     <DialogClose className='flex justify-end gap-x-4'>
-                                                    <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</button>
+                                                        <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</button>
                                                         <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Reply</button>
                                                     </DialogClose>
                                                 </DialogFooter>
@@ -606,6 +614,131 @@ export function AdminEnquiriesMain() {
                 </Table>
             </div>
             <AdminPagination />
+        </div>
+    )
+}
+
+export function AdminSettingsMain() {
+    return (
+        <div className="md:p-8 bg-black flex flex-col gap-y-8 py-8 px-4 md:px-6 bg-primary">
+            <div className='p-4 bg-black border border-very-dark-gray rounded-sm'>
+                <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Business Logo</h1>
+                <p className='text-medium-gray text-sm'>Update your business logo</p>
+                <div className='py-4 flex items-center gap-x-4'>
+                    <div className='w-15 h-15 border border-very-dark-gray rounded-full flex items-center p-2'>
+                        <img className='max-w-full' src={businessLogo} />
+                    </div>
+                    <button className='text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm flex items-center'>
+                        <IconContext.Provider value={{ className: '' }}>
+                            <LuUpload />
+                        </IconContext.Provider>
+                        <span className='pl-2'>Upload</span>
+                    </button>
+                </div>
+            </div>
+            <div className='flex flex-col lg:flew-row gap-y-8 lg:gap-x-16'>
+                <div className='lg:w-[50%] p-4 bg-black border border-very-dark-gray rounded-sm'>
+                    <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Business Info</h1>
+                    <p className='text-medium-gray text-sm'>Update your business info</p>
+                    <form className='flex flex-col gap-y-4 py-8'>
+                        <div>
+                            <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2">
+                                <div className="flex items-center gap-x-2 w-[75%]">
+                                    <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                        <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                            <IoMdMail />
+                                        </IconContext.Provider>
+                                    </div>
+                                    <input type="email" className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={"rmcarsales2005@gmail.com"} />
+                                </div>
+                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]">Update</button>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2">
+                                <div className="flex items-center gap-x-2 w-[75%]">
+                                    <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                        <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                            <MdLocalPhone />
+                                        </IconContext.Provider>
+                                    </div>
+                                    <input type={"text"} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={"+44 151 382 9243"} />
+                                </div>
+                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]">Update</button>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2">
+                                <div className="flex items-center gap-x-2 w-[75%]">
+                                    <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                        <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                            <RiInstagramFill />
+                                        </IconContext.Provider>
+                                    </div>
+                                    <input type={"text"} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={"@rmcarsales2005"} />
+                                </div>
+                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]">Update</button>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2">
+                                <div className="flex items-center gap-x-2 w-[75%]">
+                                    <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                        <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                            <IoLogoFacebook />
+                                        </IconContext.Provider>
+                                    </div>
+                                    <input type={"text"} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={"@rmcarsales2005"} />
+                                </div>
+                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]">Update</button>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2">
+                                <div className="flex items-center gap-x-2 w-[75%]">
+                                    <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                        <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                            <AiOutlineTikTok />
+                                        </IconContext.Provider>
+                                    </div>
+                                    <input type={"text"} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={"@rmcarsales2005"} />
+                                </div>
+                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div className='lg:w-[50%] p-4 bg-black border border-very-dark-gray rounded-sm'>
+                    <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Admin Credentials</h1>
+                    <p className='text-medium-gray text-sm'>Update your login credentials</p>
+                    <form className='flex flex-col gap-y-4 [&>div>div]:focus-within:border-accent-color py-8'>
+                        <div className="flex flex-col gap-y-2">
+                            <label htmlFor="admin-username" className="text-medium-gray text-sm font-semibold">Username</label>
+                            <div className="flex items-center border border-primary rounded-sm bg-primary p-3 md:p-4">
+                                <IconContext.Provider value={{ className: 'text-dark-gray text-xl' }}><LuUser /></IconContext.Provider>
+                                <input id="admin-username" type="text" placeholder="Username" className="pl-2 sm:pl-4 w-full outline-none text-secondary focus:border-accent-color placeholder:text-dark-gray" />
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-y-2">
+                            <label htmlFor="password" className="text-medium-gray text-sm font-semibold">Password</label>
+                            <div className="flex items-center border border-primary rounded-sm bg-primary p-3 md:p-4">
+                                <IconContext.Provider value={{ className: 'text-dark-gray text-xl' }}><LuLock /></IconContext.Provider>
+                                <input id="password" type="password" placeholder="Password" className="pl-2 sm:pl-4 w-full outline-none text-secondary focus:border-accent-color placeholder:text-dark-gray" />
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-y-2">
+                            <label htmlFor="confirm-password" className="text-medium-gray text-sm font-semibold">Password</label>
+                            <div className="flex items-center border border-primary rounded-sm bg-primary p-3 md:p-4">
+                                <IconContext.Provider value={{ className: 'text-dark-gray text-xl' }}><LuLock /></IconContext.Provider>
+                                <input id="confirm-password" type="password" placeholder="Confirm Password" className="pl-2 sm:pl-4 w-full outline-none text-secondary focus:border-accent-color placeholder:text-dark-gray" />
+                            </div>
+                        </div>
+                        <div>
+                            <button type='submit' className="w-full bg-accent-color p-3 md:p-4 rounded-sm border border-primary text-secondary font-semibold">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     )
 }

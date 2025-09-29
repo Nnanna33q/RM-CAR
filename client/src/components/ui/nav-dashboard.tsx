@@ -8,7 +8,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "./popover";
 
 export default function NavDashboard({ pageName, setIsAdminNavbarEnabled }: { pageName: string, setIsAdminNavbarEnabled: Dispatch<SetStateAction<boolean>> }) {
     return (
-        <nav className="flex justify-between items-center w-full gap-x-4">
+        <nav className="flex justify-between items-center w-full gap-x-4 py-4 px-4 md:px-6 sticky bg-primary top-0 z-100">
             <div className="hidden md:block text-medium-gray font-bold">{pageName}</div>
             <div className="hidden md:flex justify-between items-center w-[40%] gap-x-6">
                 <div className="flex items-center text-medium-gray border border-very-dark-gray rounded-sm p-2 w-full focus-within:border-accent-color">
@@ -52,7 +52,7 @@ export default function NavDashboard({ pageName, setIsAdminNavbarEnabled }: { pa
                             </IconContext.Provider>
                         </div>
                     </PopoverTrigger>
-                    <PopoverContent className='w-30 flex flex-col p-1 [&>*]:p-2 [&>*]:text-sm bg-black text-medium-gray border-very-dark-gray [&>*]:hover:bg-primary mr-4'>
+                    <PopoverContent className='w-30 flex flex-col p-1 [&>*]:p-2 [&>*]:text-sm bg-black text-medium-gray border-very-dark-gray [&>*]:hover:bg-primary mr-4 relative z-101'>
                         <div className='font-semibold text-secondary border-b border-very-dark-gray'>Account</div>
                         <div className="border-b border-very-dark-gray">Settings</div>
                         <div className='text-accent-color'>Log out</div>

@@ -13,7 +13,6 @@ import { MdOutlineClear } from "react-icons/md";
 import { LuHouse } from "react-icons/lu";
 import { LuCarFront } from "react-icons/lu";
 import { LuUsers } from "react-icons/lu";
-import { LuChartNoAxesColumn } from "react-icons/lu";
 import { LuSettings } from "react-icons/lu";
 import { LuX } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
@@ -280,12 +279,6 @@ export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { current
                             <LuUsers />
                         </IconContext.Provider>
                         <span className="font-semibold">Enquiries</span>
-                    </div>
-                    <div className={`flex gap-x-4 items-center ${currentPage === 'Stats' && 'text-accent-color'}`}>
-                        <IconContext.Provider value={{ className: `size-6` }}>
-                            <LuChartNoAxesColumn />
-                        </IconContext.Provider>
-                        <span className="font-semibold">Stats</span>
                     </div>
                     <div className={`flex gap-x-4 items-center ${currentPage === 'Settings' && 'text-accent-color'}`}>
                         <IconContext.Provider value={{ className: `size-6` }}>
