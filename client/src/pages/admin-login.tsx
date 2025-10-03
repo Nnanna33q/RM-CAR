@@ -4,11 +4,53 @@ import { LuUser } from "react-icons/lu";
 import { LuLock } from "react-icons/lu";
 import { IconContext } from "react-icons";
 import { useEffect } from "react";
+import type { FormEvent } from "react";
+import { useNavigate } from "react-router";
+
+function getAuthUrl() {
+    if(window.location.host === 'localhost:5173') {
+        return 'http://localhost:3000/login'
+    }
+    return `${import.meta.env.VITE_API_DOMAIN}/login`
+}
 
 export default function AdminLogin() {
     useEffect(() => {
         document.title = 'Login';
     }, []);
+    const navigate = useNavigate();
+
+    async function login(e: FormEvent) {
+        e.preventDefault();
+        
+        const username = document.querySelector<HTMLInputElement>('#admin-username');
+        const password = document.querySelector<HTMLInputElement>('#password');
+
+        if(username && password) {
+            if (!username.value || !password.value) {
+                // Display error message'
+                console.error('Empty username or password field');
+                return;
+            }
+
+            // Fetchhhhhhhh!!!!
+
+            const response = await fetch(getAuthUrl(), {
+                method: 'POST',
+                headers: { "Content-Type": "Application/json" },
+                body: JSON.stringify({ username: username.value, password: password.value })
+            });
+
+            const data = await response.json();
+            
+            if(!data.success) {
+                // Display error message;
+                console.error(data.errorMessage);
+                return;
+            }
+            navigate('/admin/dashboard');
+        }
+    }
 
     return (
         <div>
@@ -20,7 +62,7 @@ export default function AdminLogin() {
                                 <h1 className="text-secondary text-2xl sm:text-2xl md:text-4xl/15 lg:text-4xl/15 font-bold">Admin Login</h1>
                                 <div className="bg-accent-color w-[10%] sm:w-[7.5%] h-[5px]"></div>
                             </div>
-                            <form className="flex flex-col gap-y-4 sm:gap-y-6 md:gap-y-8">
+                            <form onSubmit={(e: FormEvent) => login(e)} className="flex flex-col gap-y-4 sm:gap-y-6 md:gap-y-8">
                                 <div className="flex flex-col gap-y-2">
                                     <label htmlFor="admin-username" className="text-secondary text-sm font-semibold">Username</label>
                                     <div className="flex items-center border border-primary rounded-sm bg-primary p-3 md:p-4">
@@ -37,7 +79,7 @@ export default function AdminLogin() {
                                 </div>
                                 <span className="text-medium-gray">Forgot Password</span>
                                 <div>
-                                    <button className="w-full bg-accent-color p-3 md:p-4 rounded-sm border border-primary text-secondary font-semibold">Login</button>
+                                    <button type="submit" className="w-full bg-accent-color p-3 md:p-4 rounded-sm border border-primary text-secondary font-semibold">Login</button>
                                 </div>
                             </form>
                         </div>
