@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, createRoutesFromElements, Route } from "react-router";
 import { RouterProvider } from "react-router";
 import Home from "./pages/home";
 import About from "./pages/about";
@@ -12,55 +12,45 @@ import Inventory from "./pages/car-inventory";
 import AdminDashboard from "./pages/admin-dashboard";
 import AdminEnquiries from "./pages/admin-enquiries";
 import AdminSettings from "./pages/admin-settings";
+import ProtectedRoute from "./components/ui/protected-route";
+import AlertErrorContext from "./contexts/alert-error";
+import { useState } from "react";
 
 const domNode = document.querySelector('#root');
-const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Home />
-    },
-    {
-        path: '/about',
-        element: <About />
-    },
-    {
-        path: '/contact',
-        element: <Contact />
-    },
-    {
-        path: '/privacy',
-        element: <PrivacyPolicy />
-    },
-    {
-        path: '/listings',
-        element: <Listings />
-    },
-    {
-        path: '/admin-login',
-        element: <AdminLogin />
-    },
-    {
-        path: '/admin/inventory',
-        element: <Inventory />
-    },
-    {
-        path: '/admin/dashboard',
-        element: <AdminDashboard />
-    },
-    {
-        path: '/admin/enquiries',
-        element: <AdminEnquiries />
-    },
-    {
-        path: '/admin/settings',
-        element: <AdminSettings />
-    }
-])
+
+const router = createBrowserRouter(createRoutesFromElements(
+    <Route>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/listings" element={<Listings />} />
+        <Route path="admin-login" element={<AdminLogin />} />
+        <Route element={<ProtectedRoute />}>
+            <Route path={'/admin/dashboard'} element={<AdminDashboard />} />
+            <Route path={'/admin/inventory'} element={<Inventory />} />
+            <Route path={'/admin/enquiries'} element={<AdminEnquiries />} />
+            <Route path={'/admin/settings'} element={<AdminSettings />} />
+        </Route>
+    </Route>
+))
+
+function ContextWrapper({ children }: { children: React.ReactNode }) {
+    const [isError, setIsError] = useState({ error: false, errorMessage: '' });
+
+    return (
+        <AlertErrorContext.Provider value={[isError, setIsError]}>
+            {children}
+        </AlertErrorContext.Provider>
+    )
+}
 
 if (domNode) {
     createRoot(domNode).render(
         <StrictMode>
-            <RouterProvider router={router} />
+            <ContextWrapper>
+                <RouterProvider router={router} />
+            </ContextWrapper>
         </StrictMode>
     );
 } else {

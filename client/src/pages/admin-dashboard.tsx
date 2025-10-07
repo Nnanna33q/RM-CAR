@@ -24,8 +24,8 @@ export default function AdminDashboard() {
                 </div>
             </div>
             <AnimatePresence>
-                {isAdminNavbarEnabled && <AdminSidebar currentPage="Dashboard" setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} />}
-                {isAdminNavbarEnabled && <Backdrop />}
+                {isAdminNavbarEnabled && <AdminSidebar key={'1'} currentPage="Dashboard" setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} />}
+                {isAdminNavbarEnabled && <Backdrop key={'2'} />}
             </AnimatePresence>
         </>
     )

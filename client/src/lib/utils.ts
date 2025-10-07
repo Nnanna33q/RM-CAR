@@ -14,3 +14,16 @@ export function getCurveDividerHeight() {
       return 75;
   }
 }
+
+export async function getAuthState(): Promise<boolean> {
+  const response = await fetch(window.location.host === 'localhost:5173' ? 'http://localhost:3000/api/authenticated' : import.meta.env.VITE_API_DOMAIN + '/api/authenticated', { credentials: 'include' });
+  const data = await response.json();
+  return data.success;
+}
+
+export function getFetchUrl(endpoint: string) {
+  if (window.location.host === 'localhost:5173') {
+      return 'http://localhost:3000/' + endpoint
+  }
+  return `${import.meta.env.VITE_API_DOMAIN}/${endpoint}`
+}

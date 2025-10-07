@@ -131,7 +131,7 @@ export function MobileNavBar() {
                 duration: 0.3,
                 bounce: 0
             }}
-            className={`mobile-navbar-container w-[75%] sm:w-[50%] h-[100vh] bg-black fixed top-0 left-0 z-150 text-very-light-gray font-manrope border-r-very-dark-gray`}>
+            className={`mobile-navbar-container w-[75%] sm:w-[50%] h-[100vh] bg-black fixed top-0 left-0 z-170 text-very-light-gray font-manrope border-r-very-dark-gray`}>
             <div>
                 <div className="border-b border-very-dark-gray px-4 py-4">
                     <div className="max-w-15 lg:max-w-20">

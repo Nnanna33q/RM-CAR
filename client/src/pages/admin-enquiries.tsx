@@ -26,8 +26,8 @@ export default function AdminEnquiries() {
                 </div>
             </div>
             <AnimatePresence>
-                {isAdminNavbarEnabled && <AdminSidebar currentPage="Enquiries" setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} />}
-                {isAdminNavbarEnabled && <Backdrop />}
+                {isAdminNavbarEnabled && <AdminSidebar key={'1'} currentPage="Enquiries" setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} />}
+                {isAdminNavbarEnabled && <Backdrop key={'2'} />}
             </AnimatePresence>
         </>
     )

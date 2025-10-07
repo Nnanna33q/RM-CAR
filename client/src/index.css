@@ -5,7 +5,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    /* --color-accent-color: oklch(63.7% 0.237 25.331); */
     --color-accent-color: #920101;
     --color-primary: #282828;
     --color-secondary: #ededed;

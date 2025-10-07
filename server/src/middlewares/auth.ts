@@ -5,6 +5,7 @@ import Admin from '../schemas/admin.js';
 import { compareSync } from 'bcryptjs';
 import validateLoginFields from '../utils/validate-login.js';
 import checkErrors from '../utils/check-validation-errors.js';
+import { isAuthenticated } from '../utils/is-authenticated.js';
 import type { Request, Response, NextFunction } from 'express';
 
 type Admin = {
@@ -13,9 +14,9 @@ type Admin = {
     password: string
 }
 
-const authRouter = express.Router();
+const AuthRouter = express.Router();
 
-authRouter.use(passport.session());
+AuthRouter.use(passport.session());
 
 passport.serializeUser((admin, done) => {
     if(!admin) {
@@ -26,7 +27,6 @@ passport.serializeUser((admin, done) => {
 })
 
 passport.deserializeUser(async (id, done) => {
-    console.log('Execute')
     try {
         const admin = await Admin.findById(id, { password: 0 });
         if(!admin) {
@@ -46,12 +46,10 @@ passport.use(new Strategy(async (username, password, cb) => {
 
         if(!admin) {
             cb('Invalid username', false);
-            console.log('Invalid username'); 
             return;
         }
 
         if(compareSync(password, admin.password)) {
-            console.log('Password is correct');
             cb(null, admin);
         } else {
             cb('Invalid password', false);
@@ -62,14 +60,17 @@ passport.use(new Strategy(async (username, password, cb) => {
     }
 }))
 
-authRouter.post('/login', validateLoginFields, checkErrors, passport.authenticate('local'), (err: any, req: Request, res: Response, next: NextFunction) => {
+AuthRouter.post('/login', validateLoginFields, checkErrors, passport.authenticate('local'), (err: any, req: Request, res: Response, next: NextFunction) => {
     if(err) {
         res.status(400).json({ success: false, errorMessage: err });
         return;
     }
     next();
 }, (req: Request, res: Response) => {
+    console.log('User is now authenticated');
     res.status(200).json({ success: true });
 });
 
-export default authRouter
+AuthRouter.get('/api/authenticated', isAuthenticated);
+
+export default AuthRouter

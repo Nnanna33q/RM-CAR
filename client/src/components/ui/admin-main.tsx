@@ -515,8 +515,8 @@ export function AdminEnquiriesMain() {
                                                 </DialogHeader>
                                                 <DialogFooter>
                                                     <DialogClose className='flex justify-end gap-x-4'>
-                                                        <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</button>
-                                                        <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Reply</button>
+                                                        <div role='button' className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</div>
+                                                        <div role="button" className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Reply</div>
                                                     </DialogClose>
                                                 </DialogFooter>
                                             </DialogContent>
@@ -557,8 +557,8 @@ export function AdminEnquiriesMain() {
                                                 </DialogHeader>
                                                 <DialogFooter>
                                                     <DialogClose className='flex justify-end gap-x-4'>
-                                                        <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</button>
-                                                        <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Reply</button>
+                                                        <div role='button' className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</div>
+                                                        <div role="button" className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Reply</div>
                                                     </DialogClose>
                                                 </DialogFooter>
                                             </DialogContent>
@@ -599,8 +599,8 @@ export function AdminEnquiriesMain() {
                                                 </DialogHeader>
                                                 <DialogFooter>
                                                     <DialogClose className='flex justify-end gap-x-4'>
-                                                        <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</button>
-                                                        <button className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Reply</button>
+                                                        <div role='button' className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Resolve</div>
+                                                        <div role="button" className='border text-black text-sm px-2 py-1 bg-secondary rounded-sm font-semibold'>Reply</div>
                                                     </DialogClose>
                                                 </DialogFooter>
                                             </DialogContent>

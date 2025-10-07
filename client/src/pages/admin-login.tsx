@@ -3,49 +3,56 @@ import { Autoplay, EffectFade } from 'swiper/modules';
 import { LuUser } from "react-icons/lu";
 import { LuLock } from "react-icons/lu";
 import { IconContext } from "react-icons";
-import { useEffect } from "react";
+import { AlertError } from "@/components/ui/alert";
+import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router";
-
-function getAuthUrl() {
-    if(window.location.host === 'localhost:5173') {
-        return 'http://localhost:3000/login'
-    }
-    return `${import.meta.env.VITE_API_DOMAIN}/login`
-}
+import type { IsErrorProp } from "@/lib/types";
+import { AnimatePresence } from "motion/react";
+import { getFetchUrl } from "@/lib/utils";
 
 export default function AdminLogin() {
+    const [isError, setIsError] = useState<IsErrorProp>({ error: false, errorMessage: '' });
+
     useEffect(() => {
         document.title = 'Login';
     }, []);
+
+    useEffect(() => {
+        if(isError.error) {
+            setTimeout(() => setIsError({ error: false, errorMessage: '' }), 5000)
+        }
+    }, [isError.error])
+
     const navigate = useNavigate();
 
     async function login(e: FormEvent) {
         e.preventDefault();
-        
+
         const username = document.querySelector<HTMLInputElement>('#admin-username');
         const password = document.querySelector<HTMLInputElement>('#password');
 
-        if(username && password) {
+        if (username && password) {
             if (!username.value || !password.value) {
-                // Display error message'
+                setIsError({ error: true, errorMessage: 'Empty username or password field' });
                 console.error('Empty username or password field');
                 return;
             }
 
             // Fetchhhhhhhh!!!!
 
-            const response = await fetch(getAuthUrl(), {
+            const response = await fetch(getFetchUrl('login'), {
                 method: 'POST',
                 headers: { "Content-Type": "Application/json" },
-                body: JSON.stringify({ username: username.value, password: password.value })
+                body: JSON.stringify({ username: username.value, password: password.value }),
+                credentials: 'include'
             });
 
             const data = await response.json();
-            
-            if(!data.success) {
-                // Display error message;
+
+            if (!data.success) {
                 console.error(data.errorMessage);
+                setIsError({ error: true, errorMessage: data.errorMessage });
                 return;
             }
             navigate('/admin/dashboard');
@@ -54,6 +61,9 @@ export default function AdminLogin() {
 
     return (
         <div>
+            <AnimatePresence>
+                {isError.error && <AlertError errorMessage={isError.errorMessage} />}
+            </AnimatePresence>
             <div>
                 <div className="absolute top-0 z-200 w-full h-[100vh] flex items-center md:items-center md:px-8 p-4">
                     <div className="admin-login-container py-8 sm:py-10 md:py-12 px-4 md:px-12 w-[100%] md:w-[50%] border border-primary rounded-sm bg-[rgba(0,0,0,0.8)] md:backdrop-blur-sm">
@@ -65,14 +75,14 @@ export default function AdminLogin() {
                             <form onSubmit={(e: FormEvent) => login(e)} className="flex flex-col gap-y-4 sm:gap-y-6 md:gap-y-8">
                                 <div className="flex flex-col gap-y-2">
                                     <label htmlFor="admin-username" className="text-secondary text-sm font-semibold">Username</label>
-                                    <div className="flex items-center border border-primary rounded-sm bg-primary p-3 md:p-4">
+                                    <div className={`flex items-center border border-${isError.errorMessage.toLowerCase().includes('username') ? 'accent-color' : 'primary' } rounded-sm bg-primary p-3 md:p-4`}>
                                         <IconContext.Provider value={{ className: 'text-dark-gray text-xl' }}><LuUser /></IconContext.Provider>
                                         <input id="admin-username" type="text" placeholder="Username" className="pl-2 sm:pl-4 w-full outline-none text-secondary focus:border-accent-color placeholder:text-dark-gray" />
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-y-2">
                                     <label htmlFor="password" className="text-secondary text-sm font-semibold">Password</label>
-                                    <div className="flex items-center border border-primary rounded-sm bg-primary p-3 md:p-4">
+                                    <div className={`flex items-center border border-${isError.errorMessage.toLowerCase().includes('password') ? 'accent-color' : 'primary' } rounded-sm bg-primary p-3 md:p-4`}>
                                         <IconContext.Provider value={{ className: 'text-dark-gray text-xl' }}><LuLock /></IconContext.Provider>
                                         <input id="password" type="password" placeholder="Password" className="pl-2 sm:pl-4 w-full outline-none text-secondary focus:border-accent-color placeholder:text-dark-gray" />
                                     </div>
