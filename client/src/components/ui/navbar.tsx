@@ -6,7 +6,7 @@ import { IconContext } from "react-icons";
 import { CiSearch } from "react-icons/ci";
 import type { BarsProp } from "@/lib/types";
 import { motion } from "motion/react";
-import { useState, useLayoutEffect } from 'react';
+import { useState, useContext, useLayoutEffect } from 'react';
 import { Link } from "react-router";
 import { Select, SelectTrigger, SelectItem, SelectContent, SelectValue } from './select';
 import { MdOutlineClear } from "react-icons/md";
@@ -17,6 +17,10 @@ import { LuSettings } from "react-icons/lu";
 import { LuX } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
 import type { Dispatch, SetStateAction } from "react";
+import { getFetchUrl } from "@/lib/utils";
+import AuthContext from "@/contexts/auth";
+import AlertErrorContext from "@/contexts/alert-error";
+import { useNavigate } from "react-router";
 
 const mobileNavBarVariants = {
     initial: {
@@ -244,6 +248,25 @@ export function Filter({ navHeight, disableFilter }: { navHeight: number, disabl
 }
 
 export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { currentPage: 'Dashboard' | 'Inventory' | 'Enquiries' | 'Stats' | 'Settings', setIsAdminNavbarEnabled: Dispatch<SetStateAction<boolean>> }) {
+    const [, setisError] = useContext(AlertErrorContext);
+    const { setIsAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    async function logOut() {
+        try {
+            const response = await fetch(getFetchUrl('api/logout'), { credentials: 'include' });
+            const data = await response.json();
+            if(!data.success) {
+                throw new Error(data.errorMessage);
+            }
+            setIsAuthenticated(false);
+            navigate('/admin/login', { replace: true });
+        } catch(error) {
+            console.error(error);
+            setisError({ error: true, errorMessage: error instanceof Error ? error.message : 'An unexpected error occurred' });
+        }
+    }
+
     return (
         <motion.div
             variants={mobileNavBarVariants}
@@ -256,43 +279,43 @@ export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { current
             }}
             className={`admin-sidebar-container w-[75%] sm:w-[50%] h-[100vh] bg-black fixed top-0 left-0 z-150 text-very-light-gray border-r-very-dark-gray`}>
             <nav className="flex flex-col h-[100vh] bg-black text-medium-gray py-8 px-4 md:hidden">
-                <div className="flex flex-col gap-y-8 py-8">
-                    <div className="absolute top-4 right-4" onClick={() => setIsAdminNavbarEnabled(false)}>
+                <ul className="flex flex-col gap-y-8 py-8">
+                    <li className="absolute top-4 right-4" onClick={() => setIsAdminNavbarEnabled(false)}>
                         <IconContext.Provider value={{ className: `size-6` }}>
                             <LuX />
                         </IconContext.Provider>
-                    </div>
-                    <div className={`flex gap-x-4 items-center ${currentPage === 'Dashboard' && 'text-accent-color'}`}>
+                    </li>
+                    <a href={'/admin/dashboard'} className={`flex gap-x-4 items-center ${currentPage === 'Dashboard' && 'text-accent-color'}`}>
                         <IconContext.Provider value={{ className: `size-6` }}>
                             <LuHouse />
                         </IconContext.Provider>
                         <span className="font-semibold">Dashboard</span>
-                    </div>
-                    <div className={`flex gap-x-4 items-center ${currentPage === 'Inventory' && 'text-accent-color'}`}>
+                    </a>
+                    <a href={'/admin/inventory'} className={`flex gap-x-4 items-center ${currentPage === 'Inventory' && 'text-accent-color'}`}>
                         <IconContext.Provider value={{ className: `size-6` }}>
                             <LuCarFront />
                         </IconContext.Provider>
                         <span className="font-semibold">Inventory</span>
-                    </div>
-                    <div className={`flex gap-x-4 items-center ${currentPage === 'Enquiries' && 'text-accent-color'}`}>
+                    </a>
+                    <a href={'/admin/enquiries'} className={`flex gap-x-4 items-center ${currentPage === 'Enquiries' && 'text-accent-color'}`}>
                         <IconContext.Provider value={{ className: `size-6` }}>
                             <LuUsers />
                         </IconContext.Provider>
                         <span className="font-semibold">Enquiries</span>
-                    </div>
-                    <div className={`flex gap-x-4 items-center ${currentPage === 'Settings' && 'text-accent-color'}`}>
+                    </a>
+                    <a href={'/admin/settings'} className={`flex gap-x-4 items-center ${currentPage === 'Settings' && 'text-accent-color'}`}>
                         <IconContext.Provider value={{ className: `size-6` }}>
                             <LuSettings />
                         </IconContext.Provider>
                         <span className="font-semibold">Settings</span>
-                    </div>
-                    <div className={`flex gap-x-4 items-center`}>
+                    </a>
+                    <a className={`flex gap-x-4 items-center`} onClick={logOut}>
                         <IconContext.Provider value={{ className: `size-6` }}>
                             <LuLogOut />
                         </IconContext.Provider>
                         <span className="font-semibold">Log out</span>
-                    </div>
-                </div>
+                    </a>
+                </ul>
             </nav>
         </motion.div>
     )

@@ -3,7 +3,7 @@ import { Strategy} from 'passport-local';
 import express from 'express';
 import Admin from '../schemas/admin.js';
 import { compareSync } from 'bcryptjs';
-import validateLoginFields from '../utils/validate-login.js';
+import { validateLogin } from '../utils/validate.js';
 import checkErrors from '../utils/check-validation-errors.js';
 import { isAuthenticated } from '../utils/is-authenticated.js';
 import type { Request, Response, NextFunction } from 'express';
@@ -12,6 +12,14 @@ type Admin = {
     _id: string,
     username: string,
     password: string
+}
+
+export function authChecker(req: Request, res: Response, next: NextFunction) {
+    if(req.user) {
+        next()
+    } else {
+        res.status(401).json({ success: false, errorMessage: 'You are unauthenticated' });
+    }
 }
 
 const AuthRouter = express.Router();
@@ -60,17 +68,30 @@ passport.use(new Strategy(async (username, password, cb) => {
     }
 }))
 
-AuthRouter.post('/login', validateLoginFields, checkErrors, passport.authenticate('local'), (err: any, req: Request, res: Response, next: NextFunction) => {
+AuthRouter.post('/login', validateLogin, checkErrors, passport.authenticate('local'), (err: any, req: Request, res: Response, next: NextFunction) => {
     if(err) {
         res.status(400).json({ success: false, errorMessage: err });
         return;
     }
     next();
 }, (req: Request, res: Response) => {
-    console.log('User is now authenticated');
     res.status(200).json({ success: true });
 });
 
 AuthRouter.get('/api/authenticated', isAuthenticated);
+
+AuthRouter.get('/api/logout', authChecker, (req, res) => {
+    try {
+        req.session.destroy((error) => {
+            if(error) {
+                throw new Error(error);
+            }
+            res.status(200).json({ success: true });
+        })
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({ success: false, errorMessage: 'Failed to destroy session' });
+    }
+})
 
 export default AuthRouter

@@ -14,6 +14,7 @@ import AdminEnquiries from "./pages/admin-enquiries";
 import AdminSettings from "./pages/admin-settings";
 import ProtectedRoute from "./components/ui/protected-route";
 import AlertErrorContext from "./contexts/alert-error";
+import AlertSuccessContext from "./contexts/alert-success";
 import { useState } from "react";
 
 const domNode = document.querySelector('#root');
@@ -37,10 +38,13 @@ const router = createBrowserRouter(createRoutesFromElements(
 
 function ContextWrapper({ children }: { children: React.ReactNode }) {
     const [isError, setIsError] = useState({ error: false, errorMessage: '' });
+    const [isSuccess, setIsSuccess] = useState({ success: false, successMessage: '' });
 
     return (
         <AlertErrorContext.Provider value={[isError, setIsError]}>
-            {children}
+            <AlertSuccessContext.Provider value={[ isSuccess, setIsSuccess ]}>
+                {children}
+            </AlertSuccessContext.Provider>
         </AlertErrorContext.Provider>
     )
 }

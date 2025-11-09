@@ -5,6 +5,5 @@ export function isAuthenticated(req: Request, res: Response) {
         res.status(200).json({ success: true });
         return;
     }
-    console.log('User is not authenticated');
     res.status(401).json({ success: false, errorMessage: 'User is not authenticated' });
 }

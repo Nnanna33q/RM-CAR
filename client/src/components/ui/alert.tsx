@@ -1,8 +1,8 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { MdError } from "react-icons/md";
+import { LuCheck } from "react-icons/lu";
 import { motion } from "motion/react";
-
 import { cn } from "@/lib/utils"
 
 const alertVariants = cva(
@@ -78,7 +78,7 @@ function AlertError({ errorMessage }: { errorMessage: string }) {
           x: -200, opacity: 0
         }}
         transition={{ duration: 0.3 }}
-        className="p-4 w-full md:flex md:justify-center absolute z-201">
+        className="p-4 w-full md:flex md:justify-center fixed top-0 z-250">
         <Alert className="text-accent-color bg-black w-full md:w-[50%] border-primary rounded-none">
           <MdError />
           <AlertTitle className="font-bold">{errorMessage}</AlertTitle>
@@ -87,4 +87,26 @@ function AlertError({ errorMessage }: { errorMessage: string }) {
   )
 }
 
-export { Alert, AlertTitle, AlertDescription, AlertError }
+function AlertSuccess({ successMessage }: { successMessage: string }) {
+  return (
+      <motion.div
+        initial={{
+          x: -200, opacity: 0
+        }}
+        animate={{
+          x: 0, opacity: 1
+        }}
+        exit={{
+          x: -200, opacity: 0
+        }}
+        transition={{ duration: 0.3 }}
+        className="p-4 w-full md:flex md:justify-center fixed top-0 z-201">
+        <Alert className="text-success bg-black w-full md:w-[50%] border-primary rounded-none">
+          <LuCheck />
+          <AlertTitle className="font-bold">{successMessage}</AlertTitle>
+        </Alert>
+      </motion.div>
+  )
+}
+
+export { Alert, AlertTitle, AlertDescription, AlertError, AlertSuccess }

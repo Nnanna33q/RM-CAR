@@ -1,5 +1,5 @@
 import { StickyNavBar, MobileNavBar } from "./navbar";
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { AnimatePresence, useInView } from "motion/react";
 import Backdrop from "./backdrop";
 import { IoIosChatbubbles } from "react-icons/io";
@@ -8,15 +8,61 @@ import { IconContext } from "react-icons";
 import { MdLocalPhone } from "react-icons/md";
 import { RiInstagramFill } from "react-icons/ri";
 import { animateContactUsText } from "@/lib/animations";
+import { getFetchUrl } from "@/lib/utils";
+import AlertErrorContext from "@/contexts/alert-error";
+import Spinner from "./spinner";
+import AlertSuccessContext from "@/contexts/alert-success";
 
 export default function ContactUs() {
     const [isMobileNavBarEnabled, setIsMobileNavBarEnabled] = useState<boolean>(false);
     const textRef = useRef(null);
     const isContactUsInView = useInView(textRef);
+    const [, setIsError] = useContext(AlertErrorContext);
+    const [, setIsSuccess] = useContext(AlertSuccessContext);
+    const [isSubmitButtonLoading, setIsSubmitButtonLoading] = useState(false);
 
     useEffect(() => {
         isContactUsInView && animateContactUsText();
-    }, [isContactUsInView])
+    }, [isContactUsInView]);
+
+    async function sendMessage(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const name = document.querySelector<HTMLInputElement>('#name');
+        const email = document.querySelector<HTMLInputElement>('#email');
+        const message = document.querySelector<HTMLInputElement>('#message');
+
+        setIsSubmitButtonLoading(true);
+        try {
+            if(!name || !email || !message) {
+                throw new Error('Failed to select input element');
+            }
+            if(!name.value || !email.value || !message.value) {
+                throw new Error('Please fill all fields');
+            }
+            const response = await fetch(getFetchUrl('api/enquiries'), {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                credentials: 'include',
+                body: JSON.stringify({
+                    name: name.value,
+                    email: email.value,
+                    message: message.value
+                })
+            })
+            const data = await response.json();
+            if(!data.success) {
+                throw new Error(data.errorMessage);
+            }
+            name.value = '';
+            email.value = '';
+            message.value = '';
+            setIsSuccess({ success: true, successMessage: 'Got it! We’ll be in touch soon.' });
+        } catch(error) {
+            console.error(error);
+            setIsError({ error: true, errorMessage: error instanceof Error ? error.message : 'An unexpected error occurred' });
+        }
+        setIsSubmitButtonLoading(false);
+    }
 
     return (
         <div>
@@ -79,11 +125,13 @@ export default function ContactUs() {
                         <p className="contact-us-text-animate text-medium-gray text-md md:text-md lg:text-lg translate-y-16 opacity-0">
                             Fill out our contact form to send us your questions, feedback, or requests to work with us.
                         </p>
-                        <form className="contact-us-text-animate flex flex-col gap-y-4 translate-y-16 opacity-0">
-                            <input type="text" className="w-full outline-none bg-primary p-3 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Name" />
-                            <input type="email" className="w-full outline-none bg-primary p-3 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Email" />
-                            <textarea className="w-full outline-none bg-primary p-2 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Message" />
-                            <input type="submit" className="w-full bg-accent-color p-3 rounded-sm border border-primary text-secondary font-semibold" />
+                        <form onSubmit={(e) => sendMessage(e)} id={'contact-form'} className="contact-us-text-animate flex flex-col gap-y-4 translate-y-16 opacity-0">
+                            <input id={'name'} type="text" className="w-full outline-none bg-primary p-3 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Name" maxLength={100} />
+                            <input id={'email'} type="email" className="w-full outline-none bg-primary p-3 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Email" maxLength={254} />
+                            <textarea id={'message'} className="w-full outline-none bg-primary p-2 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Message" maxLength={1000} />
+                            <button disabled={isSubmitButtonLoading} id={'submit'} type="submit" className="w-full bg-accent-color p-3 rounded-sm border border-primary text-secondary font-semibold flex justify-center">
+                                {isSubmitButtonLoading ? <Spinner /> : 'Submit'}
+                            </button>
                         </form>
                     </div>
                 </div>

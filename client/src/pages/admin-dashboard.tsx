@@ -5,13 +5,39 @@ import { useState } from 'react';
 import { AnimatePresence } from "motion/react";
 import Backdrop from "@/components/ui/backdrop";
 import { AdminDashboardMain } from "@/components/ui/admin-main";
-import { useEffect } from "react";
+import { useEffect, useRef, useContext } from "react";
+import AlertErrorContext from "@/contexts/alert-error";
+import AlertSuccessContext from "@/contexts/alert-success";
+import { AlertSuccess, AlertError } from "@/components/ui/alert";
 
 export default function AdminDashboard() {
     const [isAdminNavbarEnabled, setIsAdminNavbarEnabled] = useState<boolean>(false);
+    const [isError, setIsError] = useContext(AlertErrorContext);
+    const [isSuccess, setIsSuccess] = useContext(AlertSuccessContext);
+    const errorId = useRef<NodeJS.Timeout | undefined>(undefined);
+    const successId = useRef<NodeJS.Timeout | undefined>(undefined);
+
     useEffect(() => {
         document.title = 'Dashboard';
     }, [])
+
+    useEffect(() => {
+        // Disables error alert after 5 seconds
+        if (isError.error) {
+            errorId.current = setTimeout(() => setIsError({ error: false, errorMessage: '' }), 5000);
+        }
+
+        return () => clearTimeout(errorId.current);
+    }, [isError.error])
+
+    useEffect(() => {
+        // Disables success alert after 5 seconds
+        if (isSuccess.success) {
+            successId.current = setTimeout(() => setIsSuccess({ success: false, successMessage: '' }), 5000);
+        }
+
+        return () => clearTimeout(successId.current);
+    }, [isSuccess.success])
 
     return (
         <>
@@ -26,6 +52,8 @@ export default function AdminDashboard() {
             <AnimatePresence>
                 {isAdminNavbarEnabled && <AdminSidebar key={'1'} currentPage="Dashboard" setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} />}
                 {isAdminNavbarEnabled && <Backdrop key={'2'} />}
+                {isError.error && <AlertError errorMessage={isError.errorMessage} />}
+                {isSuccess.success && <AlertSuccess successMessage={isSuccess.successMessage} />}
             </AnimatePresence>
         </>
     )

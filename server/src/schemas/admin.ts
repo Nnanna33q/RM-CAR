@@ -10,6 +10,11 @@ const adminsSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
+    },
+    adminId: {
+        type: Number,
+        required: true,
+        unique: true
     }
 })
 

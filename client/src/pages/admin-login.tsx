@@ -10,9 +10,11 @@ import { useNavigate } from "react-router";
 import type { IsErrorProp } from "@/lib/types";
 import { AnimatePresence } from "motion/react";
 import { getFetchUrl } from "@/lib/utils";
+import Spinner from "@/components/ui/spinner";
 
 export default function AdminLogin() {
     const [isError, setIsError] = useState<IsErrorProp>({ error: false, errorMessage: '' });
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         document.title = 'Login';
@@ -41,21 +43,26 @@ export default function AdminLogin() {
 
             // Fetchhhhhhhh!!!!
 
-            const response = await fetch(getFetchUrl('login'), {
-                method: 'POST',
-                headers: { "Content-Type": "Application/json" },
-                body: JSON.stringify({ username: username.value, password: password.value }),
-                credentials: 'include'
-            });
-
-            const data = await response.json();
-
-            if (!data.success) {
-                console.error(data.errorMessage);
-                setIsError({ error: true, errorMessage: data.errorMessage });
-                return;
+            setIsLoading(true);
+            try {
+                const response = await fetch(getFetchUrl('login'), {
+                    method: 'POST',
+                    headers: { "Content-Type": "Application/json" },
+                    body: JSON.stringify({ username: username.value, password: password.value }),
+                    credentials: 'include'
+                });
+    
+                const data = await response.json();
+    
+                if (!data.success) {
+                    throw new Error(data.errorMessage);
+                }
+                navigate('/admin/dashboard');
+            } catch(error) {
+                console.error(error);
+                setIsError({ error: true, errorMessage: error instanceof Error ? error.message : 'An unexpected error occurred' });
             }
-            navigate('/admin/dashboard');
+            setIsLoading(false);
         }
     }
 
@@ -89,7 +96,9 @@ export default function AdminLogin() {
                                 </div>
                                 <span className="text-medium-gray">Forgot Password</span>
                                 <div>
-                                    <button type="submit" className="w-full bg-accent-color p-3 md:p-4 rounded-sm border border-primary text-secondary font-semibold">Login</button>
+                                    <button type="submit" className="w-full bg-accent-color p-3 md:p-4 rounded-sm border border-primary text-secondary font-semibold flex justify-center items-center">
+                                        {isLoading ? <Spinner /> : <div>Login</div>}
+                                    </button>
                                 </div>
                             </form>
                         </div>
