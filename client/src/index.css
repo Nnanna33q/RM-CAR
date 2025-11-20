@@ -276,7 +276,7 @@ path:focus {
 
 /* Loading spinner styles */
 
-.loader, .loader-black {
+.loader, .loader-black, .loader-accent {
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -284,7 +284,7 @@ path:focus {
     animation: rotate 1s linear infinite
 }
 
-.loader::before, .loader-black::before {
+.loader::before, .loader-black::before, .loader-accent::before {
     content: "";
     box-sizing: border-box;
     position: absolute;
@@ -296,6 +296,10 @@ path:focus {
 
 .loader-black::before {
     border: 3px solid #000000 !important;
+}
+
+.loader-accent::before {
+    border: 3px solid #920101 !important;
 }
 
 @keyframes rotate {

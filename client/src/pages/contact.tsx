@@ -1,17 +1,22 @@
 import ContactUs from "@/components/ui/contact-us";
 import Faqs from "@/components/ui/faq";
 import Footer from "@/components/ui/footer";
-import { useEffect, useContext, useRef } from "react";
+import { useEffect, useContext, useRef, useState } from "react";
 import AlertErrorContext from "@/contexts/alert-error";
 import { AlertError, AlertSuccess } from "@/components/ui/alert";
 import { AnimatePresence } from "motion/react";
 import AlertSuccessContext from "@/contexts/alert-success";
+import type { TBusinessInfo } from "@/lib/types";
+import { getFetchUrl } from "@/lib/utils";
+import BusinessInfoContext from "@/contexts/business-info";
+import Preloader from "@/components/ui/preloader";
 
 export default function Contact() {
     const [alertError, setIsError] = useContext(AlertErrorContext);
     const [alertSuccess, setIsSuccess] = useContext(AlertSuccessContext);
     const errorId = useRef<NodeJS.Timeout | undefined>(undefined);
     const successId = useRef<NodeJS.Timeout | undefined>(undefined);
+    const [businessInfo, setBusinessInfo] = useState<undefined | TBusinessInfo | null>(undefined);
 
     useEffect(() => {
         document.title = 'Contact';
@@ -35,15 +40,46 @@ export default function Contact() {
         return () => clearTimeout(successId.current);
     }, [alertSuccess.success])
 
+    useEffect(() => {
+        async function getBInfo() {
+            try {
+                const response = await fetch(getFetchUrl('api/business-info'), {
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                const data = await response.json();
+                if (!data.success) throw new Error('Live business data is currently unavailable. Fallback data is being used');
+                setBusinessInfo({
+                    name: data.businessInfo.name,
+                    email: data.businessInfo.email,
+                    phone: data.businessInfo.phone,
+                    instagramProfileLink: data.businessInfo.instagramProfileLink,
+                    facebookProfileLink: data.businessInfo.facebookProfileLink,
+                    tiktokProfleLink: data.businessInfo.tiktokProfileLink,
+                    logo: data.businessInfo.logo
+                });
+            } catch (error) {
+                console.error(error instanceof Error ? error.message : 'Failed to retrieve business data');
+                console.warn('Live business data is currently unavailable. Fallback data is being used');
+                setBusinessInfo(null);
+            }
+        }
+        getBInfo();
+    }, []);
+
+    if (businessInfo === undefined) return <Preloader />
+
     return (
-        <div>
-            <ContactUs />
-            <Faqs />
-            <Footer />
-            <AnimatePresence>
-                {alertError.error && <AlertError errorMessage={alertError.errorMessage} />}
-                {alertSuccess.success && <AlertSuccess successMessage={alertSuccess.successMessage} />}
-            </AnimatePresence>
-        </div>
+        <BusinessInfoContext.Provider value={businessInfo}>
+            <div>
+                <ContactUs />
+                <Faqs />
+                <Footer />
+                <AnimatePresence>
+                    {alertError.error && <AlertError errorMessage={alertError.errorMessage} />}
+                    {alertSuccess.success && <AlertSuccess successMessage={alertSuccess.successMessage} />}
+                </AnimatePresence>
+            </div>
+        </BusinessInfoContext.Provider>
     )
 }

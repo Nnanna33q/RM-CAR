@@ -17,11 +17,11 @@ export type CarCardProp = {
     carManufacturer: string,
     carModel: string,
     carVariant?: string,
-    carYear: number,
-    mileage: string,
+    carYear: string,
+    mileage: number,
     fuelType: string,
     transmissionType: string,
-    price: string
+    price: number
 }
 
 export type AuthContextProp = {
@@ -67,7 +67,7 @@ export type Car = {
     fuelType: string,
     images: string[],
     make: string,
-    mileage: string,
+    mileage: number,
     model: string,
     price: number,
     status: string,
@@ -89,13 +89,13 @@ export type Enquiry = {
 }
 
 export type CarsContextProp = {
-    cars: Car[] | undefined,
-    setCars: React.Dispatch<React.SetStateAction<Car[] | undefined>>;
+    cars: Car[] | undefined | null,
+    setCars: React.Dispatch<React.SetStateAction<Car[] | undefined | null>>;
 } | null
 
 export type EnquiriesContextProp = {
-    enquiries: Enquiry[] | undefined,
-    setEnquiries: React.Dispatch<React.SetStateAction<Enquiry[] | undefined>>;
+    enquiries: Enquiry[] | undefined | null,
+    setEnquiries: React.Dispatch<React.SetStateAction<Enquiry[] | undefined | null>>;
 } | null
 
 export type TotalCarsContextProp = { totalCars: number; setTotalCars: React.Dispatch<React.SetStateAction<number>>; }
@@ -104,7 +104,7 @@ export type TotalEnquiriesContextProp = { totalEnquiries: number, setTotalEnquir
 
 export type GetCarsDataProp = {
     page: number,
-    setCars: React.Dispatch<React.SetStateAction<Car[] | undefined>> | undefined,
+    setCars: React.Dispatch<React.SetStateAction<Car[] | undefined | null>> | undefined,
     setIsError: React.Dispatch<React.SetStateAction<{
         error: boolean;
         errorMessage: string;
@@ -115,7 +115,7 @@ export type GetCarsDataProp = {
 
 export type GetEnquiriesDataProp = {
     page: number,
-    setEnquiries: React.Dispatch<React.SetStateAction<Enquiry[] | undefined>> | undefined,
+    setEnquiries: React.Dispatch<React.SetStateAction<Enquiry[] | undefined | null>> | undefined,
     setIsError: React.Dispatch<React.SetStateAction<{
         error: boolean;
         errorMessage: string;
@@ -160,6 +160,7 @@ export type PageContextProp = {
 }
 
 export type TBusinessInfo = {
+    name: string,
     email: string,
     phone: string,
     instagramProfileLink: string,
@@ -173,4 +174,41 @@ export type TChartData = {
     amount: number
 }
 
-export type TRecentSales = Car
+export type TRecentSales = Car;
+
+export type TFilter = {
+    make: string,
+    model: string,
+    category: string,
+    fuelType: string,
+    transmission: string
+}
+
+export type TSelectFilter = {
+    makes: string[],
+    models: string[],
+    categories: string[],
+    fuelTypes: string[],
+    transmissions: string[]
+} | undefined
+
+export type TGetListingsCarsData = {
+    page: number,
+    setCars: React.Dispatch<React.SetStateAction<Car[] | undefined | null>> | undefined,
+    setIsError: React.Dispatch<React.SetStateAction<{
+        error: boolean;
+        errorMessage: string;
+    }>>,
+    setTotalCars: React.Dispatch<React.SetStateAction<number | undefined>>,
+    limit: number,
+    sortBy: 'Default' | 'Ascending' | 'Descending',
+    filter: TFilter
+}
+
+export type TGetListingsCarsFilters = {
+    setIsError: React.Dispatch<React.SetStateAction<{
+        error: boolean;
+        errorMessage: string;
+    }>>,
+    setSelectFilter: React.Dispatch<React.SetStateAction<TSelectFilter>>
+}

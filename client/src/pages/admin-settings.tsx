@@ -44,7 +44,7 @@ export default function AdminSettings() {
             <div className="relative md:flex">
                 <SideBarDashboard currentPage={'Settings'} />
                 <div className="w-full flex flex-col gap-y-4 bg-primary" style={{ height: '100vh', overflowY: 'auto', scrollbarWidth: 'none' }}>
-                    <div className="hidden md:block"><NavDashboard pageName={'Enquiries'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} /></div>
+                    <div className="hidden md:block"><NavDashboard pageName={'Settings'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} /></div>
                     <AdminSettingsMain />
                 </div>
             </div>

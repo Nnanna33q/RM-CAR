@@ -33,7 +33,7 @@ export function AdminPaginationInventory({ page, setPage }: { page: number, setP
     return (
         <div className="flex items-center justify-between">
             <div className="text-medium-gray text-xs flex gap-x-1.5">
-                <span>Showing</span><span className="font-bold text-secondary text-xs">{cars === undefined ? <PaginationSkeleton /> : (page - 1) * 5 + 1} {cars !== undefined && `- ${page * 5}`}</span><span>of</span><span className="font-bold text-secondary text-xs">{cars === undefined ? <PaginationSkeleton /> : totalCars}</span><span>cars</span>
+                <span>Showing</span><span className="font-bold text-secondary text-xs">{cars === undefined ? <PaginationSkeleton /> : (page - 1) * 5 + 1} {cars !== undefined && `- ${page * 5}`}</span><span>of</span><span className="font-bold text-secondary text-xs">{cars === undefined ? <PaginationSkeleton /> : totalCars.toLocaleString()}</span><span>cars</span>
             </div>
             <div className="flex items-center gap-x-8">
                 <button disabled={page === 1} className={`flex items-center gap-x-1 ${page === 1 ? 'text-muted-foreground' : 'text-secondary'}`} onClick={prev}>
@@ -68,7 +68,7 @@ export function AdminPaginationEnquiries({ page, setPage }: { page: number, setP
     return (
         <div className="flex items-center justify-between">
             <div className="text-medium-gray text-xs flex gap-x-1.5">
-                <span>Showing</span><span className="font-bold text-secondary text-xs">{enquiries === undefined ? <PaginationSkeleton /> : (page - 1) * 5 + 1} {enquiries !== undefined && `- ${page * 5}`}</span><span>of</span><span className="font-bold text-secondary text-xs">{enquiries === undefined ? <PaginationSkeleton /> : totalEnquiries}</span><span>enquiries</span>
+                <span>Showing</span><span className="font-bold text-secondary text-xs">{enquiries === undefined ? <PaginationSkeleton /> : (page - 1) * 5 + 1} {enquiries !== undefined && `- ${page * 5}`}</span><span>of</span><span className="font-bold text-secondary text-xs">{enquiries === undefined ? <PaginationSkeleton /> : totalEnquiries.toLocaleString()}</span><span>enquiries</span>
             </div>
             <div className="flex items-center gap-x-8">
                 <button disabled={page === 1} className={`flex items-center gap-x-1 ${page === 1 ? 'text-muted-foreground' : 'text-secondary'}`} onClick={prev}>

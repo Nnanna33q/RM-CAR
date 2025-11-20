@@ -31,6 +31,9 @@ export function UndefinedCars({ page, setPage }: { page: number, setPage: React.
                         <TableHead>Name</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Price</TableHead>
+                        <TableHead>Mileage</TableHead>
+                        <TableHead>Transmission</TableHead>
+                        <TableHead>Fuel Type</TableHead>
                         <TableHead>Created at</TableHead>
                         <TableHead></TableHead>
                     </TableRow>
@@ -259,9 +262,9 @@ function CarT({ c, page, tablist }: { c: Car, page: number, tablist: "All" | "Av
                 </span>
             </TableCell>
             <TableCell>
-                £{c.price}
+                £{c.price.toLocaleString()}
             </TableCell>
-            <TableCell>{c.mileage}</TableCell>
+            <TableCell>{c.mileage.toLocaleString()} km</TableCell>
             <TableCell>{c.transmission}</TableCell>
             <TableCell>{c.fuelType}</TableCell>
             <TableCell>
@@ -387,6 +390,14 @@ export function CarsTable() {
 
     if (cars === undefined) {
         return <UndefinedCars page={page} setPage={setPage} />
+    }
+
+    if(cars === null) {
+        return (
+            <div>
+                <span className='text-medium-gray text-sm'>Unable to load inventory data {': ('}</span>
+            </div>
+        )
     }
 
     if (cars.length > 0) {

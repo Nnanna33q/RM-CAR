@@ -20,7 +20,7 @@ export default function Inventory() {
     const [isAdminNavbarEnabled, setIsAdminNavbarEnabled] = useState<boolean>(false);
     const alertErrorData = useContext(AlertErrorContext);
     const alertSuccessData = useContext(AlertSuccessContext);
-    const [cars, setCars] = useState<Car[]>();
+    const [cars, setCars] = useState<Car[] | undefined | null>();
     const [totalCars, setTotalCars] = useState<number>(0);
     const [tablist, setTablist] = useState<'All' | 'Available' | 'Sold'>('All');
     const [page, setPage] = useState(1);
@@ -40,7 +40,7 @@ export default function Inventory() {
                         <div className="flex relative">
                             <SideBarDashboard currentPage={'Inventory'} />
                             <div className="w-full py-4 px-4 md:px-6 flex flex-col gap-y-4" style={{ height: '100vh', overflowY: 'auto', scrollbarWidth: 'none' }}>
-                                <div className="hidden md:block"><NavDashboard pageName={'Enquiries'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} /></div>
+                                <div className="hidden md:block"><NavDashboard pageName={'Inventory'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} /></div>
                                 <TabList currentPage="Inventory" />
                                 <AdminInventoryMain />
                             </div>

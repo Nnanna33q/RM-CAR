@@ -9,7 +9,7 @@ type TCar = (Document<unknown, {}, {
     make: string;
     variant: string;
     year: string;
-    mileage: string;
+    mileage: number;
     images: string[];
     status: string;
     createdAt?: NativeDate | null;
@@ -22,7 +22,7 @@ type TCar = (Document<unknown, {}, {
     make: string;
     variant: string;
     year: string;
-    mileage: string;
+    mileage: number;
     images: string[];
     status: string;
     createdAt?: NativeDate | null;

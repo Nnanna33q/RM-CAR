@@ -4,11 +4,15 @@ import { IconContext } from "react-icons";
 import { SlSpeedometer } from "react-icons/sl";
 import { PiGasPump } from "react-icons/pi";
 import { TbManualGearbox } from "react-icons/tb";
-import type { CarCardProp } from "@/lib/types";
+import { TbAutomaticGearbox } from "react-icons/tb";
+import type { CarCardProp, TBusinessInfo } from "@/lib/types";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { Button } from "./button";
-import { cn } from "@/lib/utils"
+import { cn, handleBuyNowButton } from "@/lib/utils"
+import { useContext } from "react";
+import fallbackBusinessInfo from "@/data/business-info";
+import BusinessInfoContext from "@/contexts/business-info";
 
 type CardProp = React.ComponentProps<'div'> & {
 }
@@ -104,8 +108,8 @@ function CarCard({
   transmissionType,
   price
 }: CarCardProp) {
-  const TransmissionIcon = TbManualGearbox;
-
+  const TransmissionIcon = transmissionType === 'Automatic' ? TbAutomaticGearbox : TbManualGearbox;
+  const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
   return (
     <div className="w-full h-[fit-content]">
       <div className="image-container relative">
@@ -126,7 +130,7 @@ function CarCard({
                 <IconContext.Provider value={{ className: '' }}>
                   <PiImagesThin />
                 </IconContext.Provider>
-                <span className="text-xs">{images.length}</span>
+                <span className="text-xs">{images.length.toLocaleString()}</span>
               </div>
             </div>
             <div className="year-container w-[50%] flex justify-end">
@@ -147,7 +151,7 @@ function CarCard({
           <div className="car-specs flex gap-x-4 text-medium-gray">
             <div className="flex items-center text-sm gap-x-1">
               <SlSpeedometer />
-              <span>{mileage}</span>
+              <span>{mileage.toLocaleString()} km</span>
             </div>
             <div className="flex items-center text-sm gap-x-1">
               <PiGasPump />
@@ -159,9 +163,9 @@ function CarCard({
             </div>
           </div>
         </div>
-        <div className="car-price text-accent-color text-2xl font-semibold py-4">£{price} </div>
+        <div className="car-price text-accent-color text-2xl font-semibold py-4">£{price.toLocaleString()} </div>
         <div className="pb-2"><div className="bg-very-dark-gray w-full h-[1px]" /></div>
-        <Button className="bg-accent-color border border-accent-color text-white font-semibold text-md lg:text-lg py-6 group rounded-sm hover:bg-white hover:text-accent-color hover:border-white">
+        <Button onClick={() => handleBuyNowButton(businessInfo === null ? fallbackBusinessInfo.instagramProfileLink : businessInfo.instagramProfileLink)} className="bg-accent-color border border-accent-color text-white font-semibold text-md lg:text-lg py-6 group rounded-sm hover:bg-white hover:text-accent-color hover:border-white">
           <IconContext.Provider value={{ className: 'hero1-icon-search size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
           </IconContext.Provider>
           <span>Buy Now</span>

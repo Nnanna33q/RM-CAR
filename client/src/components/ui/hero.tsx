@@ -10,16 +10,20 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade } from "swiper/modules";
 import 'swiper/swiper-bundle.css';
 import { MobileNavBar, StickyNavBar } from "./navbar";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import Backdrop from "./backdrop";
-import type { BarsProp } from "@/lib/types";
+import type { BarsProp, TBusinessInfo } from "@/lib/types";
 import { AnimatePresence, useInView } from "motion/react";
 import { CarLogosCarousel } from "./carousel";
 import { animateHero } from "@/lib/animations";
+import { handleBrowseCarsButton, handleContactUsButton } from "@/lib/utils";
+import BusinessInfoContext from "@/contexts/business-info";
+import fallbackBusinessInfo from "@/data/business-info";
 
 export function Hero1({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsProp) {
     const heroRef = useRef(null);
     const isInView = useInView(heroRef);
+    const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
 
     useEffect(() => {
         isInView && animateHero();
@@ -56,13 +60,13 @@ export function Hero1({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsP
                             </div>
                         </div>
                         <div className="hero-animate flex gap-x-4 translate-y-16 opacity-0">
-                            <Button className="hero1-btn-browse bg-accent-color border border-accent-color text-white font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm hover:bg-white hover:text-accent-color hover:border-white">
+                            <Button onClick={handleBrowseCarsButton} className="hero1-btn-browse bg-accent-color border border-accent-color text-white font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm hover:bg-white hover:text-accent-color hover:border-white">
                                 <IconContext.Provider value={{ className: 'hero1-icon-search size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
                                     <CiSearch />
                                 </IconContext.Provider>
                                 <span>Browse Cars</span>
                             </Button>
-                            <Button className="hero1-btn-contact bg-secondary text-accent-color border border-medium-gray font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm">
+                            <Button onClick={() => handleContactUsButton(businessInfo === null ? fallbackBusinessInfo.phone : businessInfo.phone)} className="hero1-btn-contact bg-secondary text-accent-color border border-medium-gray font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm">
                                 <IconContext.Provider value={{ className: 'hero1-icon-phone text-accent-color size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
                                     <MdOutlineLocalPhone />
                                 </IconContext.Provider>
@@ -80,6 +84,7 @@ export function Hero1({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsP
 export function Hero2({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsProp) {
     const heroRef = useRef(null);
     const isInView = useInView(heroRef);
+    const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
 
     useEffect(() => {
         isInView && animateHero();
@@ -160,13 +165,13 @@ export function Hero2({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsP
                             </div>
                         </div>
                         <div className="hero-animate flex gap-x-4 translate-y-16 opacity-0">
-                            <Button onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="hero2-btn-browse bg-accent-color border border-accent-color text-white font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm hover:bg-white hover:text-accent-color hover:border-white">
+                            <Button onClick={handleBrowseCarsButton} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="hero2-btn-browse bg-accent-color border border-accent-color text-white font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm hover:bg-white hover:text-accent-color hover:border-white">
                                 <IconContext.Provider value={{ className: 'size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
                                     <CiSearch />
                                 </IconContext.Provider>
                                 <span>Browse Cars</span>
                             </Button>
-                            <Button onMouseEnter={handleContactBtnEnter} onMouseLeave={handleContactBtnLeave} className="hero2-btn-contact bg-secondary text-accent-color border border-medium-gray font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm">
+                            <Button onClick={() => handleContactUsButton(businessInfo === null ? fallbackBusinessInfo.phone : businessInfo.phone)} onMouseEnter={handleContactBtnEnter} onMouseLeave={handleContactBtnLeave} className="hero2-btn-contact bg-secondary text-accent-color border border-medium-gray font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm">
                                 <IconContext.Provider value={{ className: 'text-accent-color size-6 group-hover:scale-125 transition duration-500 group-hover:transition group-hover:duration-500' }}>
                                     <MdOutlineLocalPhone />
                                 </IconContext.Provider>
@@ -183,6 +188,7 @@ export function Hero2({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsP
 
 export default function Hero() {
     const [isMobileNavBarEnabled, setIsMobileNavBarEnabled] = useState<boolean>(false);
+
     return (
         <div id={'hero'} className="overflow-x-hidden">
             <StickyNavBar isMobileNavBarEnabled={isMobileNavBarEnabled} setIsMobileNavBarEnabled={setIsMobileNavBarEnabled} />
@@ -203,7 +209,7 @@ export default function Hero() {
                 </SwiperSlide>
             </Swiper>
             <AnimatePresence>
-                {isMobileNavBarEnabled && <MobileNavBar key={'1'} />}
+                {isMobileNavBarEnabled && <MobileNavBar pageName={'Home'} key={'1'} />}
                 {isMobileNavBarEnabled && <Backdrop key={'2'} />}
             </AnimatePresence>
         </div>

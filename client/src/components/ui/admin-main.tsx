@@ -79,78 +79,49 @@ export function AdminEnquiriesMain() {
         getEnquiriesData({ page, setEnquiries, setIsError, setTotalEnquiries, tablist })
     }, [page, tablist]);
 
-    // async function resolveEnquiry(e: MouseEvent) {
-    //     const elem = e.target as Element;
-    //     const id = elem.id.split('-')[1];
-    //     setIsResolveButtonLoading(true);
-    //     try {
-    //         const response = await fetch(getFetchUrl('api/enquiries'), {
-    //             method: 'PATCH',
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ id, page, tablist }),
-    //             credentials: 'include'
-    //         })
-    //         const data = await response.json();
-    //         if (!data.success) {
-    //             throw new Error(data.errorMessage);
-    //         }
-    //         console.log('Success')
-    //         setIsSuccess({ success: true, successMessage: 'The enquiry has been resolved' });
-    //         setEnquiries && setEnquiries(data.enquiries)
-    //         setTotalEnquiries(data.totalEnquiries);
-    //     } catch (error) {
-    //         console.error(error);
-    //         setIsError({ error: true, errorMessage: error instanceof Error ? error.message : 'An unexpected error occurred' });
-    //     }
-    //     setIsResolveButtonLoading(false);
-    // }
-
-    // async function deleteEnquiry(e: MouseEvent) {
-    //     const elem = e.target as Element;
-    //     const id = elem.id.split('-')[1];
-    //     setIsDeleteButtonLoading(true);
-    //     try {
-    //         const response = await fetch(getFetchUrl('api/enquiries'), {
-    //             method: 'DELETE',
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ id, page, tablist }),
-    //             credentials: "include"
-    //         })
-    //         const data = await response.json();
-    //         if (!data.success) {
-    //             throw new Error(data.errorMessage);
-    //         }
-    //         setEnquiries && setEnquiries(data.enquiries);
-    //         setTotalEnquiries(data.totalEnquiries);
-    //         setIsSuccess({ success: true, successMessage: 'Enquiry deleted successfully' });
-    //     } catch (error) {
-    //         console.error(error);
-    //         setIsError({ error: true, errorMessage: error instanceof Error ? error.message : 'An unexpected error occurred' });
-    //     }
-    //     setIsDeleteButtonLoading(false);
-    // }
-
     if (enquiries === undefined) {
         return (
-            <>
-                <Table>
-                    <TableHeader className=''>
-                        <TableRow className='hover:bg-primary [&>*]:text-medium-gray [&>*]:font-semibold border-very-dark-gray w-full'>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Email</TableHead>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead></TableHead>
-                        </TableRow>
-                    </TableHeader>
-                </Table>
-                <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
-                <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
-                <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
-                <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
-                <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
-                <AdminPaginationEnquiries page={page} setPage={setPage} />
-            </>
+            <div className="border border-very-dark-gray rounded-md p-4 lg:p-8 bg-black flex flex-col gap-y-8">
+                <div>
+                    <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Customer Enquiries</h1>
+                    <p className="text-medium-gray text-sm pt-2 lg:pt-1">View and manage all customer messages in one place</p>
+                </div>
+                <div>
+                    <Table>
+                        <TableHeader className=''>
+                            <TableRow className='hover:bg-primary [&>*]:text-medium-gray [&>*]:font-semibold border-very-dark-gray w-full'>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Email</TableHead>
+                                <TableHead>Date</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead></TableHead>
+                            </TableRow>
+                        </TableHeader>
+                    </Table>
+                    <div className="flex flex-col gap-y-4">
+                        <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
+                        <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
+                        <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
+                        <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
+                        <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
+                        <AdminPaginationEnquiries page={page} setPage={setPage} />
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    if (enquiries === null) {
+        return (
+            <div className="border border-very-dark-gray rounded-md p-4 lg:p-8 bg-black flex flex-col gap-y-8">
+                <div>
+                    <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Customer Enquiries</h1>
+                    <p className="text-medium-gray text-sm pt-2 lg:pt-1">View and manage all customer messages in one place</p>
+                </div>
+                <div>
+                    <span className='text-medium-gray text-sm'>Unable to load customer enquiries {': ('}</span>
+                </div>
+            </div>
         )
     }
 
@@ -229,8 +200,30 @@ export function AdminEnquiriesMain() {
 
     if (enquiries.length === 0) {
         if (tablist === 'Completed') {
-            return <div className='text-medium-gray'>No resolved enquiries yet — once you’ve handled some, they’ll show up here.</div>
-        } else return <div className='text-medium-gray'>No enquiries yet — you’ll see them here once people start reaching out.</div>
+            return (
+                <div className="border border-very-dark-gray rounded-md p-4 lg:p-8 bg-black flex flex-col gap-y-8">
+                    <div>
+                        <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Customer Enquiries</h1>
+                        <p className="text-medium-gray text-sm pt-2 lg:pt-1">View and manage all customer messages in one place</p>
+                    </div>
+                    <div>
+                        <span className='text-medium-gray text-sm'>No resolved enquiries yet — once you’ve handled some, they’ll show up here.</span>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div className="border border-very-dark-gray rounded-md p-4 lg:p-8 bg-black flex flex-col gap-y-8">
+                    <div>
+                        <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Customer Enquiries</h1>
+                        <p className="text-medium-gray text-sm pt-2 lg:pt-1">View and manage all customer messages in one place</p>
+                    </div>
+                    <div>
+                        <span className='text-medium-gray text-sm'>No enquiries yet — you’ll see them here once people start reaching out.</span>
+                    </div>
+                </div>
+            )
+        }
     }
 
 }
@@ -238,17 +231,15 @@ export function AdminEnquiriesMain() {
 export function AdminDashboardMain() {
     const [, setIsError] = useContext(AlertErrorContext);
     const [, setIsSuccess] = useContext(AlertSuccessContext);
-    const [tCars, setTCars] = useState<null | number>(null);
-    const [tSales, setTSales] = useState<null | number>(null);
-    const [tEnquiries, setTEnquiries] = useState<null | number>(null);
+    const [tCars, setTCars] = useState<undefined | null | number>(undefined);
+    const [tSales, setTSales] = useState<undefined | null | number>(undefined);
+    const [tEnquiries, setTEnquiries] = useState<undefined | null | number>(undefined);
     const [percentageChangeOfSales, setPercentageChangeOfSales] = useState<null | number>(null);
     const [percentageChangeOfCars, setPercentageChangeOfCars] = useState<null | number>(null);
     const [percentageChangeOfEnquiries, setPercentageChangeOfEnquiries] = useState<null | number>(null);
-    const [chartData, setChartData] = useState<null | TChartData[]>(null);
-    const [recentSales, setRecentSales] = useState<null | TRecentSales[]>(null);
-    const [recentEnquiries, setRecentEnquiries] = useState<undefined | Enquiry[]>(undefined);
-
-    console.log(recentEnquiries);
+    const [chartData, setChartData] = useState<undefined | null | TChartData[]>(undefined);
+    const [recentSales, setRecentSales] = useState<null | TRecentSales[] | undefined>(undefined);
+    const [recentEnquiries, setRecentEnquiries] = useState<undefined | Enquiry[] | null>(undefined);
 
     useEffect(() => {
         getDashboardInfo({ setTCars, setTEnquiries, setIsError, setTSales, setPercentageChangeOfSales, setPercentageChangeOfCars, setPercentageChangeOfEnquiries, setChartData, setRecentSales, setRecentEnquiries });
@@ -261,7 +252,7 @@ export function AdminDashboardMain() {
                 <IconContext.Provider value={{ className: '' }}>
                     <LuArrowUp />
                 </IconContext.Provider>
-                <span>{percentageChangeOfSales}%</span>
+                <span>{percentageChangeOfSales.toLocaleString()}%</span>
             </div>)
         if (percentageChangeOfSales < 0) return (
             <div className='w-fit flex items-center text-accent-color text-[0.7rem]'>
@@ -286,7 +277,7 @@ export function AdminDashboardMain() {
                 <IconContext.Provider value={{ className: '' }}>
                     <LuArrowUp />
                 </IconContext.Provider>
-                <span>{percentageChangeOfCars}%</span>
+                <span>{percentageChangeOfCars.toLocaleString()}%</span>
             </div>)
         if (percentageChangeOfCars < 0) return (
             <div className='w-fit flex items-center text-accent-color text-[0.7rem]'>
@@ -311,7 +302,7 @@ export function AdminDashboardMain() {
                 <IconContext.Provider value={{ className: '' }}>
                     <LuArrowUp />
                 </IconContext.Provider>
-                <span>{percentageChangeOfEnquiries}%</span>
+                <span>{percentageChangeOfEnquiries.toLocaleString()}%</span>
             </div>)
         if (percentageChangeOfEnquiries < 0) return (
             <div className='w-fit flex items-center text-accent-color text-[0.7rem]'>
@@ -330,7 +321,7 @@ export function AdminDashboardMain() {
     }
 
     function RenderRecentSalesTable() {
-        if (recentSales === null) {
+        if (recentSales === undefined) {
             return (
                 <>
                     <Table>
@@ -339,7 +330,10 @@ export function AdminDashboardMain() {
                                 <TableHead>Name</TableHead>
                                 <TableHead>Status</TableHead>
                                 <TableHead>Price</TableHead>
-                                <TableHead>Created at</TableHead>
+                                <TableHead>Mileage</TableHead>
+                                <TableHead>Transmission</TableHead>
+                                <TableHead>Fuel Type</TableHead>
+                                <TableHead>Sold at</TableHead>
                                 <TableHead></TableHead>
                             </TableRow>
                         </TableHeader>
@@ -352,6 +346,14 @@ export function AdminDashboardMain() {
                         <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
                     </div>
                 </>
+            )
+        }
+
+        if (recentSales === null) {
+            return (
+                <div>
+                    <span className='text-medium-gray text-sm'>Unable to load Recent Sales data {': ('}</span>
+                </div>
             )
         }
 
@@ -383,9 +385,9 @@ export function AdminDashboardMain() {
                                         </span>
                                     </TableCell>
                                     <TableCell>
-                                        £{c.price}
+                                        £{c.price.toLocaleString()}
                                     </TableCell>
-                                    <TableCell>{c.mileage}</TableCell>
+                                    <TableCell>{c.mileage.toLocaleString()} km</TableCell>
                                     <TableCell>{c.transmission}</TableCell>
                                     <TableCell>{c.fuelType}</TableCell>
                                     <TableCell>
@@ -400,7 +402,7 @@ export function AdminDashboardMain() {
         }
 
         if (recentSales.length === 0) {
-            return <div className='text-medium-gray'>No recent sales yet — new sales will appear here</div>
+            return <div className='text-medium-gray text-sm'>No recent sales yet — new sales will appear here</div>
         }
     }
 
@@ -430,6 +432,14 @@ export function AdminDashboardMain() {
                         <Skeleton className='h-12 w-[100%] bg-very-dark-gray'></Skeleton>
                     </div>
                 </>
+            )
+        }
+
+        if (recentEnquiries === null) {
+            return (
+                <div>
+                    <span className='text-medium-gray text-sm'>Unable to load Recent Sales {': ('}</span>
+                </div>
             )
         }
 
@@ -498,13 +508,13 @@ export function AdminDashboardMain() {
         }
 
         if (recentEnquiries.length === 0) {
-            return <div className='text-medium-gray'>No pending enquiries yet — you’ll see them here once people start reaching out.</div>
+            return <div className='text-medium-gray text-sm'>No pending enquiries yet — you’ll see them here once people start reaching out.</div>
         }
     }
 
-    return (
-        <div className="lg:p-8 bg-primary flex flex-col gap-y-8">
-            <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-x-4 gap-y-2 [&>*]:bg-black'>
+    function RenderTCars() {
+        if (typeof tCars === 'number') {
+            return (
                 <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
                     <div className='flex justify-between items-center'>
                         <span className='text-medium-gray text-sm'>Total Cars</span>
@@ -512,12 +522,57 @@ export function AdminDashboardMain() {
                             <LuArrowUpRight />
                         </IconContext.Provider>
                     </div>
-                    {tCars !== null ? <div className='font-bold text-secondary text-2xl' style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>{tCars}</div> : <Skeleton className='bg-very-dark-gray h-8 rounded-sm'></Skeleton>}
+                    <div className='font-bold text-secondary text-2xl' style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>{tCars.toLocaleString()}</div>
                     <div className='flex gap-x-2'>
                         <RenderPercentageChangeOfCars percentageChangeOfCars={percentageChangeOfCars} />
                         <span className='text-[0.7rem] text-medium-gray'>From last month</span>
                     </div>
                 </div>
+            )
+        }
+
+        if (typeof tCars === 'undefined') {
+            return (
+                <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-medium-gray text-sm'>Total Cars</span>
+                        <IconContext.Provider value={{ className: '' }}>
+                            <LuArrowUpRight />
+                        </IconContext.Provider>
+                    </div>
+                    <Skeleton className='bg-very-dark-gray h-8 rounded-sm'></Skeleton>
+                    <div className='flex gap-x-2'>
+                        <RenderPercentageChangeOfCars percentageChangeOfCars={null} />
+                        <span className='text-[0.7rem] text-medium-gray'>From last month</span>
+                    </div>
+                </div>
+            )
+        }
+
+        if (tCars === null) {
+            return (
+                <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-medium-gray text-sm'>Total Cars</span>
+                        <IconContext.Provider value={{ className: '' }}>
+                            <LuArrowUpRight />
+                        </IconContext.Provider>
+                    </div>
+                    <div className='font-bold text-medium-gray text-2xl' style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>N/A</div>
+                    <div className='flex gap-x-2'>
+                        <span className="text-medium-gray text-[0.7rem]">N/A</span>
+                        <span className='text-[0.7rem] text-medium-gray'>From last month</span>
+                    </div>
+                </div>
+            )
+        }
+
+        // If the type of tCars is null, display an error;
+    }
+
+    function RenderTSales() {
+        if (typeof tSales === 'number') {
+            return (
                 <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
                     <div className='flex justify-between items-center'>
                         <span className='text-medium-gray text-sm'>Total Sales</span>
@@ -525,12 +580,55 @@ export function AdminDashboardMain() {
                             <LuArrowUpRight />
                         </IconContext.Provider>
                     </div>
-                    {tSales !== null ? <div className='font-bold text-secondary text-2xl' style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>£{tSales}</div> : <Skeleton className='bg-very-dark-gray h-8 rounded-sm'></Skeleton>}
+                    <div className='font-bold text-secondary text-2xl' style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>£{tSales.toLocaleString()}</div>
                     <div className='flex gap-x-2'>
                         <RenderPercentageChangeOfSales percentageChangeOfSales={percentageChangeOfSales} />
                         <span className='text-[0.7rem] text-medium-gray'>From last month</span>
                     </div>
                 </div>
+            )
+        }
+
+        if (typeof tSales === 'undefined') {
+            return (
+                <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-medium-gray text-sm'>Total Cars</span>
+                        <IconContext.Provider value={{ className: '' }}>
+                            <LuArrowUpRight />
+                        </IconContext.Provider>
+                    </div>
+                    <Skeleton className='bg-very-dark-gray h-8 rounded-sm'></Skeleton>
+                    <div className='flex gap-x-2'>
+                        <RenderPercentageChangeOfSales percentageChangeOfSales={null} />
+                        <span className='text-[0.7rem] text-medium-gray'>From last month</span>
+                    </div>
+                </div>
+            )
+        }
+
+        if (tSales === null) {
+            return (
+                <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-medium-gray text-sm'>Total Cars</span>
+                        <IconContext.Provider value={{ className: '' }}>
+                            <LuArrowUpRight />
+                        </IconContext.Provider>
+                    </div>
+                    <div className='font-bold text-medium-gray text-2xl' style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>N/A</div>
+                    <div className='flex gap-x-2'>
+                        <span className="text-medium-gray text-[0.7rem]">N/A</span>
+                        <span className='text-[0.7rem] text-medium-gray'>From last month</span>
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    function RenderTEnquiries() {
+        if (typeof tEnquiries === 'number') {
+            return (
                 <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
                     <div className='flex justify-between items-center'>
                         <span className='text-medium-gray text-sm'>Total Enquiries</span>
@@ -538,14 +636,63 @@ export function AdminDashboardMain() {
                             <LuArrowUpRight />
                         </IconContext.Provider>
                     </div>
-                    {tEnquiries !== null ? <div className='font-bold text-secondary text-2xl' style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>{tEnquiries}</div> : <Skeleton className='bg-very-dark-gray h-8 rounded-sm'></Skeleton>}
+                    <div className='font-bold text-secondary text-2xl' style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>{tEnquiries.toLocaleString()}</div>
                     <div className='flex gap-x-2'>
                         {<RenderPercentageChangeOfEnquiries percentageChangeOfEnquiries={percentageChangeOfEnquiries} />}
                         <span className='text-[0.7rem] text-medium-gray'>From last month</span>
                     </div>
                 </div>
-            </div>
-            {chartData === null ? <Skeleton className='bg-very-dark-gray border border-very-dark-gray rounded-sm h-[200px] sm:h-[300px] lg:h-[500px] px-2 sm:p-4'></Skeleton> : <div className="chart-container bg-black border border-very-dark-gray rounded-sm h-[200px] sm:h-[300px] lg:h-[500px] px-2 sm:p-4">
+            )
+        }
+
+        if (typeof tEnquiries === 'undefined') {
+            return (
+                <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-medium-gray text-sm'>Total Enquiries</span>
+                        <IconContext.Provider value={{ className: '' }}>
+                            <LuArrowUpRight />
+                        </IconContext.Provider>
+                    </div>
+                    <Skeleton className='bg-very-dark-gray h-8 rounded-sm'></Skeleton>
+                    <div className='flex gap-x-2'>
+                        {<RenderPercentageChangeOfEnquiries percentageChangeOfEnquiries={null} />}
+                        <span className='text-[0.7rem] text-medium-gray'>From last month</span>
+                    </div>
+                </div>
+            )
+        }
+
+        if (tEnquiries === null) {
+            return (
+                <div className='border border-very-dark-gray rounded-sm p-4 flex flex-col gap-y-4'>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-medium-gray text-sm'>Total Cars</span>
+                        <IconContext.Provider value={{ className: '' }}>
+                            <LuArrowUpRight />
+                        </IconContext.Provider>
+                    </div>
+                    <div className='font-bold text-medium-gray text-2xl' style={{ overflowX: 'auto', scrollbarWidth: 'none' }}>N/A</div>
+                    <div className='flex gap-x-2'>
+                        <span className="text-medium-gray text-[0.7rem]">N/A</span>
+                        <span className='text-[0.7rem] text-medium-gray'>From last month</span>
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    function RenderChart() {
+        if (chartData === undefined) {
+            return <Skeleton className='bg-very-dark-gray border border-very-dark-gray rounded-sm h-[200px] sm:h-[300px] lg:h-[500px] px-2 sm:p-4'></Skeleton>
+        }
+
+        if (chartData === null) {
+            return <div className='bg-black border border-very-dark-gray rounded-sm h-[200px] sm:h-[300px] lg:h-[500px] px-2 sm:p-4 flex items-center justify-center'><span className="font-bold text-medium-gray text-2xl">N/A</span></div>
+        }
+
+        return (
+            <div className="chart-container bg-black border border-very-dark-gray rounded-sm h-[200px] sm:h-[300px] lg:h-[500px] px-2 sm:p-4">
                 <ResponsiveContainer width={'100%'} height={'100%'}>
                     <AreaChart data={chartData}>
                         <Area name={'Total Sales'} type={'monotone'} stroke={'#920101'} strokeWidth={3} dataKey='amount' fill='#920101' fillOpacity={1} />
@@ -556,7 +703,18 @@ export function AdminDashboardMain() {
                         <Legend verticalAlign='top' />
                     </AreaChart>
                 </ResponsiveContainer>
-            </div>}
+            </div>
+        )
+    }
+
+    return (
+        <div className="lg:p-8 bg-primary flex flex-col gap-y-8">
+            <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-x-4 gap-y-2 [&>*]:bg-black'>
+                <RenderTCars />
+                <RenderTSales />
+                <RenderTEnquiries />
+            </div>
+            <RenderChart />
             <div className='recent-container flex flex-col lg:flex-row lg:justify-between lg:gap-x-4 gap-y-4'>
                 <div className='recent-sales-container bg-black border border-very-dark-gray rounded-sm p-4 md:p-8 lg:w-[50%]'>
                     <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Recent Sales</h1>
@@ -576,8 +734,8 @@ export function AdminDashboardMain() {
 }
 
 export function AdminSettingsMain() {
-    const [logo, setLogo] = useState<string>('');
-    const [businessInfo, setBusinessInfo] = useState<TBusinessInfo | null>(null);
+    const [logo, setLogo] = useState<string | null | undefined>(undefined);
+    const [businessInfo, setBusinessInfo] = useState<TBusinessInfo | null | undefined>(undefined);
     const [isUploadButtonLoading, setisUploadButtonLoading] = useState(false);
     const [, setIsError] = useContext(AlertErrorContext);
     const [, setIsSuccess] = useContext(AlertSuccessContext);
@@ -590,7 +748,7 @@ export function AdminSettingsMain() {
 
     useEffect(() => {
         getBusinessInfo({ setLogo, setBusinessInfo, setIsError });
-    }, [])
+    }, []);
 
     function selectFile() {
         const logoInput = document.querySelector<HTMLInputElement>('.logo-input');
@@ -775,17 +933,201 @@ export function AdminSettingsMain() {
         setIsCredentialsLoading(false);
     }
 
+    function RenderLogo() {
+        if (logo === null || logo === '') {
+            return (
+                <div className='w-15 h-15 border border-very-dark-gray rounded-full flex items-center justify-center p-2'>
+                    <span className="text-medium-gray">N/A</span>
+                </div>
+            )
+        }
+
+        if (logo === undefined) {
+            return <Skeleton className='w-15 h-15 border border-very-dark-gray bg-very-dark-gray rounded-full flex items-center p-2'></Skeleton>
+        }
+
+        return (
+            <div className='w-15 h-15 border border-very-dark-gray rounded-full flex items-center p-2'>
+                <img className='max-w-full' src={logo} />
+            </div>
+        )
+    }
+
+    function RenderBusinessInfo() {
+        if (businessInfo === undefined) {
+            return (
+                <div className='py-8 flex flex-col gap-y-4'>
+                    <Skeleton className='py-4 h-15 bg-very-dark-gray rounded-sm' />
+                    <Skeleton className='py-4 h-15 bg-very-dark-gray rounded-sm' />
+                    <Skeleton className='py-4 h-15 bg-very-dark-gray rounded-sm' />
+                    <Skeleton className='py-4 h-15 bg-very-dark-gray rounded-sm' />
+                    <Skeleton className='py-4 h-15 bg-very-dark-gray rounded-sm' />
+                </div>
+            )
+        }
+
+        if (businessInfo === null) {
+            return (
+                <form className='flex flex-col gap-y-4 py-8'>
+                    <div>
+                        <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
+                            <div className="flex items-center gap-x-2 w-[75%]">
+                                <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                    <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                        <IoMdMail />
+                                    </IconContext.Provider>
+                                </div>
+                                <input type="email" id={'business-email'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={'N/A'} placeholder='Email Address' />
+                            </div>
+                            <button disabled={true} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isEmailButtonLoading ? <Spinner /> : 'Update'}</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
+                            <div className="flex items-center gap-x-2 w-[75%]">
+                                <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                    <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                        <MdLocalPhone />
+                                    </IconContext.Provider>
+                                </div>
+                                <input type={"text"} id={'business-phone'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={'N/A'} placeholder='Phone Number' />
+                            </div>
+                            <button disabled={true} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isPhoneButtonLoading ? <Spinner /> : 'Update'}</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
+                            <div className="flex items-center gap-x-2 w-[75%]">
+                                <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                    <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                        <RiInstagramFill />
+                                    </IconContext.Provider>
+                                </div>
+                                <input type={"text"} id={'business-instagram'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={'N/A'} placeholder='Instagram Profile Link' />
+                            </div>
+                            <button disabled={true} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isInstagramLoading ? <Spinner /> : 'Update'}</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
+                            <div className="flex items-center gap-x-2 w-[75%]">
+                                <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                    <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                        <IoLogoFacebook />
+                                    </IconContext.Provider>
+                                </div>
+                                <input type={"text"} id={'business-facebook'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={'N/A'} placeholder='Facebook Profile Link' />
+                            </div>
+                            <button disabled={true} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isFacebookLoading ? <Spinner /> : 'Update'}</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
+                            <div className="flex items-center gap-x-2 w-[75%]">
+                                <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                    <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                        <AiOutlineTikTok />
+                                    </IconContext.Provider>
+                                </div>
+                                <input type={"text"} id={'business-tiktok'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={'N/A'} placeholder='Tiktok Profile Link' />
+                            </div>
+                            <button disabled={true} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isTiktokLoading ? <Spinner /> : 'Update'}</button>
+                        </div>
+                    </div>
+                </form>
+            )
+        }
+
+        return (
+            <form className='flex flex-col gap-y-4 py-8'>
+                <div>
+                    <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
+                        <div className="flex items-center gap-x-2 w-[75%]">
+                            <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                    <IoMdMail />
+                                </IconContext.Provider>
+                            </div>
+                            <input type="email" id={'business-email'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={businessInfo.email} placeholder='Email Address' />
+                        </div>
+                        <button disabled={isEmailButtonLoading} onClick={(e) => updateBusinessEmail(e)} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isEmailButtonLoading ? <Spinner /> : 'Update'}</button>
+                    </div>
+                </div>
+                <div>
+                    <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
+                        <div className="flex items-center gap-x-2 w-[75%]">
+                            <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                    <MdLocalPhone />
+                                </IconContext.Provider>
+                            </div>
+                            <input type={"text"} id={'business-phone'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={businessInfo.phone} placeholder='Phone Number' />
+                        </div>
+                        <button disabled={isPhoneButtonLoading} onClick={(e) => updateBusinessPhone(e)} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isPhoneButtonLoading ? <Spinner /> : 'Update'}</button>
+                    </div>
+                </div>
+                <div>
+                    <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
+                        <div className="flex items-center gap-x-2 w-[75%]">
+                            <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                    <RiInstagramFill />
+                                </IconContext.Provider>
+                            </div>
+                            <input type={"text"} id={'business-instagram'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={businessInfo.instagramProfileLink} placeholder='Instagram Profile Link' />
+                        </div>
+                        <button disabled={isInstagramLoading} onClick={(e) => updateInstagramProfileLink(e)} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isInstagramLoading ? <Spinner /> : 'Update'}</button>
+                    </div>
+                </div>
+                <div>
+                    <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
+                        <div className="flex items-center gap-x-2 w-[75%]">
+                            <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                    <IoLogoFacebook />
+                                </IconContext.Provider>
+                            </div>
+                            <input type={"text"} id={'business-facebook'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={businessInfo.facebookProfileLink} placeholder='Facebook Profile Link' />
+                        </div>
+                        <button disabled={isFacebookLoading} onClick={(e) => updateFacebookProfileLink(e)} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isFacebookLoading ? <Spinner /> : 'Update'}</button>
+                    </div>
+                </div>
+                <div>
+                    <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
+                        <div className="flex items-center gap-x-2 w-[75%]">
+                            <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
+                                <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
+                                    <AiOutlineTikTok />
+                                </IconContext.Provider>
+                            </div>
+                            <input type={"text"} id={'business-tiktok'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={businessInfo.tiktokProfleLink} placeholder='Tiktok Profile Link' />
+                        </div>
+                        <button disabled={isTiktokLoading} onClick={(e) => updateTiktokProfileLink(e)} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isTiktokLoading ? <Spinner /> : 'Update'}</button>
+                    </div>
+                </div>
+            </form>
+        )
+    }
+
+    function setLogoUpdateButtonDisability() {
+        if (isUploadButtonLoading === true || logo === null || logo === '') {
+            return true;
+        }
+
+        return false;
+    }
+
+    const isLogoButtonDisable = setLogoUpdateButtonDisability();
+
     return (
         <div className="md:p-8 bg-black flex flex-col gap-y-8 py-8 px-4 md:px-6 bg-primary">
             <div className='p-4 bg-black border border-very-dark-gray rounded-sm w-full md:w-[50%]'>
                 <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Business Logo</h1>
                 <p className='text-medium-gray text-sm'>Update your business logo</p>
                 <div className='py-4 flex items-center gap-x-4'>
-                    {logo ? <div className='w-15 h-15 border border-very-dark-gray rounded-full flex items-center p-2'>
-                        <img className='max-w-full' src={logo} />
-                    </div> : <Skeleton className='w-15 h-15 border border-very-dark-gray bg-very-dark-gray rounded-full flex items-center p-2'></Skeleton>}
+                    <RenderLogo />
                     <input onChange={handleLogoUpload} className={'logo-input w-0 h-0 absolute visibility-hidden'} type="file" accept='image/*' name="logo" />
-                    <button disabled={isUploadButtonLoading} onClick={selectFile} className='text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm flex justify-center items-center w-[35%] sm:w-[20%] md:w-[35%]'>
+                    <button disabled={isLogoButtonDisable} onClick={selectFile} className='text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm flex justify-center items-center w-[35%] sm:w-[20%] md:w-[35%]'>
                         {isUploadButtonLoading ? <Spinner /> : <>                      <IconContext.Provider value={{ className: '' }}>
                             <LuUpload />
                         </IconContext.Provider>
@@ -797,81 +1139,7 @@ export function AdminSettingsMain() {
                 <div className='lg:w-[50%] p-4 bg-black border border-very-dark-gray rounded-sm'>
                     <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Business Info</h1>
                     <p className='text-medium-gray text-sm'>Update your business info</p>
-                    {businessInfo !== null ?
-                        <form className='flex flex-col gap-y-4 py-8'>
-                            <div>
-                                <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
-                                    <div className="flex items-center gap-x-2 w-[75%]">
-                                        <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
-                                            <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
-                                                <IoMdMail />
-                                            </IconContext.Provider>
-                                        </div>
-                                        <input type="email" id={'business-email'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={businessInfo.email} placeholder='Email Address' />
-                                    </div>
-                                    <button disabled={isEmailButtonLoading} onClick={(e) => updateBusinessEmail(e)} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isEmailButtonLoading ? <Spinner /> : 'Update'}</button>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
-                                    <div className="flex items-center gap-x-2 w-[75%]">
-                                        <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
-                                            <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
-                                                <MdLocalPhone />
-                                            </IconContext.Provider>
-                                        </div>
-                                        <input type={"text"} id={'business-phone'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={businessInfo.phone} placeholder='Phone Number' />
-                                    </div>
-                                    <button disabled={isPhoneButtonLoading} onClick={(e) => updateBusinessPhone(e)} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isPhoneButtonLoading ? <Spinner /> : 'Update'}</button>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
-                                    <div className="flex items-center gap-x-2 w-[75%]">
-                                        <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
-                                            <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
-                                                <RiInstagramFill />
-                                            </IconContext.Provider>
-                                        </div>
-                                        <input type={"text"} id={'business-instagram'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={businessInfo.instagramProfileLink} placeholder='Instagram Profile Link' />
-                                    </div>
-                                    <button disabled={isInstagramLoading} onClick={(e) => updateInstagramProfileLink(e)} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isInstagramLoading ? <Spinner /> : 'Update'}</button>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
-                                    <div className="flex items-center gap-x-2 w-[75%]">
-                                        <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
-                                            <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
-                                                <IoLogoFacebook />
-                                            </IconContext.Provider>
-                                        </div>
-                                        <input type={"text"} id={'business-facebook'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={businessInfo.facebookProfileLink} placeholder='Facebook Profile Link' />
-                                    </div>
-                                    <button disabled={isFacebookLoading} onClick={(e) => updateFacebookProfileLink(e)} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isFacebookLoading ? <Spinner /> : 'Update'}</button>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2 gap-x-4">
-                                    <div className="flex items-center gap-x-2 w-[75%]">
-                                        <div className="icon-wrapper border border-very-dark-gray bg-primary rounded-sm p-2">
-                                            <IconContext.Provider value={{ className: 'text-accent-color size-6' }}>
-                                                <AiOutlineTikTok />
-                                            </IconContext.Provider>
-                                        </div>
-                                        <input type={"text"} id={'business-tiktok'} className="text-secondary font-semibold text-sm focus:outline-none w-full" defaultValue={businessInfo.tiktokProfleLink} placeholder='Tiktok Profile Link' />
-                                    </div>
-                                    <button disabled={isTiktokLoading} onClick={(e) => updateTiktokProfileLink(e)} className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%] flex items-center justify-center">{isTiktokLoading ? <Spinner /> : 'Update'}</button>
-                                </div>
-                            </div>
-                        </form> :
-                        <div className='py-8 flex flex-col gap-y-4'>
-                            <Skeleton className='py-4 h-15 bg-very-dark-gray rounded-sm' />
-                            <Skeleton className='py-4 h-15 bg-very-dark-gray rounded-sm' />
-                            <Skeleton className='py-4 h-15 bg-very-dark-gray rounded-sm' />
-                            <Skeleton className='py-4 h-15 bg-very-dark-gray rounded-sm' />
-                            <Skeleton className='py-4 h-15 bg-very-dark-gray rounded-sm' />
-                        </div>}
+                    <RenderBusinessInfo />
                 </div>
                 <div className='lg:w-[50%] p-4 bg-black border border-very-dark-gray rounded-sm'>
                     <h1 className="text-secondary text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Admin Credentials</h1>

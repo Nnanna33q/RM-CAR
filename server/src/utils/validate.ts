@@ -1,4 +1,4 @@
-import { body } from "express-validator"
+import { body } from "express-validator";
 
 export const validateLogin = [
     body('username').trim().isString().isLength({ min: 3, max: 20 }).withMessage('Username must have between 3 and 20 characters').notEmpty().withMessage('Username field must not be empty'),
@@ -51,4 +51,8 @@ export const validateCredentialsFields = [
         if(req.body.newPassword !== value) throw new Error('Passwords do not match');
         return true;
     })
+]
+
+export const validateEmail = [
+    body('email').trim().isString().withMessage('Invalid email field').notEmpty().withMessage('Email field must not be empty').isLength({ max: 254 }).withMessage('Email can’t be longer than 254 characters.').isEmail().withMessage('Invalid email address')
 ]

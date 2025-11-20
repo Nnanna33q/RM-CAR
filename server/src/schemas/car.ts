@@ -38,7 +38,7 @@ const carSchema = new mongoose.Schema({
     },
     mileage: {
         unique: false,
-        type: String,
+        type: Number,
         required: true
     },
     price: {

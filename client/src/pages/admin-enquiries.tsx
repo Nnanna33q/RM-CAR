@@ -18,7 +18,7 @@ import { AlertError, AlertSuccess } from "@/components/ui/alert";
 
 export default function AdminEnquiries() {
     const [isAdminNavbarEnabled, setIsAdminNavbarEnabled] = useState<boolean>(false);
-    const [enquiries, setEnquiries] = useState<Enquiry[]>();
+    const [enquiries, setEnquiries] = useState<Enquiry[] | null | undefined>();
     const [totalEnquiries, setTotalEnquiries] = useState(0);
     const [page, setPage] = useState(1);
     const [tablist, setTablist] = useState<"All" | "Pending" | "Completed">('All');

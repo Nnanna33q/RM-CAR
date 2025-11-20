@@ -12,6 +12,9 @@ import { getFetchUrl } from "@/lib/utils";
 import AlertErrorContext from "@/contexts/alert-error";
 import Spinner from "./spinner";
 import AlertSuccessContext from "@/contexts/alert-success";
+import BusinessInfoContext from "@/contexts/business-info";
+import type { TBusinessInfo } from "@/lib/types";
+import fallbackBusinessInfo from "@/data/business-info";
 
 export default function ContactUs() {
     const [isMobileNavBarEnabled, setIsMobileNavBarEnabled] = useState<boolean>(false);
@@ -20,6 +23,7 @@ export default function ContactUs() {
     const [, setIsError] = useContext(AlertErrorContext);
     const [, setIsSuccess] = useContext(AlertSuccessContext);
     const [isSubmitButtonLoading, setIsSubmitButtonLoading] = useState(false);
+    const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
 
     useEffect(() => {
         isContactUsInView && animateContactUsText();
@@ -92,9 +96,9 @@ export default function ContactUs() {
                                             <IoMdMail />
                                         </IconContext.Provider>
                                     </div>
-                                    <div className="text-secondary font-semibold text-sm">rmcarsales2005@gmail.com</div>
+                                    <div className="text-secondary font-semibold text-sm">{businessInfo === null ? fallbackBusinessInfo.email : businessInfo.email}</div>
                                 </div>
-                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]"><a target="_blank" href="mailto:rmcarsales2005@gmail.com">Email</a></button>
+                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]"><a target="_blank" href={`mailto:${businessInfo === null ? fallbackBusinessInfo.email : businessInfo.email}`}>Email</a></button>
                             </div>
                             <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2">
                                 <div className="flex items-center gap-x-2">
@@ -103,9 +107,9 @@ export default function ContactUs() {
                                             <MdLocalPhone />
                                         </IconContext.Provider>
                                     </div>
-                                    <div className="text-secondary font-semibold text-sm">+44 151 382 9243</div>
+                                    <div className="text-secondary font-semibold text-sm">{businessInfo === null ? fallbackBusinessInfo.phone : businessInfo.phone}</div>
                                 </div>
-                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]"><a target="_blank" href="tel:+44 151 382 9243">Call Now</a></button>
+                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]"><a target="_blank" href={`tel:${businessInfo === null ? fallbackBusinessInfo.phone : businessInfo.phone}`}>Call Now</a></button>
                             </div>
                             <div className="flex justify-between items-center border border-very-dark-gray rounded-sm py-2 px-2">
                                 <div className="flex items-center gap-x-2">
@@ -116,7 +120,7 @@ export default function ContactUs() {
                                     </div>
                                     <div className="text-secondary font-semibold text-sm">@rmcarsales2005</div>
                                 </div>
-                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]"><a href="https://www.instagram.com/rmcarsales2005?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Message</a></button>
+                                <button className="text-secondary font-semibold border border-very-dark-gray rounded-sm p-2 bg-accent-color text-sm w-[25%]"><a href={businessInfo === null ? fallbackBusinessInfo.instagramProfileLink : businessInfo.instagramProfileLink} target="_blank">Message</a></button>
                             </div>
                         </div>
                     </div>
@@ -137,7 +141,7 @@ export default function ContactUs() {
                 </div>
             </div>
             <AnimatePresence>
-                {isMobileNavBarEnabled && <MobileNavBar key={'1'} />}
+                {isMobileNavBarEnabled && <MobileNavBar pageName={'Contact'} key={'1'} />}
                 {isMobileNavBarEnabled && <Backdrop key={'2'} />}
             </AnimatePresence>
         </div>

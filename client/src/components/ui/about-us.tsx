@@ -35,7 +35,7 @@ export default function AboutUs() {
                 </div>
             </div>
             <AnimatePresence>
-                {isMobileNavBarEnabled && <MobileNavBar key={'1'} />}
+                {isMobileNavBarEnabled && <MobileNavBar pageName={'About Us'} key={'1'} />}
                 {isMobileNavBarEnabled && <Backdrop key={'2'} />}
             </AnimatePresence>
         </div>

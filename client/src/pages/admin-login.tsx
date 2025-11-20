@@ -94,7 +94,6 @@ export default function AdminLogin() {
                                         <input id="password" type="password" placeholder="Password" className="pl-2 sm:pl-4 w-full outline-none text-secondary focus:border-accent-color placeholder:text-dark-gray" />
                                     </div>
                                 </div>
-                                <span className="text-medium-gray">Forgot Password</span>
                                 <div>
                                     <button type="submit" className="w-full bg-accent-color p-3 md:p-4 rounded-sm border border-primary text-secondary font-semibold flex justify-center items-center">
                                         {isLoading ? <Spinner /> : <div>Login</div>}

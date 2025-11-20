@@ -45,7 +45,7 @@ export default function AdminDashboard() {
             <div className="flex relative">
                 <SideBarDashboard currentPage={'Dashboard'} />
                 <div className="w-full py-4 px-4 md:px-6 flex flex-col gap-y-4" style={{ height: '100vh', overflowY: 'auto', scrollbarWidth: 'none' }}>
-                    <div className="hidden md:block"><NavDashboard pageName={'Enquiries'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} /></div>
+                    <div className="hidden md:block"><NavDashboard pageName={'Dashboard'} setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} /></div>
                     <AdminDashboardMain />
                 </div>
             </div>

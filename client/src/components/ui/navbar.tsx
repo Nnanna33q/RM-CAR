@@ -1,10 +1,9 @@
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@radix-ui/react-navigation-menu"
-import logo from '../../assets/logo-light.png';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@radix-ui/react-navigation-menu";
 import Bars from "./bars";
 import { Button } from "./button";
 import { IconContext } from "react-icons";
 import { CiSearch } from "react-icons/ci";
-import type { BarsProp } from "@/lib/types";
+import type { BarsProp, TBusinessInfo, TSelectFilter } from "@/lib/types";
 import { motion } from "motion/react";
 import { useState, useContext, useLayoutEffect } from 'react';
 import { Link } from "react-router";
@@ -21,6 +20,9 @@ import { getFetchUrl } from "@/lib/utils";
 import AuthContext from "@/contexts/auth";
 import AlertErrorContext from "@/contexts/alert-error";
 import { useNavigate } from "react-router";
+import { Skeleton } from "./skeleton";
+import BusinessInfoContext from "@/contexts/business-info";
+import fallbackBusinessInfo from "@/data/business-info";
 
 const mobileNavBarVariants = {
     initial: {
@@ -48,6 +50,7 @@ const filterVariants = {
 
 export default function NavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsProp) {
     const [translate, setTranslate] = useState(0);
+    const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
 
     useLayoutEffect(() => {
         const nav = document.querySelector('.nav');
@@ -61,7 +64,7 @@ export default function NavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled
                     <div className="w-[75%]">
                         <NavigationMenuItem className="max-w-15 md:max-w-18 lg:max-w-20">
                             <Link to={'/'}>
-                                <img src={logo} />
+                                <img src={businessInfo === null ? fallbackBusinessInfo.logo : businessInfo.logo} />
                             </Link>
                         </NavigationMenuItem>
                     </div>
@@ -87,6 +90,7 @@ export default function NavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled
 
 export function StickyNavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }: BarsProp) {
     const [translate, setTranslate] = useState(0);
+    const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
 
     useLayoutEffect(() => {
         const nav = document.querySelector('.sticky-nav');
@@ -100,7 +104,7 @@ export function StickyNavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }
                     <div className="w-[75%]">
                         <NavigationMenuItem className="max-w-15 md:max-w-18 lg:max-w-20">
                             <Link to={'/'}>
-                                <img src={logo} />
+                                <img src={businessInfo === null ? fallbackBusinessInfo.logo : businessInfo.logo} />
                             </Link>
                         </NavigationMenuItem>
                     </div>
@@ -124,7 +128,9 @@ export function StickyNavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }
     )
 }
 
-export function MobileNavBar() {
+export function MobileNavBar({ pageName }: { pageName: 'Home' | 'Listings'|'About Us' | 'Contact'}) {
+    const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
+
     return (
         <motion.div
             variants={mobileNavBarVariants}
@@ -139,14 +145,14 @@ export function MobileNavBar() {
             <div>
                 <div className="border-b border-very-dark-gray px-4 py-4">
                     <div className="max-w-15 lg:max-w-20">
-                        <img src={logo} />
+                        <img src={businessInfo === null ? fallbackBusinessInfo.logo : businessInfo.logo} />
                     </div>
                 </div>
                 <div className="flex flex-col gap-y-15 px-4 sm:px-8 py-12 font-bold">
-                    <Link to={'/'} className="text-accent-color">Home</Link>
-                    <Link to={'/listings'}>Listings</Link>
-                    <Link to={'/about'}>About Us</Link>
-                    <Link to={'/contact'}>Contact</Link>
+                    <Link to={'/'} className={pageName === 'Home' ? 'text-accent-color' : ''}>Home</Link>
+                    <Link to={'/listings'} className={pageName === 'Listings' ? 'text-accent-color' : ''}>Listings</Link>
+                    <Link to={'/about'} className={pageName === 'About Us' ? 'text-accent-color' : ''}>About Us</Link>
+                    <Link to={'/contact'} className={pageName === 'Contact' ? 'text-accent-color' : ''}>Contact</Link>
                 </div>
                 <div className="px-4 sm:px-6">
                     <Button className="bg-accent-color border border-accent-color text-white font-semibold text-md lg:text-lg py-6 lg:w-[35%] group rounded-sm w-full hover:bg-white hover:text-accent-color hover:border-white">
@@ -163,7 +169,31 @@ export function MobileNavBar() {
     )
 }
 
-export function Filter({ navHeight, disableFilter }: { navHeight: number, disableFilter: () => void }) {
+export function Filter({ 
+    navHeight, 
+    disableFilter, 
+    selectFilter, 
+    findCarsWithFilters, 
+    handleMakeChange,
+    handleModelChange,
+    handleCategoryChange,
+    handleFuelTypeChange,
+    handleTransmissionChange,
+    filterKey,
+    resetFilter
+}: { 
+    navHeight: number,
+    disableFilter: () => void, 
+    selectFilter: TSelectFilter, 
+    findCarsWithFilters: () => Promise<void>, 
+    handleMakeChange: (value: string) => void,
+    handleModelChange: (value: string) => void,
+    handleCategoryChange: (value: string) => void,
+    handleFuelTypeChange: (value: string) => void,
+    handleTransmissionChange: (value: string) => void,
+    filterKey: number
+    resetFilter(): void
+}) {
     return (
         <motion.div
             variants={filterVariants}
@@ -182,72 +212,74 @@ export function Filter({ navHeight, disableFilter }: { navHeight: number, disabl
                         <IconContext.Provider value={{ className: 'text-medium-gray size-6' }}><MdOutlineClear /></IconContext.Provider>
                     </div>
                 </div>
-                <button className='flex items-center text-secondary border border-accent-color bg-accent-color px-6 py-1 rounded-sm'>
+                <button disabled={!selectFilter} onClick={resetFilter} className={`flex items-center text-secondary border border-accent-color bg-accent-color px-6 py-1 rounded-sm ${selectFilter ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
                     <span>Clear</span>
                 </button>
-                <div className='selects-containers py-8 flex flex-col gap-y-4'>
-                    <Select>
+                {selectFilter ? <div key={filterKey} className='selects-containers py-8 flex flex-col gap-y-4'>
+                    <Select onValueChange={handleMakeChange}>
                         <SelectTrigger className="w-full py-6! border-very-dark-gray text-medium-gray! focus-visible:border-none!">
                             <SelectValue placeholder="Any Make" />
                         </SelectTrigger>
                         <SelectContent className='bg-black border-very-dark-gray text-medium-gray z-200'>
                             <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Make">Any Make</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Renault">Renault</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Ford">Ford</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Citroen">Citroen</SelectItem>
+                            {selectFilter.makes.map((m, i) => <SelectItem key={i} className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value={m}>{m}</SelectItem>)}
                         </SelectContent>
                     </Select>
-                    <Select>
+                    <Select onValueChange={handleModelChange}>
                         <SelectTrigger className="w-full py-6! border-very-dark-gray text-medium-gray! focus-visible:border-none!">
                             <SelectValue placeholder="Any Model" />
                         </SelectTrigger>
                         <SelectContent className='bg-black border-very-dark-gray text-medium-gray z-200'>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Make">Any Model</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Clio">Clio</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="EcoSport">EcoSport</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="C1">C1</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Model">Any Model</SelectItem>
+                            {selectFilter.models.map((m, i) => <SelectItem key={i} className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value={m}>{m}</SelectItem>)}
                         </SelectContent>
                     </Select>
-                    <Select>
+                    <Select onValueChange={handleCategoryChange}>
                         <SelectTrigger className="w-full py-6! border-very-dark-gray text-medium-gray! focus-visible:border-none!">
-                            <SelectValue placeholder="Any Body" />
+                            <SelectValue placeholder="Any Category" />
                         </SelectTrigger>
                         <SelectContent className='bg-black border-very-dark-gray text-medium-gray z-200'>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Body">Any Body</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Convertible">Convertible</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Coupe">Coupe</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Hatchback">Hatchback</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="SUV">SUV</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Sedan">Sedan</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Category">Any Category</SelectItem>
+                            {selectFilter.categories.map((c, i) => <SelectItem key={i} className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value={c}>{c}</SelectItem>)}
                         </SelectContent>
                     </Select>
-                    <Select>
+                    <Select onValueChange={handleFuelTypeChange}>
                         <SelectTrigger className="w-full py-6! border-very-dark-gray text-medium-gray! focus-visible:border-none!">
                             <SelectValue placeholder="Any Fuel" />
                         </SelectTrigger>
                         <SelectContent className='bg-black border-very-dark-gray text-medium-gray z-200'>
                             <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Fuel">Any Fuel</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Diesel">Diesel</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Fuel">Fuel</SelectItem>
+                            {selectFilter.fuelTypes.map((f, i) => <SelectItem key={i} className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value={f}>{f}</SelectItem>)}
                         </SelectContent>
                     </Select>
-                    <Select>
+                    <Select onValueChange={handleTransmissionChange}>
                         <SelectTrigger className="w-full py-6! border-very-dark-gray text-medium-gray! focus-visible:border-none!">
                             <SelectValue placeholder="Any Transmission" />
                         </SelectTrigger>
                         <SelectContent className='bg-black border-very-dark-gray text-medium-gray z-200'>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Transmission">Any Fuel</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Automatic">Automatic</SelectItem>
-                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Manual">Manual</SelectItem>
+                            <SelectItem className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value="Any Transmission">Any Transmission</SelectItem>
+                            {selectFilter.transmissions.map((t, i) => <SelectItem key={i} className='bg-black! text-medium-gray! hover:bg-primary! hover:text-medium-gray! py-3!' value={t}>{t}</SelectItem>)}
                         </SelectContent>
                     </Select>
-                </div>
+                </div> : <div className='py-8 flex flex-col gap-y-4'>
+                    <Skeleton className='h-[50px] w-full bg-very-dark-gray rounded-sm'></Skeleton>
+                    <Skeleton className='h-[50px] w-full bg-very-dark-gray rounded-sm'></Skeleton>
+                    <Skeleton className='h-[50px] w-full bg-very-dark-gray rounded-sm'></Skeleton>
+                    <Skeleton className='h-[50px] w-full bg-very-dark-gray rounded-sm'></Skeleton>
+                    <Skeleton className='h-[50px] w-full bg-very-dark-gray rounded-sm'></Skeleton>
+                </div>}
+                <button onClick={findCarsWithFilters} disabled={!selectFilter} className={`w-full flex items-center justify-center text-secondary border border-accent-color bg-accent-color py-3 rounded-sm ${selectFilter ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
+                    <IconContext.Provider value={{ className: 'stroke-1 size-4' }}>
+                        <CiSearch />
+                    </IconContext.Provider>
+                    <span className="pl-2">Find Cars</span>
+                </button>
             </div>
         </motion.div>
     )
 }
 
-export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { currentPage: 'Dashboard' | 'Inventory' | 'Enquiries' | 'Stats' | 'Settings', setIsAdminNavbarEnabled: Dispatch<SetStateAction<boolean>> }) {
+export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { currentPage: 'Dashboard' | 'Inventory' | 'Enquiries' | 'Settings', setIsAdminNavbarEnabled: Dispatch<SetStateAction<boolean>> }) {
     const [, setisError] = useContext(AlertErrorContext);
     const { setIsAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -256,12 +288,12 @@ export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { current
         try {
             const response = await fetch(getFetchUrl('api/logout'), { credentials: 'include' });
             const data = await response.json();
-            if(!data.success) {
+            if (!data.success) {
                 throw new Error(data.errorMessage);
             }
             setIsAuthenticated(false);
             navigate('/admin/login', { replace: true });
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             setisError({ error: true, errorMessage: error instanceof Error ? error.message : 'An unexpected error occurred' });
         }

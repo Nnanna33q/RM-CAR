@@ -9,7 +9,10 @@ import { IoLogoFacebook } from "react-icons/io";
 import { IconContext } from "react-icons";
 import { animateFaqText } from "@/lib/animations";
 import { useInView } from "motion/react";
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useContext } from 'react';
+import BusinessInfoContext from "@/contexts/business-info";
+import type { TBusinessInfo } from "@/lib/types";
+import fallbackBusinessInfo from "@/data/business-info";
 
 const faqs = [
     {
@@ -37,6 +40,7 @@ const faqs = [
 export default function Faqs() {
     const textRef = useRef(null);
     const isFaqTextInView = useInView(textRef);
+    const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
 
     useEffect(() => {
         isFaqTextInView && animateFaqText();
@@ -77,27 +81,27 @@ export default function Faqs() {
                         <h1 className="text-secondary text-center text-xl sm:text-xl md:text-2xl lg:text-2xl font-bold">Still Got Questions?</h1>
                         <p className="text-medium-gray text-center text-md">Reach out for support, questions, or partnership opportunities—we’ll be glad to help!</p>
                         <div className="flex justify-center items-center gap-x-4 sm:gap-12">
-                            <a target="_blank" href="mailto:rmcarsales2005@gmail.com">
+                            <a target="_blank" href={`mailto:${businessInfo === null ? fallbackBusinessInfo.email : businessInfo.email}`}>
                                 <IconContext.Provider value={{ className: 'size-7 text-accent-color' }}>
                                     <IoMdMail />
                                 </IconContext.Provider>
                             </a>
-                            <a target="_blank" href="tel:+44 151 382 9243">
+                            <a target="_blank" href={`tel:${businessInfo === null ? fallbackBusinessInfo.phone : businessInfo.phone}`}>
                                 <IconContext.Provider value={{ className: 'size-7 text-accent-color' }}>
                                     <MdLocalPhone />
                                 </IconContext.Provider>
                             </a>
-                            <a target="_blank" href="https://www.instagram.com/rmcarsales2005?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">
+                            <a target="_blank" href={businessInfo === null ? fallbackBusinessInfo.instagramProfileLink : businessInfo.instagramProfileLink}>
                                 <IconContext.Provider value={{ className: 'size-7 text-accent-color' }}>
                                     <RiInstagramFill />
                                 </IconContext.Provider>
                             </a>
-                            <a target="_blank" href="https://l.instagram.com/?u=https%3A%2F%2Fwww.facebook.com%2Fshare%2F166J4m29ay%2F%3Fmibextid%3DwwXIfr&e=AT2s0b4FwvrA-eRS6DFtAn1TNWf_T3bPunvHNXF2lQPOob0G9qMDdbkuX6o5Hz-5cEt1a0KzAVgleByRSB80iD1rQ8gcfu2WvxMvfs0">
+                            <a target="_blank" href={businessInfo === null ? fallbackBusinessInfo.facebookProfileLink : businessInfo.facebookProfileLink}>
                                 <IconContext.Provider value={{ className: 'size-7 text-accent-color' }}>
                                     <IoLogoFacebook />
                                 </IconContext.Provider>
                             </a>
-                            <a target="_blank" href="https://l.facebook.com/l.php?u=https%3A%2F%2Ftiktok.com%2F%40rm.car.sales&h=AT2gdRonEzYWhC6ZtOfKwHLLndDREQLcrD6WINL8i72oIGJnil81UL0yzOkRwdHbBTEINENq3QdLO6ICwChMJZgSRG9ZWGJjjyg8krR341r1RLwZpNqVc4gCsVsK_3iNIz6lmt9cXVaWLV5pfK8rRl-xe_s">
+                            <a target="_blank" href={businessInfo === null ? fallbackBusinessInfo.tiktokProfileLink : businessInfo.tiktokProfleLink}>
                                 <IconContext.Provider value={{ className: 'size-7 text-accent-color ' }}>
                                     <AiOutlineTikTok />
                                 </IconContext.Provider>

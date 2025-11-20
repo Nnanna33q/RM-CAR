@@ -73,7 +73,7 @@ InventoryRouter.post('/api/cars', authChecker, upload.array('image', 20), valida
             model: req.body.model,
             variant: req.body.variant,
             year: req.body.year,
-            mileage: req.body.mileage,
+            mileage: Number(req.body.mileage),
             price: Number(req.body.price),
             images: images,
             createdAt: Date.now()
@@ -135,8 +135,8 @@ InventoryRouter.patch('/api/cars', authChecker, upload.array('image', 20), valid
             model: req.body.model,
             variant: req.body.variant,
             year: req.body.year,
-            mileage: req.body.mileage,
-            price: req.body.price,
+            mileage: Number(req.body.mileage),
+            price: Number(req.body.price),
             images: images.length > 0 ? images : car.images,
             createdAt: car.createdAt,
             soldAt: car.soldAt
