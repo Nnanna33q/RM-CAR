@@ -1,15 +1,18 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { MdPrivacyTip } from "react-icons/md";
 import { animatePrivacyText } from '@/lib/animations';
 import { AnimatePresence, useInView } from 'motion/react';
 import { StickyNavBar, MobileNavBar } from './navbar';
 import Backdrop from './backdrop';
+import fallbackBusinessInfo from '@/data/business-info';
+import BusinessInfoContext from '@/contexts/business-info';
+import type { TBusinessInfo } from '@/lib/types';
 
 export default function Privacy() {
     const textRef = useRef(null);
     const [isMobileNavBarEnabled, setIsMobileNavBarEnabled] = useState<boolean>(false);
-
     const isLocationInView = useInView(textRef);
+    const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
 
     useEffect(() => {
         isLocationInView && animatePrivacyText();
@@ -107,7 +110,7 @@ export default function Privacy() {
                                 <span className='font-semibold text-very-light-gray'>The right to data portability</span>: You can request that we transfer your data to another organization or directly to you.
                             </li>
                         </ul>
-                        <p className='text-medium-gray text-sm py-2'>If you wish to exercise any of these rights, please contact us at <a href={'mailto:rmcarsales2005@gmail.com'} className='text-secondary font-semibold'>rmcarsales2005@gmail.com</a>.</p>
+                        <p className='text-medium-gray text-sm py-2'>If you wish to exercise any of these rights, please contact us at <a href={`mailto:${businessInfo === null ? fallbackBusinessInfo.email : businessInfo.email}`} className='text-secondary font-semibold'>{businessInfo === null ? fallbackBusinessInfo.email : businessInfo.email}</a>.</p>
                     </div>
                     <div>
                         <h5 className='text-secondary font-semibold'>6. Security of Your Data</h5>
@@ -130,7 +133,7 @@ export default function Privacy() {
                     <div>
                         <h5 className='text-secondary font-semibold'>9. Contact Us</h5>
                         <p className='text-medium-gray text-sm py-2'>
-                            If you have any questions or concerns about our Privacy Policy or the handling of your personal information, please contact us at <a href={'mailto:rmcarsales2005@gmail.com'} className='text-secondary font-semibold'>rmcarsales2005@gmail.com</a>.
+                            If you have any questions or concerns about our Privacy Policy or the handling of your personal information, please contact us at <a href={`mailto:${businessInfo === null ? fallbackBusinessInfo.email : businessInfo.email}`} className='text-secondary font-semibold'>{businessInfo === null ? fallbackBusinessInfo.email : businessInfo.email}</a>.
                         </p>
                     </div>
                 </div>

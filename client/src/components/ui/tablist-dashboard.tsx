@@ -37,9 +37,8 @@ export default function TabList({ currentPage }: { currentPage: 'Dashboard' | 'I
     const [isSuccess, setIsSuccess] = useContext(AlertSuccessContext);
     const errorId = useRef<NodeJS.Timeout | undefined>(undefined);
     const successId = useRef<NodeJS.Timeout | undefined>(undefined);
-    const cars = useContext(CarsContext)?.cars;
     const setCars = useContext(CarsContext)?.setCars;
-    const { totalCars, setTotalCars } = useContext(TotalCarsContext) as TotalCarsContextProp;
+    const { setTotalCars } = useContext(TotalCarsContext) as TotalCarsContextProp;
     const { tablist, setTablist } = useContext(TablistContext);
     const { page, setPage } = useContext(PageContext);
 

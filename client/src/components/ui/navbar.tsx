@@ -128,7 +128,7 @@ export function StickyNavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }
     )
 }
 
-export function MobileNavBar({ pageName }: { pageName: 'Home' | 'Listings'|'About Us' | 'Contact'}) {
+export function MobileNavBar({ pageName }: { pageName?: 'Home' | 'Listings'|'About Us' | 'Contact'}) {
     const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
 
     return (
