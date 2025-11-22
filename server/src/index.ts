@@ -45,7 +45,10 @@ app.use(session({
     resave: false,
     secret: process.env.SESSION_SECRET || "Session Secretttt092jsd",
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true
     },
     store: MongoStore.create({
         mongoUrl: process.env.MONGOOSE_CONNECTIONSTRING,
