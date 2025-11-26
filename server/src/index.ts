@@ -37,9 +37,7 @@ cloudinary.v2.config({
 const app = express();
 
 app.use(cors({ origin: (origin, callback) => {
-    console.log('origin below');
-    console.log(origin);
-    callback(getClientDomain(origin) ? null : new Error('Not allowed by CORS'), getClientDomain(origin));
+    callback(getClientDomain(origin) ? null : new Error('Not allowed by CORS'), process.env.NODE_ENV === 'production' ? process.env.CLIENT_DOMAIN : 'http://localhost:5173');
 }, credentials: true }));
 
 app.use(session({
