@@ -37,8 +37,6 @@ cloudinary.v2.config({
 const app = express();
 
 app.use(cors({ origin: (origin, callback) => {
-    console.log(origin);
-    console.log(process.env.CLIENT_DOMAIN);
     callback(getClientDomain(origin) ? null : new Error('Not allowed by CORS'), process.env.NODE_ENV === 'production' ? process.env.CLIENT_DOMAIN : 'http://localhost:5173');
 }, credentials: true }));
 
@@ -48,9 +46,9 @@ app.use(session({
     secret: process.env.SESSION_SECRET || "Session Secretttt092jsd",
     cookie: {
         maxAge: 24 * 60 * 60 * 1000,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: true
+        // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        // secure: process.env.NODE_ENV === 'production',
+        // httpOnly: true
     },
     store: MongoStore.create({
         mongoUrl: process.env.MONGOOSE_CONNECTIONSTRING,
