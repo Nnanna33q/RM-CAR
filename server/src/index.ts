@@ -28,6 +28,11 @@ if(!process.env.MONGOOSE_CONNECTIONSTRING) {
     process.exit(1);
 }
 
+if(!process.env.CLIENT_DOMAIN) {
+    console.error('No client domain detected');
+    process.exit(1);
+}
+
 cloudinary.v2.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
@@ -36,9 +41,11 @@ cloudinary.v2.config({
 
 const app = express();
 
-app.use(cors({ origin: (origin, callback) => {
-    callback(getClientDomain(origin) ? null : new Error('Not allowed by CORS'), process.env.NODE_ENV === 'production' ? process.env.CLIENT_DOMAIN : 'http://localhost:5173');
-}, credentials: true }));
+// app.use(cors({ origin: (origin, callback) => {
+//     callback(getClientDomain(origin) ? null : new Error('Not allowed by CORS'), process.env.NODE_ENV === 'production' ? process.env.CLIENT_DOMAIN : 'http://localhost:5173');
+// }, credentials: true }));
+
+app.use(cors({ origin: process.env.NODE_ENV === 'production' ? process.env.CLIENT_DOMAIN : 'http://localhost:5173', credentials: true }))
 
 app.use(session({
     saveUninitialized: false,
@@ -48,7 +55,7 @@ app.use(session({
         maxAge: 24 * 60 * 60 * 1000,
         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         secure: process.env.NODE_ENV === 'production',
-        httpOnly: false
+        httpOnly: true
     },
     store: MongoStore.create({
         mongoUrl: process.env.MONGOOSE_CONNECTIONSTRING,
