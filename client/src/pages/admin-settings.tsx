@@ -49,10 +49,10 @@ export default function AdminSettings() {
                 </div>
             </div>
             <AnimatePresence>
-                {isError.error && <AlertError errorMessage={isError.errorMessage} />}
-                {isSuccess.success && <AlertSuccess successMessage={isSuccess.successMessage} />}
-                {isAdminNavbarEnabled && <AdminSidebar currentPage="Settings" setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} />}
-                {isAdminNavbarEnabled && <Backdrop />}
+                {isError.error && <AlertError key={'1'} errorMessage={isError.errorMessage} />}
+                {isSuccess.success && <AlertSuccess key={'2'} successMessage={isSuccess.successMessage} />}
+                {isAdminNavbarEnabled && <AdminSidebar key={'3'} currentPage="Settings" setIsAdminNavbarEnabled={setIsAdminNavbarEnabled} />}
+                {isAdminNavbarEnabled && <Backdrop key={'4'} />}
             </AnimatePresence>
         </>
     )

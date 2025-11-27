@@ -6,9 +6,8 @@ import AuthContext from "@/contexts/auth";
 
 export default function ProtectedRoute() {
     const [isAuthenticated, setIsAuthenticated] = useState<Boolean | null>(null);
-
     useEffect(() => {
-        getAuthState()
+        getAuthState(localStorage.getItem('accessToken'))
         .then(data => {
             setIsAuthenticated(data)
         })

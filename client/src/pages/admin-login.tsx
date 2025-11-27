@@ -54,9 +54,9 @@ export default function AdminLogin() {
     
                 const data = await response.json();
     
-                if (!data.success) {
-                    throw new Error(data.errorMessage);
-                }
+                if (!data.success) throw new Error(data.errorMessage);
+                if(!data.accessToken) throw new Error('No access token detected');
+                localStorage.setItem('accessToken', data.accessToken);
                 navigate('/admin/dashboard');
             } catch(error) {
                 console.error(error);

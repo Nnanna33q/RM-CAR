@@ -17,8 +17,15 @@ export function getCurveDividerHeight() {
   }
 }
 
-export async function getAuthState(): Promise<boolean> {
-  const response = await fetch(window.location.host === 'localhost:5173' ? 'http://localhost:3000/api/authenticated' : import.meta.env.VITE_API_DOMAIN + '/api/authenticated', { credentials: 'include' });
+export async function getAuthState(accessToken: string | null): Promise<boolean> {
+  if(accessToken === null) return false;
+  const response = await fetch(window.location.host === 'localhost:5173' ? 'http://localhost:3000/api/authenticated' : import.meta.env.VITE_API_DOMAIN + '/api/authenticated', {
+    credentials: 'include',
+    headers: {
+    "Authorization": `Bearer ${accessToken}`,
+      "Content-Type": "application/json"
+    }
+  });
   const data = await response.json();
   return data.success;
 }
@@ -45,7 +52,13 @@ export function validateSelectFields(category: HTMLSelectElement, transmission: 
 
 export async function getCarsData({ page, setCars, setIsError, setTotalCars, tablist }: GetCarsDataProp) {
   try {
-    const response = await fetch(getFetchUrl(`api/cars?page=${page}&tablist=${tablist}`), { credentials: 'include' });
+    const accessToken = localStorage.getItem('accessToken');
+    const response = await fetch(getFetchUrl(`api/cars?page=${page}&tablist=${tablist}`), {
+      credentials: 'include',
+      headers: {
+        "Authorization": `Bearer ${accessToken ? accessToken : '' }`
+      }
+    });
     const data = await response.json();
     if (!data.success) {
       throw new Error(data.errorMessage);
@@ -81,7 +94,11 @@ export function selectImages() {
 
 export async function getEnquiriesData({ page, setEnquiries, setIsError, setTotalEnquiries, tablist }: GetEnquiriesDataProp) {
   try {
-    const response = await fetch(getFetchUrl(`api/enquiries?page=${page}&tablist=${tablist}`), { credentials: 'include' });
+    const accessToken = localStorage.getItem('accessToken');
+    const response = await fetch(getFetchUrl(`api/enquiries?page=${page}&tablist=${tablist}`), {
+      credentials: 'include',
+      headers: { "Authorization": `Bearer ${accessToken ? accessToken : ''}` }
+    });
     const data = await response.json();
     if (!data.success) {
       throw new Error(data.errorMessage);
@@ -146,12 +163,17 @@ export async function getDashboardInfo({ setTCars, setTEnquiries, setTSales, set
   setPercentageChangeOfEnquiries: React.Dispatch<React.SetStateAction<number | null>>,
   setChartData: React.Dispatch<React.SetStateAction<TChartData[] | null | undefined>>
   setRecentSales: React.Dispatch<React.SetStateAction<TRecentSales[] | null | undefined>>,
-  setRecentEnquiries: React.Dispatch<React.SetStateAction<Enquiry[] | undefined | null>>
+  setRecentEnquiries: React.Dispatch<React.SetStateAction<Enquiry[] | undefined | null>>,
 }) {
   try {
+    const accessToken = localStorage.getItem('accessToken');
     const response = await fetch(getFetchUrl('api/overview'), {
       method: 'GET',
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken ? accessToken : ''}`
+      }
     });
     const data = await response.json();
     if (!data.success) throw new Error(data.errorMessage);
@@ -197,9 +219,10 @@ export async function deleteEnquiry(
   const id = elem.id.split('-')[1];
   setIsDeleteButtonLoading(true);
   try {
+    const accessToken = localStorage.getItem('accessToken');
     const response = await fetch(getFetchUrl('api/enquiries'), {
       method: 'DELETE',
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken ? accessToken : ''}` },
       body: JSON.stringify({ id, page, tablist }),
       credentials: "include"
     })
@@ -237,9 +260,10 @@ export async function resolveEnquiry(
   const id = elem.id.split('-')[1];
   setIsResolveButtonLoading(true);
   try {
+      const accessToken = localStorage.getItem('accessToken');
       const response = await fetch(getFetchUrl('api/enquiries'), {
           method: 'PATCH',
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken ? accessToken : ''}` },
           body: JSON.stringify({ id, page, tablist }),
           credentials: 'include'
       })

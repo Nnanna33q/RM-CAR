@@ -212,3 +212,8 @@ export type TGetListingsCarsFilters = {
     }>>,
     setSelectFilter: React.Dispatch<React.SetStateAction<TSelectFilter>>
 }
+
+export type TAccessTokenContext = {
+    accessToken: string,
+    setAccessToken: React.Dispatch<React.SetStateAction<string>>
+}

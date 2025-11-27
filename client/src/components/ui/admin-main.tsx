@@ -769,9 +769,11 @@ export function AdminSettingsMain() {
                 }
                 const formData = new FormData();
                 formData.append('logo', logoBlob);
+                const accessToken = localStorage.getItem('accessToken');
                 const response = await fetch(getFetchUrl('api/logo'), {
                     method: 'POST',
                     credentials: 'include',
+                    headers: { "Authorization": `Bearer ${accessToken ? accessToken : ''}`},
                     body: formData
                 })
                 const data = await response.json();
@@ -792,9 +794,10 @@ export function AdminSettingsMain() {
         try {
             const email = document.querySelector<HTMLInputElement>('#business-email');
             if (!email || !email.value) throw new Error(email ? 'Please enter your email' : 'Email field not found');
+            const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(getFetchUrl('api/update/email'), {
                 method: 'PATCH',
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken ? accessToken : ''}` },
                 body: JSON.stringify({ email: email.value }),
                 credentials: 'include'
             })
@@ -814,9 +817,10 @@ export function AdminSettingsMain() {
         try {
             const phone = document.querySelector<HTMLInputElement>('#business-phone');
             if (!phone || !phone.value) throw new Error(phone ? 'Please enter your phone number' : 'Phone number field not found');
+            const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(getFetchUrl('api/update/phone'), {
                 method: 'PATCH',
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken ? accessToken : ''}` },
                 body: JSON.stringify({ phone: phone.value }),
                 credentials: 'include'
             })
@@ -836,9 +840,10 @@ export function AdminSettingsMain() {
         try {
             const instagram = document.querySelector<HTMLInputElement>('#business-instagram');
             if (!instagram || !instagram.value) throw new Error(instagram ? 'Please enter your instagram profile link' : 'Field not found');
+            const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(getFetchUrl('api/update/instagram'), {
                 method: 'PATCH',
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken ? accessToken : ''}` },
                 body: JSON.stringify({ instagramProfileLink: instagram.value }),
                 credentials: 'include'
             })
@@ -858,9 +863,10 @@ export function AdminSettingsMain() {
         try {
             const facebook = document.querySelector<HTMLInputElement>('#business-facebook');
             if (!facebook || !facebook.value) throw new Error(facebook ? 'Please enter your facebook profile link' : 'Field not found');
+            const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(getFetchUrl('api/update/facebook'), {
                 method: 'PATCH',
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken ? accessToken : ''}` },
                 body: JSON.stringify({ facebookProfileLink: facebook.value }),
                 credentials: 'include'
             })
@@ -880,9 +886,10 @@ export function AdminSettingsMain() {
         try {
             const tiktok = document.querySelector<HTMLInputElement>('#business-tiktok');
             if (!tiktok || !tiktok.value) throw new Error(tiktok ? 'Please enter your tiktok profile link' : 'Field not found');
+            const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(getFetchUrl('api/update/tiktok'), {
                 method: 'PATCH',
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken ? accessToken : ''}` },
                 body: JSON.stringify({ tiktokProfileLink: tiktok.value }),
                 credentials: 'include'
             })
@@ -908,9 +915,10 @@ export function AdminSettingsMain() {
             if (!currentPassword || !newUsername || !newPassword || !confirmNewPassword) throw new Error('Field not found');
             if (!currentPassword.value || !newUsername.value || !newPassword.value || !confirmNewPassword.value) throw new Error('Please fill all fields');
 
+            const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(getFetchUrl('api/update/credentials'), {
                 method: 'PATCH',
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken ? accessToken : ''}` },
                 body: JSON.stringify({
                     currentPassword: currentPassword.value,
                     newUsername: newUsername.value,

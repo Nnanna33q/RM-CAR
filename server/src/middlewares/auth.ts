@@ -1,97 +1,64 @@
-import passport from 'passport';
-import { Strategy} from 'passport-local';
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import Admin from '../schemas/admin.js';
+import jwt from 'jsonwebtoken';
 import { compareSync } from 'bcryptjs';
 import { validateLogin } from '../utils/validate.js';
 import checkErrors from '../utils/check-validation-errors.js';
 import { isAuthenticated } from '../utils/is-authenticated.js';
 import type { Request, Response, NextFunction } from 'express';
 
+if (!process.env.JWT_SECRET_KEY) {
+    console.error('No Jwt Secret Key detected');
+    process.exit(1);
+}
+
+const secret = process.env.JWT_SECRET_KEY;
+
 type Admin = {
     _id: string,
     username: string,
-    password: string
+    password: string,
+    tokenVersion: number
 }
 
-export function authChecker(req: Request, res: Response, next: NextFunction) {
-    if(req.user) {
-        next()
-    } else {
-        res.status(401).json({ success: false, errorMessage: 'You are unauthenticated' });
+class AuthError extends Error { };
+
+export async function authChecker(req: Request, res: Response, next: NextFunction) {
+    try {
+        const token = req.headers['authorization']?.split(' ')[1];
+        if (!secret) throw new Error('No JWT Secret Key detected in environment');
+        if (!token) throw new Error('No access token detected');
+        const payload = jwt.verify(token, secret) as Admin
+        const admin = await Admin.findOne({ username: payload.username });
+        if(!admin || admin.tokenVersion !== payload.tokenVersion) throw new Error('Your session has expired. Please log in again.');
+        next();
+    } catch(error) {
+        console.error(error);
+        res.status(400).json({ success: false, errorMessage: error instanceof Error ? error.message : 'An unexpected error occurred' });
     }
 }
 
 const AuthRouter = express.Router();
 
-AuthRouter.use(passport.session());
-
-passport.serializeUser((admin, done) => {
-    if(!admin) {
-        done('No user object', false);
-        return;
-    }
-    done(null, admin);
-})
-
-passport.deserializeUser(async (id, done) => {
+AuthRouter.post('/login', validateLogin, checkErrors, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const admin = await Admin.findById(id, { password: 0 });
-        if(!admin) {
-            done('Invalid admin id or admin does not exist', false);
-            return;
-        }
-        done(null, admin);
-    } catch(error) {
-        console.error('An unexpected error occurred when fetching admin');
-        done('An unexpected error occurred', false);
+        const { username, password } = req.body;
+        const admin = await Admin.findOne({ username });
+        if (!admin) throw new AuthError('Invalid username');
+        if (!compareSync(password, admin.password)) throw new AuthError('Invalid password');
+        res.status(200).json({ success: true, accessToken: jwt.sign(admin.toJSON(), secret, { expiresIn: "1d" }) })
+    } catch (error) {
+        console.error(error);
+        if (error instanceof AuthError) {
+            res.status(401).json({ success: false, errorMessage: error.message });
+        } else if (error instanceof Error) {
+            res.status(500).json({ success: false, errorMessage: error.message })
+        } else res.status(500).json({ success: false, errorMessage: 'An unexpected error occurred' });
     }
 })
-
-passport.use(new Strategy(async (username, password, cb) => {
-    try {
-        const admin = await Admin.findOne({ username: username });
-
-        if(!admin) {
-            cb('Invalid username', false);
-            return;
-        }
-
-        if(compareSync(password, admin.password)) {
-            cb(null, admin);
-        } else {
-            cb('Invalid password', false);
-        }
-    } catch(error) {
-        console.error('An unexpected error occurred');
-        cb('An unexpected error occurred', false);
-    }
-}))
-
-AuthRouter.post('/login', validateLogin, checkErrors, passport.authenticate('local'), (err: any, req: Request, res: Response, next: NextFunction) => {
-    if(err) {
-        res.status(400).json({ success: false, errorMessage: err });
-        return;
-    }
-    next();
-}, (req: Request, res: Response) => {
-    res.status(200).json({ success: true });
-});
 
 AuthRouter.get('/api/authenticated', isAuthenticated);
-
-AuthRouter.get('/api/logout', authChecker, (req, res) => {
-    try {
-        req.session.destroy((error) => {
-            if(error) {
-                throw new Error(error);
-            }
-            res.status(200).json({ success: true });
-        })
-    } catch(error) {
-        console.error(error);
-        res.status(500).json({ success: false, errorMessage: 'Failed to destroy session' });
-    }
-})
 
 export default AuthRouter

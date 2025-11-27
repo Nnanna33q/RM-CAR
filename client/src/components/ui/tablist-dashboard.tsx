@@ -136,9 +136,11 @@ export default function TabList({ currentPage }: { currentPage: 'Dashboard' | 'I
                     Array.from(images).forEach(image => formData.append('image', image));
                     setIsLoading(true);
                     try {
+                        const accessToken = localStorage.getItem('accessToken');
                         const response = await fetch(getFetchUrl('api/cars'), {
                             method: 'POST',
                             credentials: 'include',
+                            headers: { "Authorization": `Bearer ${accessToken ? accessToken : '' }`},
                             body: formData
                         })
                         const data = await response.json();

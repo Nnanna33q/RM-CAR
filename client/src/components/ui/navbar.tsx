@@ -16,9 +16,7 @@ import { LuSettings } from "react-icons/lu";
 import { LuX } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
 import type { Dispatch, SetStateAction } from "react";
-import { getFetchUrl } from "@/lib/utils";
 import AuthContext from "@/contexts/auth";
-import AlertErrorContext from "@/contexts/alert-error";
 import { useNavigate } from "react-router";
 import { Skeleton } from "./skeleton";
 import BusinessInfoContext from "@/contexts/business-info";
@@ -128,7 +126,7 @@ export function StickyNavBar({ isMobileNavBarEnabled, setIsMobileNavBarEnabled }
     )
 }
 
-export function MobileNavBar({ pageName }: { pageName?: 'Home' | 'Listings'|'About Us' | 'Contact'}) {
+export function MobileNavBar({ pageName }: { pageName?: 'Home' | 'Listings' | 'About Us' | 'Contact' }) {
     const businessInfo = useContext(BusinessInfoContext) as TBusinessInfo | null;
 
     return (
@@ -169,11 +167,11 @@ export function MobileNavBar({ pageName }: { pageName?: 'Home' | 'Listings'|'Abo
     )
 }
 
-export function Filter({ 
-    navHeight, 
-    disableFilter, 
-    selectFilter, 
-    findCarsWithFilters, 
+export function Filter({
+    navHeight,
+    disableFilter,
+    selectFilter,
+    findCarsWithFilters,
     handleMakeChange,
     handleModelChange,
     handleCategoryChange,
@@ -181,11 +179,11 @@ export function Filter({
     handleTransmissionChange,
     filterKey,
     resetFilter
-}: { 
+}: {
     navHeight: number,
-    disableFilter: () => void, 
-    selectFilter: TSelectFilter, 
-    findCarsWithFilters: () => Promise<void>, 
+    disableFilter: () => void,
+    selectFilter: TSelectFilter,
+    findCarsWithFilters: () => Promise<void>,
     handleMakeChange: (value: string) => void,
     handleModelChange: (value: string) => void,
     handleCategoryChange: (value: string) => void,
@@ -280,23 +278,13 @@ export function Filter({
 }
 
 export function AdminSidebar({ currentPage, setIsAdminNavbarEnabled }: { currentPage: 'Dashboard' | 'Inventory' | 'Enquiries' | 'Settings', setIsAdminNavbarEnabled: Dispatch<SetStateAction<boolean>> }) {
-    const [, setisError] = useContext(AlertErrorContext);
     const { setIsAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    async function logOut() {
-        try {
-            const response = await fetch(getFetchUrl('api/logout'), { credentials: 'include' });
-            const data = await response.json();
-            if (!data.success) {
-                throw new Error(data.errorMessage);
-            }
-            setIsAuthenticated(false);
-            navigate('/admin/login', { replace: true });
-        } catch (error) {
-            console.error(error);
-            setisError({ error: true, errorMessage: error instanceof Error ? error.message : 'An unexpected error occurred' });
-        }
+    function logOut() {
+        localStorage.removeItem('accessToken');
+        setIsAuthenticated(false);
+        navigate('/admin/login', { replace: true });
     }
 
     return (

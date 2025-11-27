@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
-import session from 'express-session';
 import connectToDB from './db.js';
 import AuthRouter from './middlewares/auth.js';
 import InventoryRouter from './middlewares/inventory.js';
@@ -12,9 +11,7 @@ import ListingsRouter from './middlewares/listings.js';
 import NewsletterRouter from './middlewares/newsletter.js';
 import FeaturedCarsRouter from './middlewares/featured-cars.js';
 import cors from 'cors';
-import getClientDomain from './utils/domain.js';
 import cloudinary from 'cloudinary';
-import MongoStore from 'connect-mongo';
 
 connectToDB();
 
@@ -41,28 +38,10 @@ cloudinary.v2.config({
 
 const app = express();
 
-// app.use(cors({ origin: (origin, callback) => {
-//     callback(getClientDomain(origin) ? null : new Error('Not allowed by CORS'), process.env.NODE_ENV === 'production' ? process.env.CLIENT_DOMAIN : 'http://localhost:5173');
-// }, credentials: true }));
-
 app.use(cors({ origin: process.env.NODE_ENV === 'production' ? process.env.CLIENT_DOMAIN : 'http://localhost:5173', credentials: true }))
 
-app.use(session({
-    saveUninitialized: false,
-    resave: false,
-    secret: process.env.SESSION_SECRET || "Session Secretttt092jsd",
-    cookie: {
-        maxAge: 24 * 60 * 60 * 1000,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: true
-    },
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGOOSE_CONNECTIONSTRING,
-        ttl: 24 * 60 * 60
-    })
-}))
 app.use(express.json());
+
 app.use(AuthRouter);
 app.use(InventoryRouter);
 app.use(EnquiriesRouter);

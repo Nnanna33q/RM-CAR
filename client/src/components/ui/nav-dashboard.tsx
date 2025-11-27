@@ -6,28 +6,17 @@ import type { SetStateAction } from "react";
 import { Popover, PopoverTrigger, PopoverContent } from "./popover";
 import { useNavigate } from "react-router";
 import { useContext } from "react";
-import AlertErrorContext from "@/contexts/alert-error";
 import AuthContext from "@/contexts/auth";
-import { getFetchUrl } from "@/lib/utils";
 
 export default function NavDashboard({ pageName, setIsAdminNavbarEnabled }: { pageName: string, setIsAdminNavbarEnabled: Dispatch<SetStateAction<boolean>> }) {
     const navigate = useNavigate();
-    const [, setisError] = useContext(AlertErrorContext);
     const { setIsAuthenticated } = useContext(AuthContext);
 
-    async function logOut() {
-        try {
-            const response = await fetch(getFetchUrl('api/logout'), { credentials: 'include' });
-            const data = await response.json();
-            if (!data.success) {
-                throw new Error(data.errorMessage);
-            }
-            setIsAuthenticated(false);
-            navigate('/admin/login', { replace: true });
-        } catch (error) {
-            console.error(error);
-            setisError({ error: true, errorMessage: error instanceof Error ? error.message : 'An unexpected error occurred' });
-        }
+    function logOut() {
+        localStorage.removeItem('accessToken');
+        setIsAuthenticated(false);
+        navigate('/admin/login', { replace: true });
+
     }
     return (
         <nav className="flex justify-between items-center w-full gap-x-4 py-4 px-4 md:px-6 sticky bg-primary top-0 z-100">

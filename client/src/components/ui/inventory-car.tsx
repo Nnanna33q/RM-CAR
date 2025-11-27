@@ -118,10 +118,12 @@ function CarT({ c, page, tablist }: { c: Car, page: number, tablist: "All" | "Av
         // Enable Delete Spinner
         setIsDeleteButtonLoading(true);
         try {
+            const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(getFetchUrl('api/cars'), {
                 method: 'DELETE',
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken ? accessToken : ''}`
                 },
                 body: JSON.stringify({
                     id: id,
@@ -183,9 +185,11 @@ function CarT({ c, page, tablist }: { c: Car, page: number, tablist: "All" | "Av
             formData.append('price', price.value);
             images && Array.from(images).forEach(image => formData.append('image', image));
 
+            const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(getFetchUrl('api/cars'), {
                 method: 'PATCH',
                 credentials: 'include',
+                headers: { "Authorization": `Bearer ${accessToken ? accessToken : ''}`},
                 body: formData
             })
             const data = await response.json();
@@ -230,9 +234,10 @@ function CarT({ c, page, tablist }: { c: Car, page: number, tablist: "All" | "Av
         const id = elem.id.split('-')[1];
         setIsSoldButtonLoading(true);
         try {
+            const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(getFetchUrl('api/sold'), {
                 method: 'POST',
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken ? accessToken : ''}` },
                 body: JSON.stringify({ id, tablist, page }),
                 credentials: 'include'
             })

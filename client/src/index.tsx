@@ -42,7 +42,7 @@ function ContextWrapper({ children }: { children: React.ReactNode }) {
 
     return (
         <AlertErrorContext.Provider value={[isError, setIsError]}>
-            <AlertSuccessContext.Provider value={[ isSuccess, setIsSuccess ]}>
+            <AlertSuccessContext.Provider value={[isSuccess, setIsSuccess]}>
                 {children}
             </AlertSuccessContext.Provider>
         </AlertErrorContext.Provider>
