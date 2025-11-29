@@ -150,7 +150,6 @@ function CarT({ c, page, tablist }: { c: Car, page: number, tablist: "All" | "Av
     async function editCar() {
         const make = document.querySelector<HTMLInputElement>('#car-make-edit');
         const model = document.querySelector<HTMLInputElement>('#car-model-edit');
-        const variant = document.querySelector<HTMLInputElement>('#car-variant-edit');
         const year = document.querySelector<HTMLInputElement>('#car-year-edit');
         const mileage = document.querySelector<HTMLInputElement>('#car-mileage-edit');
         const category = document.querySelector<HTMLSelectElement>('#car-category-edit');
@@ -160,11 +159,11 @@ function CarT({ c, page, tablist }: { c: Car, page: number, tablist: "All" | "Av
 
         setIsEditButtonLoading(true);
         try {
-            if (!make || !model || !variant || !year || !mileage || !category || !transmission || !fuelType || !price) {
+            if (!make || !model || !year || !mileage || !category || !transmission || !fuelType || !price) {
                 throw new Error('One the input field elements is null');
             }
 
-            if (!make.value || !model.value || !variant.value || !year.value || !mileage.value || !category.value || !transmission.value || !fuelType.value || !price.value) {
+            if (!make.value || !model.value || !year.value || !mileage.value || !category.value || !transmission.value || !fuelType.value || !price.value) {
                 throw new Error('Please fill all fields');
             }
 
@@ -176,7 +175,6 @@ function CarT({ c, page, tablist }: { c: Car, page: number, tablist: "All" | "Av
             formData.append('id', c._id);
             formData.append('make', make.value);
             formData.append('model', model.value);
-            formData.append('variant', variant.value);
             formData.append('year', year.value);
             formData.append('mileage', mileage.value);
             formData.append('category', category.value);
@@ -201,7 +199,6 @@ function CarT({ c, page, tablist }: { c: Car, page: number, tablist: "All" | "Av
             setIsSuccess({ success: true, successMessage: 'Update Successful' });
             make.value = data.updatedCar.make;
             model.value = data.updatedCar.model;
-            variant.value = data.updatedCar.variant;
             year.value = data.updatedCar.year;
             mileage.value = data.updatedCar.mileage;
             category.value = data.updatedCar.category;
@@ -305,9 +302,6 @@ function CarT({ c, page, tablist }: { c: Car, page: number, tablist: "All" | "Av
                                 </div>
                                 <div className="grid gap-3">
                                     <input id="car-model-edit" type="text" className="w-full outline-none bg-primary p-2 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Model" defaultValue={c.model} />
-                                </div>
-                                <div className="grid gap-3">
-                                    <input id="car-variant-edit" type="text" className="w-full outline-none bg-primary p-2 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Variant" defaultValue={c.variant} />
                                 </div>
                                 <div className="grid gap-3">
                                     <input id="car-year-edit" type="number" className="w-full outline-none bg-primary p-2 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Year" defaultValue={c.year} />

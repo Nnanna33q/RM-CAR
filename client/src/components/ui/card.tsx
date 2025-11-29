@@ -145,7 +145,7 @@ function CarCard({
           <div className="car-name flex gap-x-1 text-medium-gray py-2">
             <span className="car-manufacturer">{carManufacturer}</span>
             <span className="car-model">{carModel}</span>
-            <span className="car-variant">{carVariant}</span>
+            {carVariant && <span className="car-variant">{carVariant}</span>}
             <span className="car-year">{carYear}</span>
           </div>
           <div className="car-specs flex gap-x-4 text-medium-gray">

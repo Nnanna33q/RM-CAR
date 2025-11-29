@@ -106,15 +106,14 @@ export default function TabList({ currentPage }: { currentPage: 'Dashboard' | 'I
     async function addCar() {
         const make = document.querySelector<HTMLInputElement>('#car-make');
         const model = document.querySelector<HTMLInputElement>('#car-model');
-        const variant = document.querySelector<HTMLInputElement>('#car-variant');
         const year = document.querySelector<HTMLInputElement>('#car-year');
         const mileage = document.querySelector<HTMLInputElement>('#car-mileage');
         const category = document.querySelector<HTMLSelectElement>('#car-category');
         const transmission = document.querySelector<HTMLSelectElement>('#car-transmission');
         const fuelType = document.querySelector<HTMLSelectElement>('#car-fuel-type');
         const price = document.querySelector<HTMLInputElement>('#car-price');
-        if (make && model && variant && year && mileage && category && transmission && fuelType && price) {
-            if (make.value && model.value && variant.value && year.value && mileage.value && category.value && transmission.value && fuelType.value && price.value) {
+        if (make && model && year && mileage && category && transmission && fuelType && price) {
+            if (make.value && model.value && year.value && mileage.value && category.value && transmission.value && fuelType.value && price.value) {
                 const selectErrors = validateSelectFields(category, transmission, fuelType);
                 if (selectErrors.error) {
                     setIsError({ error: true, errorMessage: selectErrors.errorMessage });
@@ -126,7 +125,6 @@ export default function TabList({ currentPage }: { currentPage: 'Dashboard' | 'I
                     formData.append('page', page.toString());
                     formData.append('make', make.value);
                     formData.append('model', model.value);
-                    formData.append('variant', variant.value);
                     formData.append('year', year.value);
                     formData.append('mileage', mileage.value);
                     formData.append('category', category.value);
@@ -244,9 +242,6 @@ export default function TabList({ currentPage }: { currentPage: 'Dashboard' | 'I
                                     </div>
                                     <div className="grid gap-3">
                                         <input id="car-model" type="text" className="w-full outline-none bg-primary p-2 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Model" />
-                                    </div>
-                                    <div className="grid gap-3">
-                                        <input id="car-variant" type="text" className="w-full outline-none bg-primary p-2 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Variant" />
                                     </div>
                                     <div className="grid gap-3">
                                         <input id="car-year" type="number" className="w-full outline-none bg-primary p-2 rounded-sm border border-primary text-secondary focus:border-accent-color" placeholder="Year" />

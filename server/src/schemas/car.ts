@@ -26,11 +26,6 @@ const carSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    variant: {
-        unique: false,
-        type: String,
-        required: true
-    },
     year: {
         unique: false,
         type: String,
