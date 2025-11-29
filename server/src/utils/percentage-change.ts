@@ -7,7 +7,6 @@ type TCar = (Document<unknown, {}, {
     transmission: string;
     fuelType: string;
     make: string;
-    variant: string;
     year: string;
     mileage: number;
     images: string[];
@@ -20,7 +19,6 @@ type TCar = (Document<unknown, {}, {
     transmission: string;
     fuelType: string;
     make: string;
-    variant: string;
     year: string;
     mileage: number;
     images: string[];
