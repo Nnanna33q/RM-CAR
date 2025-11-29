@@ -8,7 +8,6 @@ export const validateLogin = [
 export const validateCar = [
     body('make').trim().isString().withMessage('Invalid input field').notEmpty().withMessage('Make field must not be empty'),
     body('model').trim().isString().withMessage('Invalid input field').notEmpty().withMessage('Model field must not be empty'),
-    body('variant').trim().isString().withMessage('Invalid input field').notEmpty().withMessage('Variant field must not be empty'),
     body('year').trim().isString().withMessage('Invalid input field').notEmpty().withMessage('Year field must not be empty'),
     body('mileage').trim().isString().withMessage('Invalid input field').notEmpty().withMessage('Mileage field must not be empty'),
     body('category').trim().isString().withMessage('Invalid input field').notEmpty().withMessage('Category field must not be empty'),
